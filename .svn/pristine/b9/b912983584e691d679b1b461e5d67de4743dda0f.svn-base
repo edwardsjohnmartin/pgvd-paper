@@ -1,0 +1,4 @@
+This paper was submitted to SIGGRAPH 2014.  After "a long discussion among the reviewers and at the committee meeting," the paper was rejected.  We list the reasons below along with our response to each.
+
+Lack of comparison to previous works on octree and GVD computation using the GPU.  We have clarified 
+(i) GPU octree construction - we have expanded our previous work section to clarify that 

@@ -1,0 +1,3 @@
+This paper was submitted to SIGGRAPH 2014.  After "a long discussion among the reviewers and at the committee meeting," the paper was not accepted.  Reviewers' primary concern was that "the claimed memory and computational efficiency was not evaluated enough" and because of "lack of comparison to missing previous works."
+
+We have added timing and memory comparisons to previous work.  More importantly, we have added text to clarify that apples to apples comparison is not possible, as our algorithm solves a class of problems not 

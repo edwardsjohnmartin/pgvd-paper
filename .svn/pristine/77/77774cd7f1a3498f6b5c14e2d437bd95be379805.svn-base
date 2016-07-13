@@ -1,0 +1,55 @@
+We are indebted to the referees for their insightful and considered reviews.  In this rebuttal we respond to the most salient points and we look forward to incorporating all comments into an improved version of the paper.
+
+Previous work
+-------------------------------
+
+The works pointed out by reviewer 46 are excellent gpu implementations of Adaptive Distance Fields (ADFs).  However, the method described by Yin et al. [2011] suffers from the same explosion of memory as uniform grids, and the method by Bastos and Celes [2008] is actually slower than our algorithm. We explain here:
+
+The algorithm of Yin et al. [2011] is a bottom-up approach, initially subdividing into a complete octree, yielding a uniform grid at every octree level.  Thus, the memory usage is even higher than using a uniform grid, making it impossible to resolve very closely-spaced objects on commodity hardware.
+
+Bastos and Celes [2008] focus on fast object rendering on the gpu, and octree and Adaptive Distance Field (ADF) construction is considered to be a preprocessing step.  Construction of the ADF is slow: “Generation times ranged from a couple of minutes to a few hours…” [Bastos and Celes 2008].  Their octrees ranged from 16K - 900K cells.  Our datasets require bigger octrees (54K - 2700K cells) but our ADF-GVD computation times are far better, ranging from 1 second to 3 minutes.
+
+We appreciate reviewer 49 for bringing the papers by Boada et al [2002, 2005] to our attention.  While we and Boada both use an adaptive approach to GVD computation, there are fundamental algorithmic differences, two of which we address here:
+* Boada’s algorithm is designed for simple objects and is highly inefficient for polyhedral objects with many facets.  For example, if two complicated polyhedra approach each other closely in only one small area, our method will use only the local facets to resolve between the two, while Boada’s algorithm will compare distances using all facets in both polyhedra.
+* Boada’s algorithm is restricted to computing GVDs with connected regions (because the algorithm frequently uses a single point to represent an object).  We have no such restrictions.  For example, see our heart defibrillation example (Fig. 11) which not only has disconnected Voronoi regions, but even the objects themselves are disconnected.
+
+Reviewer 46 suggests a more substantial comparison with other prior ADF work.  We will add the above comparisons to the paper. Our comparisons to Strain [1999] and Frisken et al. [2000] are in the final paragraph of Section 2 and first paragraph of Section 3. We will also add the following (condensed here due to space constraints): the method of Qu et al. [2004] uses energy minimization and is slow in both construction and rendering.  The compression scheme of Lefebvre and Hoppe [2007] and similar approaches are not suitable because of high compression times.  Gigavoxels and PantaRay (pointed out by reviewer 97), along with other out-of-core LOD rendering and lighting approaches, typically stream to GPU memory only the data necessary for rendering, which could potentially be useful for large-scale datasets that require out-of-core GVD computation.
+
+Dynamic applications
+-------------------------------
+
+Reviewers 38 and 64 expressed interest in dynamic applications.  We have examples of our algorithm in two dynamic scenarios (removing the knives without intersection; exploding the virus), where the GVD is recomputed at each time step.  Local octree modifications (noted by reviewer 64) for use in collision detection is an area of future work.
+
+Error bound
+-------------------------------
+
+Reviewers 38, 46 and 49 commented on our error bound.  We will replace “claim” with “conjecture” per the reviewer’s suggestion.  From our empirical tests, the error tends to zero as the octree cells are subdivided further, approaching the exact GVD in the limit.
+
+Complexity
+-------------------------------
+
+Reviewer 49 suggests a wavefront initialization complexity of
+O(K*D + N*P*Q).
+The reviewer’s suggestion prompted us to reanalyze our stated bound of O(N+M).  We believe the correct bound is, in fact, O(N*M).  The reviewer’s reasoning is correct, but the K*D portion is included in the complexity of the octree building phase, and P is a constant, giving a revised and correct bound of O(N*Q). We desire to put Q (average number of triangles intersecting a cell) in terms of M (total number of triangles).  It turns out that, in the worst case, Q <= M < cQ where c is a constant (we’ll include the derivation in the paper).  Thus Q = O(M) and the wavefront initialization complexity is O(N*M).  We thank the reviewer for suggesting a revisit of this complexity bound.
+
+Memory usage
+-------------------------------
+
+Reviewers 97 and 49 point out that memory usage would be a helpful addition to the paper.  We agree, and will add the following numbers to Table 1:
+
+dataset      approx         GVD
+             octree      triangles
+             memory      
+-----------------------------------
+1b             3 Mb         83 K
+1c             9 Mb        232 K
+12             8 Mb        151 K
+14           151 Mb       8100 K
+15            70 Mb       2700 K
+
+Intersecting objects
+-------------------------------
+
+Reviewers 64 and 97 point out that extremely close objects may lead to arbitrarily deep octrees, and that intersecting objects would require infinitely deep octrees to resolve objects.  Our algorithm requires the user to specify either a minimum object separation distance d or, equivalently, a maximum octree depth.  This ensures that our algorithm will not subdivide to arbitrary depths.  In the case that all objects in the dataset are, in fact, separated by d, our algorithm guarantees that all objects will be resolved from each other.  Otherwise, the smallest octree cells will still intersect multiple objects, and the current algorithm will determine the GVD topology arbitrarily for those cells.
+
+Reviewer 97 mentioned encapsulation, which we interpret to mean objects nested inside other objects.  We note that such parent-child objects are separated the same way as sibling objects (see Fig. 3 and the second paragraph of section 7).

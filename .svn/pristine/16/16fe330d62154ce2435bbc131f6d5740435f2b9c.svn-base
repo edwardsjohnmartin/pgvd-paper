@@ -1,0 +1,490 @@
+#include <math.h>
+#include <assert.h>
+#include <iostream>
+#include <fstream>
+#include <utility>
+#include <vector>
+#include <stdexcept>
+#include <algorithm>
+#include <string>
+#include <sstream>
+
+#include "./common.h"
+#include "./vec.h"
+#include "./util.h"
+
+using namespace std;
+
+int window_width = 600;
+int window_height = 600;
+GLfloat obj_left = 0;
+GLfloat obj_right = 1;
+GLfloat obj_bottom = 0;
+GLfloat obj_top = 1;
+
+float alpha_v, alpha_a;
+Vec2f v, a, p;
+enum CLOSEST {
+  A, B
+};
+CLOSEST closest;
+
+Vec2f Win2Obj(const int x, const int y) {
+  static GLfloat obj_width = obj_right - obj_left;
+  static GLfloat obj_height = obj_top - obj_bottom;
+  static GLfloat fwindow_width = static_cast<GLfloat>(window_width);
+  static GLfloat fwindow_height = static_cast<GLfloat>(window_height);
+  return Vec2f(
+      (x / fwindow_width) * (obj_width) + obj_left,
+      ((window_height-y) / fwindow_height) * (obj_height) + obj_bottom);
+}
+
+Vec2i Obj2Win(const float x, const float y) {
+  static GLfloat obj_width = obj_right - obj_left;
+  static GLfloat obj_height = obj_top - obj_bottom;
+  static GLfloat fwindow_width = static_cast<GLfloat>(window_width);
+  static GLfloat fwindow_height = static_cast<GLfloat>(window_height);
+  return Vec2i(
+      static_cast<int>((fwindow_width * (x - obj_left)) / obj_width),
+      static_cast<int>(fwindow_height * (1.0 - (y - obj_bottom) / obj_height)));
+}
+
+Vec2i Obj2Win(const Vec2f& v) {
+  return Obj2Win(v[0], v[1]);
+}
+
+enum Justify { kLeftJustify, kRightJustify,
+               kTopJustify, kBottomJustify,
+               kCenterJustify };
+
+// buf is in window coordinates
+// void BitmapString(const string& s, float objx, float objy, int buf = 1,
+//                   void* font = GLUT_BITMAP_HELVETICA_12) {
+void BitmapString(const string& s, float objx, float objy,
+                  int xoff = 1, int yoff = 1,
+                  void* font = GLUT_BITMAP_8_BY_13) {
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(0.0f, 0.0f, 0.0f);
+  Vec2i w = Obj2Win(objx, objy);
+  Vec2f p = Win2Obj(w[0]+xoff, w[1]-yoff);
+  glRasterPos2f(p[0], p[1]);
+  for (int i = 0; i < s.size(); ++i) {
+    glutBitmapCharacter(font, s[i]);
+  }
+}
+
+void BitmapString(int value, float objx, float objy,
+                  int xoff = 1, int yoff = 1,
+                  void* font = GLUT_BITMAP_8_BY_13) {
+  stringstream ss;
+  ss << value;
+  BitmapString(ss.str(), objx, objy, xoff, yoff, font);
+}
+
+void BitmapString(const string& s, float objx, float objy,
+                  Justify hjustify, Justify vjustify) {
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(0.0f, 0.0f, 0.0f);
+  Vec2i w = Obj2Win(objx, objy);
+  int xoff = 1, yoff = 1;
+  if (hjustify == kRightJustify) {
+    xoff = - 8 * s.size() - 1;
+  } else if (hjustify == kCenterJustify) {
+    xoff = - 4 * s.size() - 1;
+  }
+  if (vjustify == kTopJustify) {
+    yoff = - 13 - 1;
+  } else if (vjustify == kCenterJustify) {
+    yoff = - 8 - 1;
+  }
+  Vec2f p = Win2Obj(w[0]+xoff, w[1]-yoff);
+  glRasterPos2f(p[0], p[1]);
+  for (int i = 0; i < s.size(); ++i) {
+    glutBitmapCharacter(GLUT_BITMAP_8_BY_13, s[i]);
+  }
+}
+
+void BitmapString(int value, float objx, float objy,
+                  Justify hjustify, Justify vjustify) {
+  stringstream ss;
+  ss << value;
+  BitmapString(ss.str(), objx, objy, hjustify, vjustify);
+}
+
+void BitmapString(const string& s) {
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(0.0f, 0.0f, 0.0f);
+  Vec2f p = Win2Obj(4, window_height-5);
+  glRasterPos2f(p[0], p[1]);
+  for (int i = 0; i < s.size(); ++i) {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, s[i]);
+  }
+}
+
+void Init() {
+  glClearColor(1.0, 1.0, 1.0, 1.0);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluOrtho2D(obj_left, obj_right, obj_bottom, obj_top);
+  glMatrixMode(GL_MODELVIEW);
+}
+
+enum kCircleType { DOTTED, SOLID, FILLED };
+
+void glCircle(const Vec2f& c, const double r, const kCircleType& t) {
+  static const double M_2PI = 2 * M_PI;
+  const double inc = M_2PI / 64;
+  if (t == DOTTED)
+    glBegin(GL_LINES);
+  else if (t == SOLID)
+    glBegin(GL_LINE_STRIP);
+  else
+    glBegin(GL_POLYGON);
+  for (double d = 0; d < M_2PI; d += inc) {
+    glVertex2f(c[0] + r*cos(d), c[1] + r*sin(d));
+  }
+  glVertex2f(c[0] + r, c[1]);
+  glEnd();
+}
+
+// ra = inner radius
+// rb = outer radius
+void glAnnulus(const Vec2f& c, const double ra, const double rb) {
+  static const double M_2PI = 2 * M_PI;
+  const double inc = M_2PI / 32;
+
+  glBegin(GL_LINES);
+  for (double d = 0; d < M_2PI; d += inc) {
+    glVertex2f(c[0] + ra*cos(d), c[1] + ra*sin(d));
+  }
+  glVertex2f(c[0] + ra, c[1]);
+  glEnd();
+
+  glBegin(GL_LINE_STRIP);
+  for (double d = 0; d < M_2PI; d += inc) {
+    glVertex2f(c[0] + rb*cos(d), c[1] + rb*sin(d));
+  }
+  glVertex2f(c[0] + rb, c[1]);
+  glEnd();
+}
+
+void glQuad(const Vec2f& v, float size) {
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glBegin(GL_QUADS);
+  glVertex2fv(v);
+  glVertex2fv(v + Vec2f(size, 0));
+  glVertex2fv(v + Vec2f(size, size));
+  glVertex2fv(v + Vec2f(0, size));
+  glEnd();
+}
+
+float get_ra() {
+  if (closest == A)
+    return (p-a).norm();
+  return (p-v).norm() - alpha_v;
+}
+
+float get_rb(const Vec2f& b, float aa) {
+  if (closest == B)
+    return (p-b).norm();
+
+  const float dv = (p-v).norm();
+  const float vb = sqrt(sq(alpha_v) + sq(aa));
+  return max(dv - vb, 0.0f);
+}
+
+// Uses heron's formula to get the area of a triangle
+float heron(const float a, const float b, const float c) {
+  const float s = 0.5*(a+b+c);
+  return sqrt(s*(s-a)*(s-b)*(s-c));
+}
+
+// Gets the intersection between the circles centered at a and b.
+Vec2f get_ab_int() {
+  const float y = p.Y() - v.Y();
+  // const float beta = sqrt(alpha_v*alpha_v+alpha_a*alpha_a);
+  // const float h = sqrt(
+  //     (2*y*y*(alpha_v*beta-alpha_v*alpha_v))/(alpha_a*alpha_a)
+  //     - 2*y*alpha_v + alpha_v*alpha_v);
+  // const float ra = y-alpha_v;
+  // const float A = sqrt(ra*ra-h*h);
+  // return a + Vec2f(A, h);
+
+  const float ra = y-alpha_v;
+  const float rb = y-sqrt(sq(alpha_v) + sq(alpha_a));
+  const float xa = (sq(ra)+sq(alpha_a)-sq(rb))/(2*alpha_a);
+  const float area = heron(ra, rb, alpha_a);
+  const float h = 2*area/alpha_a;
+  return a + Vec2f(xa, h);
+}
+
+void Display() {
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  // draw quadtree
+  glColor3f(0, 0, 0);
+  glQuad(v, alpha_v*2);
+  glQuad(v, alpha_v);
+  glQuad(v+Vec2f(alpha_v, alpha_v), alpha_v);
+  float temp_alpha_a = alpha_v/2;
+  while (temp_alpha_a >= alpha_a) {
+    glQuad(a, temp_alpha_a);
+    glQuad(a+Vec2f(temp_alpha_a, temp_alpha_a), temp_alpha_a);
+    temp_alpha_a /= 2;
+  }
+
+  float aa = alpha_a;
+
+  Vec2f p_hat;
+  float min_dist = 99999;
+
+  const float ra = get_ra();
+  const int k = alpha_v/alpha_a;
+  // const float da = max(ra-ea, 0.0f);
+  const float da = max(ra, 0.0f);
+  const float dv_bar = (p-v).norm();
+  const float dv = dv_bar;
+
+  // a1 is the current circle center
+  Vec2f a1 = a;
+  float da1 = da;
+
+  bool changed = true;
+  while (aa <= alpha_v && changed) {
+    changed = false;
+    const Vec2f& b = a + Vec2f(aa, 0);
+    const float rb = get_rb(b, aa);
+
+    // k is the far point in circle b
+    Vec2f m0 = circle_circle_int(a1, da1, b, rb);
+    Vec2f k = b + Vec2f(rb, 0);
+    if (m0 != Vec2f(0, 0)) {
+      // Circles intersect
+      changed = true;
+      p_hat = m0;
+      min_dist = (p_hat-v).norm();
+      if ((k-v).norm() < min_dist) {
+        p_hat = k;
+        min_dist = (p_hat-v).norm();
+      }
+
+      a1 = b;
+      da1 = rb;
+    }
+
+    // Circle about b
+    glColor3f(.5, .5, .5);
+    glAnnulus(b, 0, rb);
+
+    // if (rb > 0) {
+    //   const int i = log10(aa / alpha_a) / log10(2) + 1;
+    //   cout << (da-(rb+sqrt(alpha_v*alpha_v+pow(2, 2*i-2)*alpha_a*alpha_a)-alpha_v)) << endl;
+    // }
+
+    aa *= 2;
+  }
+
+  if (min_dist == 99999) {
+    p_hat = a + Vec2f(da, 0);
+    min_dist = (p_hat-v).norm();
+  } else {
+    glColor3f(.5, 0, .5);
+    const Vec2f test = get_ab_int();
+    glCircle(test, .02, SOLID);
+  }
+
+  // Circle about a
+  glColor3f(.5, .5, .5);
+  // glAnnulus(a, da, ra);
+  glCircle(a, da, SOLID);
+  glCircle(a, ra, DOTTED);
+  // Circle about v
+  glColor3f(.5, 0, 0);
+  glAnnulus(v, 0, dv);
+
+  // Draw points
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  glCircle(p, 0.006, FILLED);
+  glCircle(p_hat, 0.006, FILLED);
+
+  // p to v
+  glColor3f(1, 0, 0);
+  glBegin(GL_LINES);
+  glVertex2fv(p);
+  glVertex2fv(v);
+  glEnd();
+  {
+    Vec2f l = (p+v)/2;
+    BitmapString("d", l[0], l[1], 0, 0);
+    BitmapString("p", p[0], p[1], 4, 4);
+  }
+
+  // line d^
+  glColor3f(0, 1, 0);
+  glBegin(GL_LINES);
+  glVertex2fv(p_hat);
+  glVertex2fv(v);
+  glEnd();
+  {
+    Vec2f l = (p_hat+v)/2;
+    BitmapString("d^", l[0], l[1], 0, 0);
+    BitmapString("p^", p_hat[0], p_hat[1], 4, 4);
+  }
+
+  // // line k
+  // glColor3f(0, 1, 0);
+  // glBegin(GL_LINES);
+  // glVertex2fv(k);
+  // glVertex2fv(v);
+  // glEnd();
+
+  // Distance line
+  glColor3f(0, 0, 1);
+  const float yoff = -0.02;
+  glBegin(GL_LINES);
+  glVertex2fv(v + Vec2f(0, yoff));
+  double d = dv - (p_hat-v).norm();
+  glVertex2fv(v + Vec2f(d, yoff));
+
+  glVertex2fv(v + Vec2f(0, yoff-0.01));
+  glVertex2fv(v + Vec2f(0, yoff+0.01));
+  // glVertex2fv(v + Vec2f(alpha_v/2, yoff-0.01));
+  // glVertex2fv(v + Vec2f(alpha_v/2, yoff+0.01));
+  const float temp = alpha_a * (1 + sqrt(2)/2 - sqrt(3)/sqrt(2));
+  glVertex2fv(v + Vec2f(temp, yoff-0.01));
+  glVertex2fv(v + Vec2f(temp, yoff+0.01));
+  glEnd();
+  {
+    const Vec2f l = v + Vec2f(-0.05, yoff);
+    BitmapString("d-d^", l[0], l[1], -4, -3);
+  }
+
+  // // Distance line
+  // glColor3f(0, 1, 0);
+  // glBegin(GL_LINES);
+  // glVertex2fv(v + Vec2f(0, -.03));
+  // d = dv - (k-v).norm();
+  // cout << d/alpha_v << endl;
+  // glVertex2fv(v + Vec2f(d, -.03));
+  // glEnd();
+
+  glFlush();
+  glutSwapBuffers();
+}
+
+void Mouse(int button, int state, int x, int y) {
+  if (button == GLUT_LEFT_BUTTON) {
+    if (state == GLUT_DOWN) {
+      p = Win2Obj(x, y);
+      glutPostRedisplay();
+    }
+  }
+}
+
+void MouseMotion(int x, int y) {
+  p = Win2Obj(x, y);
+  glutPostRedisplay();
+}
+
+// for i = 0
+float f_da0() {
+  const float k = alpha_v/alpha_a;
+  const float f = (1/2.0)*(1 - k + sqrt(k*k+1));
+  cout << "f = " << f << endl;
+  return f*alpha_a;
+}
+
+// for i > 0
+float f_da(int k, int i) {
+  const float f =
+      (1/2.0)*(pow(2, i-1) +
+               sqrt(k*k+pow(2, 2*i)) +
+               sqrt(k*k+pow(2, 2*i-2)) -
+               2*k);
+  cout << "f = " << f << endl;
+  return f*alpha_a;
+}
+
+// for i > 0
+float f_dai(int k, int i) {
+  return (alpha_a/2)*(pow(2, i-1) -
+                      sqrt(k*k+pow(2, 2*i-2)) +
+                      sqrt(k*k+pow(2, 2*i)));
+}
+
+void Keyboard(unsigned char key, int x, int y) {
+  int i;
+  float da;
+  switch (key) {
+    case 'a':
+      closest = A;
+      break;
+    case 'b':
+      closest = B;
+      break;
+    case 'n':
+      alpha_a /= 2;
+      break;
+    case 'p':
+      alpha_a *= 2;
+      break;
+    case '0':
+      da = f_da0();
+      p = a + Vec2f(0, da);
+      break;
+    case '1':
+    case '2':
+    case '3':
+    case '4': {
+      i = key - '0';
+      da = f_da(alpha_v/alpha_a, i);
+      p = a + Vec2f(0, da);
+      // cout << "dai = " << f_dai(alpha_v/alpha_a, i) << endl;
+      // cout << "  alpha_a = " << alpha_a << endl;
+      // cout << "  pow = " << pow(2, i-1) << endl;
+      // const float d = pow(2, i-1)*alpha_a;
+      // const float dai = f_dai(alpha_v/alpha_a, i);
+      // const float dv = sqrt(alpha_v*alpha_v+d*d) + dai;
+      // p = v + Vec2f(0, dv);
+      break;
+    }
+    case 'q':
+      exit(EXIT_SUCCESS);
+      break;
+  }
+  glutPostRedisplay();
+}
+
+int main(int argc, char** argv) {
+  cout << endl;
+  cout << "Key commands:" << endl;
+  cout << "  c - clear" << endl;
+  cout << endl;
+
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+  glutInitWindowSize(window_width, window_height);
+  glutInitWindowPosition(0, 0);
+  glutCreateWindow("bound");
+  glutDisplayFunc(Display);
+  glutKeyboardFunc(Keyboard);
+  glutMouseFunc(Mouse);
+  glutMotionFunc(MouseMotion);
+  Init();
+
+  const float w = 7*(obj_right-obj_left)/8.0;
+  const float h = 7*(obj_top-obj_bottom)/8.0;
+  const Vec2f size(w, h);
+  alpha_v = w/2;
+  // alpha_a = w/4;
+  alpha_a = w/2;
+  // v = Vec2f((obj_left+obj_right)/4.0, (obj_bottom+obj_top)/4.0);
+  v = Vec2f(((obj_right-obj_left)-w)/2.0, ((obj_top-obj_bottom)-h)/2.0);
+  a = v + Vec2f(0, alpha_v);
+  // b = a + Vec2f(alpha_a, 0);
+  p = a + Vec2f(alpha_a/4, alpha_a/4);
+  closest = A;
+
+  glutMainLoop();
+}

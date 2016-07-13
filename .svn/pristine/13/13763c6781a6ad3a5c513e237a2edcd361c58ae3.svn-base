@@ -1,0 +1,21 @@
+This paper is rejected. Although there was a long discussion among the
+reviewers and at the committee meeting - with some reviewers being positive on
+the paper because it seems simple to implement and practical - the claimed
+memory and computational efficiency was not evaluated enough and did not
+convince the majority of reviewers in the end. The main reasons are: 
+
+    - some reviewers have toned down their opinion because of the lack of
+      comparison to missing previous works on (i) GPU octree construction,
+      (ii) octree-based solution to GVD computations and (iii) recent GPU-based
+      adaptive SDF computation techniques, 
+    - the accuracy of the proposed method is questionable, in particular when
+      classifying points which are far away from the objects 
+    - the concerns about intersections, raised in the reviews, have not been
+      addressed properly in the rebuttal 
+    - the octree, becoming potentially very deep for close-by geometry and for
+      which it's unclear how the overall performance is damaged when enforcing
+      resolving ambiguities for nearby 3D objects 
+    - the applications did not convince most reviewers. 
+
+These problems and the ones mentioned in the reviews prevented from
+recommending any form of acceptance at this stage.

@@ -1,0 +1,13 @@
+Most reviewers were positive about the core idea of this paper. Therefore, we propose to accept it for a short revision cycle. However, concerns were raised during the post-rebuttal discussion on the following points:
+
+- the claims on the application should be toned down, and a discussion comparing the proposed path planning and proximity queries against the state of the art solutions should be provided; ideally, examples showing the benefit of the proposed method for these applications should be provided
+
+ - typos/errors, and clarification required by the reviewers should be addressed
+
+
+Some reviewers noticed that the rebuttal did not really answered the main questions raised in the reviews. Therefore, these points shall be clearly addressed in the revised manuscript as well as in the revision letter.
+
+
+Question sent to senior reviewer:
+Thank you for the opportunity to revise our paper for CGF. The paper is already greatly improved from the suggestions. We do have one question -- would the reviewer be willing to clarify the following: "The claims on the application should be toned down." Which claims are troublesome? Thank you!
+

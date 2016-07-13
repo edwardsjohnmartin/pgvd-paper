@@ -1,0 +1,159 @@
+
+-------------------- Review 1 --------------------
+Overall Recommendation: 6
+Evaluation Confidence: 4
+
+Summary: This paper presents an algorithm to compute an approximate generalized Voronoi diagram of closely spaced 2D or 3D objects.  There are many prior algorithms for computing Voronoi diagrams, and this paper presents an improved approach.
+
+
+Clarity of Exposition: Most of the paper is well written. Some important details on applications related to path planning and proximity queries are missing.
+
+
+Technical Soundness: Seems ok.
+
+
+Quality of References: There are many additional papers that have used approximate Voronoi diagrams for path planning and proximity queries. They should be cited and compared with this proposed approach. Otherwise, it is hard to evaluate its benefits. These include:
+
+1. Garrido, Moreno et al,, "
+Path Planning for Mobile Robot Navigation using Voronoi Diagram and Fast Marching", ICRA 2006.
+
+
+2. Hoff, Keyser, et al., "Interactive Motion Planning using hardware accelerated Voronoi diagrams", ICRA 2000.
+
+
+
+
+Reproducibility: Yes
+
+
+Explanation of Recommendation: The paper proposes an improvement to prior methods. But I want to see more clear benefits, esp. in terms of applications to path planning (Section 7.2) and proximity queries (Section 7.3). I want to see more detailed comparisons with prior algorithms for these applications. I would like to see that as part of conditional acceptance.
+
+
+-------------------- Review 2 --------------------
+Overall Recommendation: 7
+Evaluation Confidence: 4
+
+Summary: This paper introduces a method to construct a Generalized Voronoi Diagrams (GVD) efficiently using an octree modeling the inter-space of the objects and a
+wavefront propagation technique to approximate a distance transform. As a result, the method is efficient in memory and time and support a number of applications, such as path planning and proximity queries.
+
+
+Clarity of Exposition: Acceptable, but section 3 could be simpler, shorter and clearer. The result section and comparison could be more developed also.
+
+
+Technical Soundness: Good
+
+
+Quality of References: Good
+
+
+Reproducibility: Good
+
+
+Explanation of Recommendation: The paper contains essentially three items:
+ - an octree construction method
+ - a distance transform based on a wave-front propagation method structured on the octree
+ - a set of applications
+
+About the octree construction, the intermediate integer-based representation provides quite high performances. However, some elements seem quite trivial, like avoiding storing vertex position (which is pretty standard). After reading twice Section 3, I come to the conclusion that it could certainly be shorter and much easier to follow with a pseudo-code. The comparison in Fig. 9 is not entirely clear: the proposed method builds an octree which is adapted to the inter-space between objects. Was Laine and Karras method used also to model this space, or was it used to model the different objects in the scene?
+
+About the wave-front propagation, the method seems to work well, although I would have appreciated a measure on how the quality of the approximation degrades away from the intricate regions.
+
+Finally, the application are convincing and for some of them even impressive.
+
+So overall, I think this paper could be accepted assuming maybe that section 3 and the comparison to previous octree method are improved (pseudo-code and longer explanation on what is happening in this comparison) . I have doubts about the comparison to SVOs in terms of performances, but I think that overall, the whole system is new an useful.
+
+
+-------------------- Review 3 --------------------
+Overall Recommendation: 7
+Evaluation Confidence: 4
+
+Summary: This paper proposes a method to compute an approximation of the generalized Voronoi diagram of a set of objects. The algorithm operates by discretizing space in an adaptive manner, so that it still works when objets are close to each other. The algorithm can be useful for collision detection in complicated scenarii
+
+
+Clarity of Exposition: The paper is well written
+
+
+Technical Soundness: OK
+* I'd be more cautious, and clearly explain that this is an *approximation* of the generalized VD (else readers from computational geometry would expect to find an exact representation of the bisectors), maybe the title could be changed accordingly (by adding the word "approximation")
+* I noticed seen some artifacts / jaggies on the video
+
+
+
+Quality of References: OK
+
+
+Reproducibility: I  think so, the algorithm is simple and I think sufficiently well described
+
+
+Explanation of Recommendation: I think that the proposed technique is useful for computer animation. The method is simple, but not straightforward, and probably deserves to be published. The examples look impressive to me, to my knowledge, the demonstrated scenarii are difficult ones, and the algorithm seems to behave very well. If the authors decide to make the implementation available, it will be probably very useful not only for animation, but also for some tasks in geometry processing.
+I reviewed a previous version of the article and I liked it (maybe submitted to Siggraph if I remember well). I just regreat that the authors did not include a cover letter explaining what the previous reviews were and how they did address the previous remarks in this version. It would be a good idea to do that in the rebuttal.
+
+An unimportant remark: on subfigure (a) in Figure 1, the meshed gears look terrible, mabe you can deactivate Gouraud shading for them.
+
+
+-------------------- Review 4 --------------------
+Overall Recommendation: 6
+Evaluation Confidence: 4
+
+Summary: This paper presented a new method to compute approximate generalized Voronoi diagram adaptively using a new octree data structure. Compared to prior algorithms, the presented algorithm can deal with closely placed objects which is impractical for algorithms using uniform grids. Generalized Voronoi diagram is a very useful data structure in computer graphics and other areas. Closely placed objects have been difficult for long time. This paper targets to resolve this difficult problem and thus is useful in many applications.
+
+
+Clarity of Exposition: It is generally clear. But some places need more improvement (see below for details).
+
+
+Technical Soundness: Sounds good to me.
+
+
+Quality of References: Adequate.
+
+
+Reproducibility: If the SHOULD_SUBDIVIDE routine is clearly explained, the work should be reproduced.
+
+
+Explanation of Recommendation:
+
+
+-------------------- Review 5 --------------------
+Overall Recommendation: 5
+Evaluation Confidence: 2
+
+Summary: The authors propose an algorithm to efficiently generate approximate Generalized Voronoi Diagrams, for collision detection.
+
+The main improvement comes from the use of an octree to increase computation speed.
+
+
+Clarity of Exposition: exposition is clear, but the title is clearly misleading, as the proposed approach computes an approximation of GVD. I really think the authors should change the title to reflect this fact.
+
+
+Technical Soundness: yes
+
+
+Quality of References: yes
+
+
+Reproducibility: yes
+
+
+Explanation of Recommendation: I am not an expert in the field, but using an octree instead of a regular grid does not sound like a ground-breaking idea.
+
+
+-------------------- Review 6 --------------------
+Overall Recommendation: 6
+Evaluation Confidence: 3
+
+Summary: This paper presents an algorithm to compute the approximate Generalized Voronoi Diagram (GVD) of a set of objects, which is well-suited for closely spaced objects. The main contribution is related to performance, in particular in term of memory print. This allows to compute the GVD of numerous different-sized objects. It uses a scheme that is somehow similar to Marching Cubes to compute the GVD surface.
+
+
+Clarity of Exposition: The paper suffers from some inconsistencies and typos. For example, the dimension is not clear: some figures and sentences are for the 2D case, some others are for the 3D case, and some other times, the dimension is called D. And sometimes, the reader just has to guess - e.g. at the beginning of section 6: "we store the GVD as sets of triangles" - 3D case only, I guess... The authors should state clearly which dimension they use (2, 3, D...) and stick to it. Another example is the use of the words "vertex" and "point". It appears that "vertex" is used for the octree corners, and "point" for points on the objects, but it is never stated clearly. In addition, several typos make it even harder to read (sec. 4 : "Ley {Si} be the set of objects...") and some term are used without being defined ("nbr"...). To summarize, the article needs to be thoroughly proof-read again.
+
+
+Technical Soundness: Yes, the paper is quite technically sound, and it is clear the author made an implementation of the described method.
+
+
+Quality of References: Yes, it is adequate. Maybe cite the Marching Cubes as an inspiration?
+
+
+Reproducibility: Yes, after figuring out the inconsistencies, the algorithm seems relatively easy to implement.
+
+
+Explanation of Recommendation: The algorithm is quite interesting, and smart, I definitely like it. And the implementation seems quite effective, and  I would have liked to see more comparisons with previous algorithms. But the paper is tarnished by some approximations, typos and inconsistencies. The dimension-related issue is everywhere in the paper. The Algorithm 1 is a not correct: after the first loop, some point[v] are null, but in the second loop it is assumed each point[v] has a value. In figure 7, the circles are a true mystery to me, and dist(a,p) is clearly different from dist(b,p), whereas the opposite is stated in the text. If you wanted to show that the distances are equal, one circle with p as its center and with a and b on the circle would have made it clear. The captions of the figures/tables are often not descriptive enough - e.g. in the caption of Table 1, only a few colums are mentioned - what about the others?

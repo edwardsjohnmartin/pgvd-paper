@@ -1,0 +1,27 @@
+We are indebted to the referees for their insightful and considered reviews. In this rebuttal we respond to the most salient points and we look forward to incorporating all comments into an improved version of the paper.
+
+Title
+-------------------------------
+Reviewers 3 and 5 suggested a change to the title.  We will rename the paper "Approximating the Generalized Voronoi Diagram of Closely Spaced Objects." We will also clarify in the text that our algorithm is an approximation.
+
+Path planning
+-------------------------------
+
+Reviewer 1 referred us to two path planning papers (among the many). This class of methods, of which ours is one, has two steps:
+    (1) compute the Generalized Voronoi Diagram (GVD)
+    (2) find a path
+No previous method that we know of would be able to accomplish step 1 -- computing the GVD -- on our datasets. The Garrido and Hoff papers, and others, use uniform grids, requiring excessive memory to resolve objects. Our paper demonstrates path finding on difficult datasets while remaining agnostic to step 2. In other words, our method is not intended to compete with existing path planning methods, but rather to complement them by providing a GVD algorithm for difficult datasets.  We will clarify this in the text.
+
+The intention of our proximity query example is similar to that of path planning.
+
+Comparison
+-------------------------------
+
+We recognize the concerns of Reviewer 2 about comparison with SVOs.  Indeed, the octrees are different and so the comparison isn't exact.  We include the comparison because there exists no other algorithm that computes an octree based on object separation like we do, and we decided that it would be helpful to at least show that we're on par with the state of the art on octrees that are similar to ours.
+
+Text and images
+-------------------------------
+
+We will tighten up section 3 as suggested by Reviewer 2.
+
+Algorithm 1 needs an additional conditional, as pointed out by Reviewer 6.  We will change |v-point[v]| to be dist(v, point[v]), which is defined to be infinity if point[v] is null.  Reviewer 6 also made a great suggestion for a change to figure 7, which we will incorporate.

@@ -1,0 +1,39 @@
+###########################################################
+# Project 1 Makefile
+
+CC = g++
+CFLAGS = -g
+#CFLAGS = -O3
+INCLUDE =
+LIBDIR =
+LIBS = -lglut -lGLU -lGL -lm
+
+###########################################################
+# Options if compiling on Mac
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+CC = g++
+CFLAGS = -D__MAC__
+INCLUDE = 
+#LIBDIR = -L/lusr/X11/lib
+LIBS = -framework OpenGL -framework GLUT
+endif
+
+###########################################################
+# Uncomment the following line if you are using Mesa
+#LIBS = -lglut -lMesaGLU -lMesaGL -lm
+
+
+###########################################################
+
+test: main.o util.o
+	${CC} ${CFLAGS} $(INCLUDE) -o test main.o util.o ${LIBDIR} ${LIBS}
+
+main.o: main.cpp common.h vec.h
+	${CC} -c ${CFLAGS} $(INCLUDE) main.cpp
+
+util.o: util.cpp common.h vec.h
+	${CC} -c ${CFLAGS} $(INCLUDE) util.cpp
+
+clean:
+	rm -f test *.o

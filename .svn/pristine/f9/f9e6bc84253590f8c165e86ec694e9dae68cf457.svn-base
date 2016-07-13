@@ -1,0 +1,143 @@
+We are indebted to the reviewers for their insightful comments.
+ 
+Performance, comparisons and contributions
+==========================================
+
+Multiple reviewers expressed concern over the runtime performance of our
+algorithm.  We appreciate and agree with the point that a GPU version should be
+investigated; we intend to do so, leveraging from octree GPU work done in our
+lab (currently under review) and [Karras 2012] suggested by the reviewer.
+However, the main thrust of this paper is to present an algorithm that can
+compute the GVD for datasets for which it is not computationally feasible using
+previous algorithms.  For example, the 2D example shown in figure 10 would
+require a grid of 2^48 pixels using one of the suggested GPU algorithms [Cao
+2010, Hoff 1999, Wu 2008].  The neuronal dataset in figure 12 would require
+2^30 voxels to resolve the objects.  Clearly these datasets are beyond the
+capabilities of uniform GPU-based approaches.
+
+Adaptive approaches are both sequential [Strain 1999, Frisken 2000] and
+parallel [Bastos 2008, Yin 2011, Qu 2004] (thanks to the reviewer for pointing
+out the Wu and Qu papers).  Prior adaptive approaches are geared toward
+feature-preserving object representations and do not compute the GVD, nor are
+they necessarily suitable to do so.  GVD computation requires resolution of all
+inter-object separations but not necessarily of small object features.  In
+addition, a geometric representation of the GVD requires a boundary generation
+algorithm.
+
+Our work is, to our knowledge, the first adaptive distance transform suitable
+for GVD computation. One of the strengths of the paper is the demonstration of
+applications of the GVD on data that was previously beyond the reach of GVD
+computation.  In fact, we hope to promote the use of GVD-based proximity
+queries and exploded diagrams now that the GVD is available for a larger class
+of meaningful datasets.
+
+In summary, while our paper makes modest performance claims, it demonstrates
+GVD computation on data beyond previous algorithms' computational abilities,
+unlocking interesting and important applications.
+
+*******************
+
+Reviewer #86 requested clarification of the octree and complexity.  The
+following exposition is presented in a manner so as to be easily incorporated
+into a revision of the paper.
+
+Octree data structure
+=====================
+A "base" vertex has neighbor vertices in the +x+y+z directions.  There is a
+one-to-one correspondence of base vertices to octree cells.  Our flat octree
+data structure is, specifically, an array of vertices, where each vertex
+maintains the indices of each of its neighbors in the cardinal directions.
+Each base vertex also stores the object facets that intersect its corresponding
+octree cell.
+
+vertex data structure
+---------------------
+neighbors : int[2^d]
+facets : polygon[]
+
+The octree data structure is "flat" in the sense that there are no pointers
+between  "parent" or "child" nodes.  Of course, the hierarchy is implicit and
+recoverable if necessary.  The subdivide operation inserts vertices as follows
+(best viewed with a fixed-width font):
+
+2 <-------------------> 3            2 <-------> 8 <-------> 3
+^                       ^            ^           ^           ^
+|                       |            |           |           |
+|                       |            |           |           |
+|                       |            v           v           v
+|                       |    -->     5 <-------> 6 <-------> 7
+|                       |            ^           ^           ^
+|                       |            |           |           |
+|                       |            |           |           |
+v                       v            v           v           v
+0 <-------------------> 1            0 <-------> 4 <-------> 1
+
+     base vertices: 0                  base vertices: 0,4,5,6
+
+Finding visible neighbors of vertex v
+=====================================
+In the 2D case, 4 loops over the four octree cells incident to v are
+sufficient. For example, from figure 3 in the paper, the vertices would be
+visited in the following order:
+
+        5------------------4
+        |                  |
+        |                  |
+        |                  |
+        6                  3
+        |                  |
+    9---7,8                |
+    |   |                  |
+12--10,-v--------1,17------2
+|   11  |        |
+|       |        |
+|       |        |
+13-----14,15----16
+
+
+Once visible vertices for a cell have been computed they don't need to be
+computed again, so each vertex will be involved in at most 4 (resp. 6) visible
+vertex tests in the 2D (resp. 3D) case.  Computation of all visible vertex
+pairs in the octree is thus O(N).
+
+Comparison to [Frisken 2002] and [Gargantini 1982]
+==================================================
+Both papers use hierarchical data structures.  Gargantini's data structure is
+geared toward memory savings, but neighbor-finding is logarithmic (similar to
+most other quadtree data structures).  Frisken's data structure provides for
+faster neighbor-finding by encoding the branching structure in each node.  Our
+data structure has constant neighbor-finding (our most important operation)
+without Frisken's extra storage.
+
+COMPUTE_DISTANCES Complexity
+============================
+We first derive the complexity bound with the assumption that each of the M
+object facets intersect (i.e. are shared among) no more than a constant number
+of octree cells.  Both [Strain 1999] and [Frisken 2000] implicitly make this
+assumption in their bounds derivations.
+
+We claim the first loop in Algorithm 1 to be O(N+M) where N is the number of
+leaf cells. The loop iterates N times, adding a vertex to the (Fibonacci) heap
+each time, an O(1) operation.  The reviewer correctly points out that the
+closest point search would be O(logM) for a spatial search. However, our
+vertex data structure stores facets intersecting each cell.  We first find each
+nearby cell c within sqrt{3}alpha(v) of vertex v (<=16 cells in 2D), which is
+done similarly to the visible neighbors algorithm described above, so finding
+the neighborhood cells over the course of the entire initialization step is
+O(N).  At each cell we iterate through its stored facets.  By the assumption,
+each facet is accessed at most a constant number of times, for a total of O(M).
+Therefore the complexity of the first loop is O(N+M).
+
+We are indebted to the reviewer for pointing out that the second loop is, in
+fact, O(NlogN), due to the updating of the heap in each iteration.  This will
+be corrected in the paper.  Thus the complexity of the COMPUTE_DISTANCES
+algorithm is O(NlogN+M).
+
+If we remove the shared facet assumption, our complexity becomes O(NlogN+NM)
+(details omitted due to space constraints).  The complexity of Strain and
+Frisken without the assumption is similar.
+
+Error bound proof
+=================
+At the reviewer's suggestion, we will make the full error bounds proof
+available in the supplementary materials.

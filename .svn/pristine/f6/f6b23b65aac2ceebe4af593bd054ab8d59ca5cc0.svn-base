@@ -1,0 +1,114 @@
+%syms r x y d;
+%
+%% i = 0 case
+%d = (1/2)*(x+y+sqrt(x^2+y^2));
+%r = d - y;
+%f = d - sqrt(y^2+r^2);
+%f = simplify(f)
+%% x = y
+%% y = 1
+%subs(subs(f,x,y),y,1)
+%% x = y/2
+%% y = 1
+%subs(subs(f,x,y/2),y,1)
+%% See if f < (1/2)a0 where a0 = y/k
+%f=simplify(subs(f,y,1))
+%X=[1 1/2 1/4 1/8 1/16 1/32]
+%subs(f,x,X)./(X/2)
+%
+%% i > 0 case
+%d = (1/2)*(x + sqrt(x^2+y^2)+sqrt(4*x^2+y^2));
+%r = d - sqrt(x^2+y^2);
+%f = d - sqrt((x+r)^2+y^2);
+%f = simplify(f)
+%% x = y/2
+%% y = 1
+%subs(subs(f,x,y/2),y,1)
+%% x = y/4
+%% y = 1
+%subs(subs(f,x,y/4),y,1)
+
+%----------------------------------------
+% meeting circles lemma i=0
+% This function computes f where
+% f*alpha(a) is the values of \d(a_0) at
+% which the circles meet
+%----------------------------------------
+f = @(k)((1/2)*(1-k+sqrt(k.^2+1)));
+K = [1 2 4 8 16 32 64];
+figure('visible', 'off');
+plot(log2(K), f(K));
+title('Meeting circles i=0');
+xlabel('log(k) where k = alpha(v)/alpha(a)');
+ylabel('f where d(a_0) = f*alpha(a_0)');
+%figure(2)
+%plot(AV, f(AV,1)./AV)
+%title('Meeting circles');
+%xlabel('k = alpha(v)/alpha(a)');
+%ylabel('g where d(a_0) = g*alpha(v)');
+
+%----------------------------------------
+% meeting circles lemma i>0, d(a_0)
+% This function computes f where
+% f*alpha(a) is the values of \d(a_0) at
+% which the circles meet
+%----------------------------------------
+f = @(k, i_)((1/2)*(2^(i_-1)+sqrt(k.^2+2^(2*i_))+sqrt(k.^2+2^(2*i_-2))-2*k))
+K = [1 2 4 8 16 32 64];
+figure('visible', 'off');
+plot(log2(K), f(K, 1));
+hold on;
+plot(log2(K(2:end)), f(K(2:end), 2));
+plot(log2(K(3:end)), f(K(3:end), 3));
+hold off;
+title('Meeting circles i>0');
+xlabel('log(k) where k = alpha(v)/alpha(a)');
+ylabel('f where d(a_0) = f*alpha(a_0)');
+
+for i_=1:5,
+  disp(2^i_);
+  disp(f(K, i_));
+end
+
+%----------------------------------------
+% meeting circles lemma i>0, d(a_i)
+% This function computes f where
+% f*alpha(a) is the values of \d(a_i) at
+% which the circles meet
+%----------------------------------------
+f = @(k, i_)((1/2)*(2^(i_-1)-sqrt(k.^2+2^(2*i_-2))+sqrt(k.^2+2^(2*i_))))
+K = [1 2 4 8 16 32 64 128 256 512];
+%figure(2);
+%plot(log2(K), f(K, 1));
+%hold on;
+%plot(log2(K(2:end)), f(K(2:end), 2));
+%plot(log2(K(3:end)), f(K(3:end), 3));
+%hold off;
+%title('Meeting circles i>0');
+%xlabel('log(k) where k = alpha(v)/alpha(a)');
+%ylabel('f where d(a_0) = f*alpha(a_0)');
+
+for i_=1:5,
+  disp(2^(i_-1));
+  disp(f(K, i_));
+end
+
+%----------------------------------------
+% Error
+%----------------------------------------
+f = @(k,i_)(k+2^i_-sqrt(k.^2+2^(2*i_)-2^(i_-3)+2^-8));
+disp((sqrt(2)/2)*log(K));
+for i_=1:6,
+  disp([i_ f(K, i_)]);
+end
+disp([0.0 K])
+
+%----------------------------------------
+% Error at b = alpha(v)/2
+%----------------------------------------
+f = 1+(sqrt(5)+2*sqrt(2)-3)/4 ...
+    -sqrt(2-(1+sqrt(5)-2*sqrt(2))/2+(1+sqrt(5)-2*sqrt(2))^2/16)
+0.18+0.35/2
+
+f = @(k)(((1/2)*(2*k+sqrt(2)-sqrt(4*k.^2+2)))./k);
+disp(f([2 4 8]))

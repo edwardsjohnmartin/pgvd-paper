@@ -1,0 +1,450 @@
+%\documentclass[review]{acmsiggraph}
+\documentclass{article}
+%\usepackage{showkeys}
+
+\title{GVD error bound derivation}
+
+%\author{John Edwards, Eric Daniel, Chandrajit Bajaj, Valerio Pascucci\thanks{e-mail:jedwards@sci.utah.edu, \{egdaniel,bajaj\}@cs.utexas.edu}, pascucci@sci.utah.edu\\The University of Texas}
+%\pdfauthor{John Edwards, Eric Daniel, Chandrajit Bajaj, Valerio Pascucci}
+
+%\keywords{distance field, distance transform, voronoi diagram}
+
+\input{common}
+
+\newcommand{\K}{K}
+\newcommand{\Kp}{K'}
+
+\begin{document}
+
+\maketitle
+
+%-------------------------------------------------------------------------------
+% Distance error bound
+%-------------------------------------------------------------------------------
+\section{Distance error bound}
+We derive and give a partial proof of an error bound of the distance transform.  Let $v$ be an octree vertex located at the origin.
+
+%----------------------------------------
+% Definitions subsection
+%----------------------------------------
+\subsection{Definitions}
+
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+$S$ & the surface \\ \hline
+$\alpha_v$ & shortest distance between octree vertex $v$ and any of $v$'s neighbors in the cardinal directions \\ \hline
+$V(v)$ & set of all octree vertices visible to $v$ \\ \hline
+$\ball(a,r)$ & ball centered at $a$ with radius $r$ \\ \hline
+$p_v$ & point on $S$ that is closest to $v$ \\
+       & $p_v = \argmin_{p \in S} \dist(p,v)$ \\ \hline
+$\overline{p}_v$ & octree approximation of $p_v$ \\ \hline
+%$\d_v$ & distance from $v$ to surface $S$ \\
+%        & $\d_v = \dist(p_v,v)$ \\ \hline
+%$\overline{\d}_v$ & the octree approximation $\d_v$ \\
+%            & $\overline{\d}_v = \dist(\overline{p}_v, v)$ \\ \hline
+$r_b$ & radius of the ball centered at $b$ that is guaranteed not to contain $\overline{p}_b$ by virtue of $\ball(v, |\overline{p}_v|)$ (see figure \ref{fig:bound-proof-simple-meeting})\\ \hline
+$\epsilon_v$ & $|\overline{p}_v|-|p_v|$ \\ \hline
+$k$ & $\frac{\alpha_v}{\alpha_a}$ \\ \hline
+$\K$ & $\frac{1}{k}+1+\sqrt{1+\frac{1}{k^2}}$ \\ \hline
+$E$ & $\frac{\epsilon_a+\epsilon_b}{2}$ \\ \hline
+$A_v$ & set of octree cells incident to vertex $v$ \\ \hline
+\end{tabular}
+
+%----------------------------------------
+% Proof subsection
+%----------------------------------------
+\subsection{Proof}
+
+The distance error bound we derive and (partially) prove is $\e_v \le \frac{11}{20}\alpha_v$.  Consider octree vertex $v$.  The closest point approximation $\overline{p}_v$ is obtained in one of two ways.  If $S \cap A_v \ne \emptyset$ then the closest point is computed exactly and $\overline{p}_v = p_v$, which means also that $\epsilon_v = 0$.  If $S \cap A_v = \emptyset$ then 
+\[ \overline{p}_v = \argmin\limits_{\overline{p}_{a \in V(v)}} \dist(\overline{p}_a,v) \]
+Let $H_v = (v_0,\dots,v_{n-1})$ be the chain of $n$ octree vertices such that $\overline{p}_{v_0}=p_{v_0}$, $\overline{p}_{v_i} = \overline{p}_{v_j}$ for $0 \le i,j < n$, and $v_i$ obtains its closest point approximation $\overline{p}_{v_i}$ from $v_{i-1}$.
+
+\subsubsection{Simple case: $\epsilon_a = 0$}
+
+Our proof technique is to first consider the simple case that $H_v=(a)$.  Thus, $\epsilon_a=0$ and $\overline{p}_v = p_a$.
+
+%----------------------------------------
+% Simple case, bound error
+%----------------------------------------
+Let $p=\overline{p}_v=p_a$ and let $v$ be located at the origin.  From figure \ref{fig:bound-proof-0} we see that $\epsilon_v \le |p|-|\underline{p}_v|$.  Let $p_x$ (resp. $p_y$) be the $x$ (resp. $y$) coordinate of point $p$.  Lemma \ref{lem:1} gives a bound of the error in terms of $p_y$ in the simple case.
+\begin{lemma}[Simple case]
+\label{lem:1}
+\[ \epsilon_v \le p_y-\sqrt{p_y^2-2p_y\alpha_v+2\alpha_v^2} \]
+where $\alpha_v = |a-v|$.
+\end{lemma}
+\begin{proof}
+\begin{alignat}{5}
+r_a^2 &= p_x^2 + (p_y-\alpha_v)^2 \nonumber \\
+\underline{p} &= (r_a, \alpha_v) \nonumber \\
+\epsilon_v &\le |p|-|\underline{p}| \nonumber \\
+         &= \sqrt{p_x^2+p_y^2} - \sqrt{r_a^2+\alpha_v^2} \nonumber \\
+         &= \sqrt{p_x^2+p_y^2} - \sqrt{p_x^2 + (p_y-\alpha_v)^2+\alpha_v^2} \label{eq:0-1-verbose}
+\end{alignat}
+Taking the partial of $\epsilon_v$ with respect to the x-coordinate of $p$ we get
+\[ \frac{\partial \epsilon_v}{\partial p_x} =
+    \frac{p_x}{\sqrt{p_x^2+p_y^2}} - \frac{p_x}{\sqrt{p_x^2+(p_y-\alpha_v)^2+\alpha_v^2}} \]
+Finding the zeros of the partial yields
+\[ \frac{\partial \epsilon_v}{\partial p_x}(0,y) = 0 \]
+The partial derivative is monotonically decreasing for $x \ge 0$ and fixed $y$.  We get an upper bound of the error by fixing $p_x=0$, and equation \eqref{eq:0-1-verbose} becomes
+\[ \epsilon_v \le p_y-\sqrt{p_y^2-2p_y\alpha_v+2\alpha_v^2} \]
+\end{proof}
+
+%----------------------------------------
+% Simple case, where do the circles meet?
+%----------------------------------------
+By lemma \ref{lem:1} we know that $\epsilon(p)$ is maximized at $p_x=0$.  Here we derive the exact position of $p=(0,p_y)$ at which the circles $B(a,r_a)$ and $B(b,r_b)$ meet.  The significance of this meeting point is that if $p_y$ is such that the circles meet, then $\underline{p}_{v,y} \ne a_y$, and lemma \ref{lem:1} no longer holds.  See figure \ref{fig:bound-proof-simple-meeting}.
+\begin{lemma}[Simple case - meeting circles]
+\label{lem:2}
+$B(a,r_a) \cap B(b,r_b) = \emptyset$ for
+\begin{alignat}{5}
+p_y &\le \frac{1}{2}\left(\alpha_a + \alpha_v + \sqrt{\alpha_v^2 + \alpha_a^2}\right) \nonumber \\
+    &= \frac{\alpha_v}{2}\K
+\end{alignat}
+\end{lemma}
+\begin{proof}
+Assume $p_x=0$.  Thus $|p| = p_y$.  Let $\alpha_v=|a-v|$ and $\alpha_a=|b-a|$.
+\begin{alignat}{5}
+r_a &= p_y-\alpha_v \nonumber \\
+r_b &= p_y - \sqrt{\alpha_v^2 + \alpha_a^2} \nonumber
+\end{alignat}
+Find $p_y$ such that $r_a+r_b=\alpha_a$.
+\begin{alignat}{5}
+\alpha_a &= p_y - \alpha_v + p_y - \sqrt{\alpha_v^2 + \alpha_a^2} \nonumber
+\end{alignat}
+Rearrange the equation to complete the proof.
+\end{proof}
+
+This corollary combines lemmas \ref{lem:1} and \ref{lem:2} to find a bound of the error in terms of $\alpha_v$ and $k$.
+\begin{lemma}[Simple case - final bound]
+\label{lem:3}
+$\epsilon \le \frac{1}{2}\alpha_v$ and $\lim\limits_{k \rightarrow \infty} \epsilon = 0$.
+\end{lemma}
+\begin{proof}
+By construction, $k \ge 1$.  It follows that
+\begin{equation}
+\label{Krange-simple}
+2 \le K \le 2+\sqrt{2}
+\end{equation}
+Using lemmas \ref{lem:1} and \ref{lem:2}, we now look at $\epsilon$:
+\begin{alignat}{5}
+\epsilon &\le p_y - \sqrt{p_y^2 - 2p_y\alpha_v + 2\alpha_v^2} \nonumber \\
+         &\le \frac{\alpha_v \K}{2} - \sqrt{\frac{\alpha_v^2 \K^2}{4}-\alpha_v^2\K + 2\alpha_v^2} \nonumber \\
+         &= \alpha_v \left(\frac{K}{2} - \sqrt{\frac{\K^2}{4}-K+2}\right) \nonumber
+\end{alignat}
+Let $\displaystyle f(K) = \left(\frac{K}{2} - \sqrt{\frac{\K^2}{4}-K+2}\right)$ which is monotonically increasing in the range given by inequality \eqref{Krange-simple}.  At the upper and lower bounds of $K$, which correspond respectively to $k=1$ and $k=\infty$,
+\[ f(2+\sqrt{2}) \le \frac{1}{2} \]
+\[ f(2) = 0 \]
+\end{proof}
+
+\subsubsection{General case: $\epsilon_a \ge 0$, $|H_v| \ge 1$}
+
+%----------------------------------------
+% General case, bound error
+%----------------------------------------
+We now turn to the general case, where $\epsilon_a \ge 0$.  Lemma \ref{lem:4} gives a bound of the error in terms of $p_y$.
+\begin{lemma}[General case - bound error]
+\label{lem:4}
+See figure \ref{fig:bound-proof-0-general}.  Let $v$ be the origin.  
+\[ \epsilon_v \le p_y-\sqrt{p_y^2+\epsilon_a^2+2(\alpha_v^2+\alpha_v\epsilon_a-p_y\alpha_v-p_y\epsilon_a)} \]
+where $\alpha_v = |a-v|$.
+\end{lemma}
+\begin{proof}
+Similar to lemma \ref{lem:1}.
+\end{proof}
+
+%----------------------------------------
+% General case, meeting circles
+%----------------------------------------
+\begin{lemma}[General case - meeting circles]
+\label{lem:5}
+$B(a,r_a) \cap B(b,r_b) = \emptyset$ for
+\begin{alignat}{5}
+p_y &\le \frac{1}{2}\left(\alpha_a + \alpha_v + \sqrt{\alpha_v^2 + \alpha_a^2} + \epsilon_a + \epsilon_b \right) \nonumber \\
+    &= \frac{\alpha_v}{2}\K + E
+\end{alignat}
+\end{lemma}
+\begin{proof}
+Assume $p_x=0$.  Thus $|p| = p_y$.  Let $\alpha_v=|a-v|$ and $\alpha_a=|b-a|$.
+\begin{alignat}{5}
+r_a &= p_y-\alpha_v -\epsilon_a \nonumber \\
+r_b &= p_y - \sqrt{\alpha_v^2 + \alpha_a^2} -\epsilon_b \nonumber
+\end{alignat}
+Find $p_y$ such that $r_a+r_b=\alpha_a$.
+\begin{alignat}{5}
+\alpha_a &= p_y - \alpha_v + p_y - \sqrt{\alpha_v^2 + \alpha_a^2} - \epsilon_a - \epsilon_b \nonumber
+\end{alignat}
+Rearrange the equation to complete the proof.
+\end{proof}
+
+%----------------------------------------
+% General case, final bound
+%----------------------------------------
+This lemma combines lemmas \ref{lem:4} and \ref{lem:5} to find a bound of the error in terms of $\alpha_v$ and $k$.  Let $H_v = \{v_0,\dots,v_{n-1}\}$ be the chain of $n$ octree vertices that pass $p$ to $v$.  Assume that 
+\begin{equation}
+\label{eqn:grad-assumption}
+\alpha_{v_{i-1}} \le \frac{1}{2}\alpha_{v_i}
+\end{equation}
+for $0 \le i < n$ and that $k \ge 2$.  That is, the gradation at each step is at least 2.
+\begin{lemma}[General case - final bound]
+\label{lem:6}
+$\epsilon_v \le \frac{11}{20}\alpha_v$.
+\end{lemma}
+\begin{proof}
+By assumption, $k \ge 2$.  It follows that
+\begin{equation}
+\label{Krange-general}
+2 \le K \le \frac{3+\sqrt{5}}{2}
+\end{equation}
+We now look at $\epsilon$:
+\begin{alignat}{5}
+\epsilon_v &= |p| - |\hat{p}| \nonumber \\
+         &\le p_y - \sqrt{p_y^2+\epsilon_a^2+2(\alpha^2+\alpha\epsilon_a-p_y\alpha-p_y\epsilon_a)} \nonumber \\
+         &\le \frac{\alpha_v \K}{2} + E - \sqrt{\alpha_v^2(\frac{K^2}{4}-K+2)+\alpha_v(EK-\epsilon_aK+2\epsilon_a-2E)+(\epsilon_a-E)^2} \label{eq:long-bound} 
+\end{alignat}
+We complete the proof using induction.  In the base cases, $\epsilon_{v_0}=0 \le \frac{11}{20}\alpha_{v_0}$ by definition, and $\epsilon_{v_1} \le \frac{1}{2}\alpha_{v_1} \le \frac{11}{20}\alpha_{v_1}$, by lemma \ref{lem:3}.  We make the inductive assumption that $\epsilon_{v_{i-1}} = \epsilon_a \le \frac{11}{20}\alpha_a$, and $\epsilon_b \le \frac{11}{20}\alpha_b$.  Using assumption \eqref{eqn:grad-assumption}, the errors are upper-bounded at $\epsilon_{a,b} \le \frac{11}{40}\alpha_v$.  Setting the errors to their upper bounds, equation \eqref{eq:long-bound} degenerates to 
+\begin{equation}
+\epsilon_v \le \alpha_v \left(\frac{\K}{2} - \sqrt{\frac{K^2}{4}-K+2} + \frac{11}{40} \right) \label{eq:short-bound} 
+\end{equation}
+Let $\displaystyle f(K) = \left(\frac{K}{2} - \sqrt{\frac{\K^2}{4}-K+2} + \frac{11}{40}\right)$ which is monotonically increasing in the range given by inequality \eqref{Krange-general}.  At the upper bound of $K$, which corresponds to $k=2$,
+\[ f\left(\frac{3+\sqrt{5}}{2}\right) \le \frac{11}{20} \]
+\end{proof}
+
+%----------------------------------------
+% General case, final bound, corollary
+%----------------------------------------
+As a corollary, if the gradation assumption \eqref{eqn:grad-assumption} is maintained, then the error $\epsilon_v$ is driven to zero as $\alpha_v$ approaches zero.
+
+
+%----------------------------------------
+% Figure
+%----------------------------------------
+
+\begin{figure}
+  \centering
+  \subfloat[][]{
+    \label{fig:bound-proof-0}
+    \begin{overpic}[width=0.45\columnwidth]{bound-proof-0.pdf}
+      \put (12,3) {\footnotesize{$v$}}
+      \put (12,62) {\footnotesize{$a$}}
+      \put (73,62) {\footnotesize{$b$}}
+      \put (33,85) {\footnotesize{$p$}}
+      \put (22,72) {\footnotesize{$r$}}
+      \put (19,50) {\footnotesize{$|p|$}}
+      \put (53,42) {\footnotesize{$\underline{p}$}}
+      \put (33,30) {\footnotesize{$|\underline{p}|$}}
+    \end{overpic}
+  }
+%  \subfloat[][]{
+%    \label{fig:bound-proof-1}
+%    \begin{overpic}[width=0.45\columnwidth]{bound-proof-1.pdf}
+%      \put (12,3) {\footnotesize{$v$}}
+%      \put (12,62) {\footnotesize{$a$}}
+%      \put (43,62) {\footnotesize{$b$}}
+%      \put (21,65) {\tiny{$r_a$}}
+%      \put (26,78) {\footnotesize{$p$}}
+%      \put (64,66) {\footnotesize{$r_b$}}
+%      \put (45,28) {\footnotesize{$|p|$}}
+%      \put (7,35) {\footnotesize{$\underline{p}$}}
+%      \put (28,36) {\footnotesize{$|\underline{p}|$}}
+%    \end{overpic}
+%  } \\
+  \subfloat[][]{
+    \label{fig:bound-proof-simple-meeting}
+    \begin{overpic}[width=0.45\columnwidth]{bound-proof-simple-meeting.pdf}
+      \put (12,3) {\footnotesize{$v$}}
+      \put (12,62) {\footnotesize{$a$}}
+      \put (43,62) {\footnotesize{$b$}}
+      \put (18,72) {\footnotesize{$r_a$}}
+      \put (22,78) {\footnotesize{$p$}}
+      \put (52,66) {\footnotesize{$r_b$}}
+      \put (45,28) {\footnotesize{$|p|$}}
+      \put (35.5,77) {\footnotesize{$\underline{p}$}}
+      \put (26,30) {\footnotesize{$|\underline{p}|$}}
+    \end{overpic}
+  } \\
+  \subfloat[][]{
+    \label{fig:bound-proof-0-general}
+    \begin{overpic}[width=0.45\columnwidth]{bound-proof-0-complex.pdf}
+      \put (12,3) {\footnotesize{$v$}}
+      \put (12,62) {\footnotesize{$a$}}
+      \put (73,62) {\footnotesize{$b$}}
+      \put (33,85) {\footnotesize{$p$}}
+      \put (22,72) {\footnotesize{$r$}}
+      \put (19,50) {\footnotesize{$|p|$}}
+      \put (50,42) {\footnotesize{$\underline{p}$}}
+      \put (33,30) {\footnotesize{$|\underline{p}|$}}
+      \put (57,69) {\footnotesize{$\epsilon_a$}}
+    \end{overpic}
+  } \\
+  \subfloat[][]{
+    \label{fig:bound-proof-2}
+    \includegraphics[width=0.45\columnwidth]{bound-proof-2.pdf} }
+  \subfloat[][]{
+    \label{fig:bound-proof-3}
+    \includegraphics[width=0.45\columnwidth]{bound-proof-3.pdf} }
+  \caption{Bounds proof.
+    \protect\subref{fig:bound-proof-1} Lemma 1 case.
+    \protect\subref{fig:bound-proof-2} Lemma 2 case.
+    \protect\subref{fig:bound-proof-3} Lemma 3.
+  }
+  \label{fig:bound-proof}
+\end{figure}
+
+%The first case is as shown in figure \ref{fig:bound-proof-1}, and whether the case holds is governed by the following lemma:
+%
+%%----------------------------------------
+%% Meeting circles lemma 1 and corollaries
+%%----------------------------------------
+%\begin{lemma}[Meeting circles lemma a]
+%For $\bar{p}_v = p_a$, 
+%\[
+%\d_a \le \frac{1}{2}(1-k+\sqrt{k^2+1})\alpha_a \Leftrightarrow \ball(a,\d_a) \cap \ball(b,\hat{\d}_b) = \emptyset
+%\]
+%\end{lemma}
+%\begin{proof}
+%\red{third line, fifth line}
+%\begin{alignat}{5}
+%\d_a &\le \alpha_a-\hat{\d}_b \nonumber \\
+%        &= \alpha_a - (\bar{\d}_v-\sqrt{\alpha^2_v+\alpha^2_a}) \nonumber \\
+%        &\le \alpha_a - (\d_a+\alpha_v-\sqrt{\alpha^2_v+\alpha^2_a}) & \hspace{5mm}(\mathtext{equal for } \bar{p}_v \mathtext{ on vertical}) \nonumber \\
+%        &= \alpha_a-\alpha_v+\sqrt{\alpha^2_v+\alpha^2_a}-\d_a \nonumber \\
+%        &= \frac{1}{2}(\alpha_a-\alpha_v+\sqrt{\alpha^2_v+\alpha^2_a}) \nonumber \\
+%        &= \frac{1}{2}(1-k+\sqrt{k^2+1})\alpha_a 
+%\end{alignat}
+%\end{proof}
+%
+%%-----------------------------------------------------------
+%% The following figures are not currently used
+%%-----------------------------------------------------------
+%%\begin{figure}[]
+%%  \center
+%%  \subfloat[]{
+%%    \label{fig:meeting-circles-0}
+%%    \includegraphics[width=0.45\textwidth]{code/meeting-circles-0.pdf} }
+%%  \subfloat[]{
+%%    \label{fig:meeting-circles-1}
+%%    \includegraphics[width=0.45\textwidth]{code/meeting-circles-1.pdf} }
+%%  \caption{
+%%    \subref{fig:meeting-circles-0} As $k$ increases, the size of $\d(a_0)$ at which the circles meet shrinks.
+%%    \subref{fig:meeting-circles-1} As $k$ increases, the size of $\d(a_0)$ at which the circles meet shrinks.  This is for different values of $i$.
+%%  }
+%%  \label{fig:functions}
+%%\end{figure}
+%
+%\begin{corollary}
+%For $\bar{p}_v = p_a$, 
+%\[
+%\d_a \ge \frac{\sqrt{2}}{2}\alpha_a \Rightarrow \ball(a,\d_a \cap \ball(b,\hat{\d}_b) \ne \emptyset 
+%\]
+%\end{corollary}
+%
+%% Probably not useful
+%%\begin{corollary}
+%%For $\bar{p}_v = p_a$, 
+%%\[
+%%\d_a \le \frac{1}{2}\alpha_a \Rightarrow \ball(a,\d_a \cap \ball(b,\hat{\d}_b) = \emptyset 
+%%\]
+%%\end{corollary}
+%
+%The second case is as shown in figure \ref{fig:bound-proof-2}, and whether the case holds is governed by the following lemma:
+%
+%%----------------------------------------
+%% Meeting circles lemma b and corollaries
+%%----------------------------------------
+%\begin{lemma}[Meeting circles lemma b]
+%For $\bar{p}_v = p_a$ and $[b,c]$ are $[\alpha_v/2, \alpha_v]$, respectively, from $a$ in the positive $x$ direction,
+%\[
+%\d_a \le \frac{\sqrt{5}+2\sqrt{2}-3}{4}\alpha_v \Leftrightarrow \ball(b,\hat{\d}_b \cap \ball(c,\hat{\d}(c)) = \emptyset
+%\]
+%\end{lemma}
+%\begin{proof}
+%\red{first line inequality?}
+%\[ \hat{\d}_b + \hat{\d}(c) = \frac{1}{2}\alpha_v \]
+%\red{Should be $\bar{\d}_v$?}
+%\[ \hat{\d}_b = \d_v - \sqrt{\alpha^2_v+\frac{1}{4}\alpha^2_v} = \d_v-\frac{\sqrt{5}}{2}\alpha_v \]
+%\[ \hat{\d}(c) = \d_v - \sqrt{\alpha^2_v+\alpha^2_v} = \d_v-\sqrt{2}\alpha_v \]
+%\red{first line should be inequality?  Inequality is wrong direction.}
+%\begin{alignat*}{5}
+%\d_a &= \d_v - \alpha_v \\
+%      &= \frac{1}{2}(\hat{\d}_b + \hat{\d}(c) + (\frac{\sqrt{5}}{2} + \sqrt{2} - 1)\alpha_v \\
+%      &= \frac{1}{2}(\frac{1}{2} + \frac{\sqrt{5}}{2} + \sqrt{2} - 1)\alpha_v \\
+%      &= \frac{\sqrt{5} + 2\sqrt{2} - 3}{4}\alpha_v
+%\end{alignat*}
+%\end{proof}
+%
+%%----------------------------------------
+%% Error lemma base case
+%%----------------------------------------
+%\begin{lemma}[Error lemma base case]
+%\label{lem:error-base-case}
+%For $\bar{p}_v = p_a$ and $\d_a \le \frac{\sqrt{2}}{2}\alpha_a$,
+%\red{todo: define $\alpha_0$}
+%\begin{equation}
+%\label{eqn:e0}
+%\e_v = \e_0(v,k) \le \frac{1}{2}(2k+\sqrt{2}-\sqrt{4k^2+2})\alpha_0
+%\end{equation}
+%\end{lemma}
+%\begin{proof}
+%It follows from the algorithm that if $\d_a \le \frac{\sqrt{2}}{2}\alpha_a$ then $\alpha_a = \alpha_0$.
+%\red{first line should be inequality?  Rewrite starting $\e_v = \bar{\d_v} - \d_v$}
+%\begin{alignat*}{5}
+%\e_v &= \alpha_v + \bar{\d}_a - \sqrt{\alpha^2_v+\d^2_a} \\
+%      &= \alpha_v + \d_a - \sqrt{\alpha^2_v+\d^2_a} 
+%         & \hspace{5mm}(\e_a = 0) \\
+%      &\le \alpha_v + \frac{\sqrt{2}}{2}\alpha_0 - \sqrt{\alpha^2_v+\frac{1}{2}\alpha_0^2} \\
+%      &= \frac{1}{2}(2k+\sqrt{2}-\sqrt{4k^2+2})\alpha_0
+%\end{alignat*}
+%\end{proof}
+%
+%Note that
+%\begin{equation}
+%\label{eqn:e0-ineq}
+%\e_0(v,k\le2) < 0.18 < e_0(v,k>2)
+%\end{equation}
+%
+%%----------------------------------------
+%% Intersecting circles lemma
+%%----------------------------------------
+%\begin{lemma}[Intersecting circles lemma]
+%\label{lem:intersecting-circles}
+%%Let $a_i$ be the $i$th adjacent vertex from $a$ traveling in the positive $x$ direction.  Let $q_i$ be the intersection of $\ball(a_{i-1}, \hat{\delta}(a_{i-1}))$ and $\ball(a_i, \hat{\delta}(a_i))$ that maximizes $\dist(v, q_i)$.  Then
+%See figure \ref{fig:bound-proof-3}.
+%
+%\[
+%%\sqrt{\alpha^2_v + (\dist(a_i,a)+\hat{\delta}(a_i))^2} < \dist(v, q_i)
+%\mu_v < M_v
+%\]
+%\end{lemma}
+%%\begin{proof}
+%%\end{proof}
+%
+%%----------------------------------------
+%% Theorem
+%%----------------------------------------
+%\begin{theorem}
+%$\frac{\e_v}{\d_v} \le \frac{1}{2}$.
+%\end{theorem}
+%
+%\begin{proof}
+%We first show that $\e_v \le C\alpha_v$ by induction.
+%\begin{itemize}
+%\item[] \textbf{Case 1 (base)} By definition, if $v$ is non-empty, then $\e_v = 0$.
+%\item[] \textbf{Case 2} By lemma \ref{lem:error-base-case} and equation \eqref{eqn:e0-ineq}, if $v$ is empty and $\alpha_a < \frac{1}{2}\alpha_v$, then
+%  \[ \e_v = \e_0(v,k) < \frac{1}{2}\alpha_v \]
+%\item[] \textbf{Induction} $k > 2$.  By lemma \ref{lem:intersecting-circles}, the error is maximized at $\d_a = \frac{\sqrt{5} + 2\sqrt{2} - 3}{4}\alpha_v$.  Then
+%\begin{alignat*}{5}
+%  \e_v &\le \alpha_v + \d_a + \e_a - \sqrt{\alpha^2_v + (\alpha_v-\hat{\d}(c))^2} \\
+%%        &\le \alpha_v + \frac{\sqrt{5} + 2\sqrt{2} - 3}{4}\alpha_v - \sqrt{\alpha^2_v+\left(\alpha_v-\frac{1+\sqrt{5}-2\sqrt{2}}{4}\alpha_v\right)^2} + \e_a \\
+%%        &= \left(1 + \frac{\sqrt{5} + 2\sqrt{2} - 3}{4} - \sqrt{2-\frac{1+\sqrt{5}-2\sqrt{2}}{2}+\frac{(1+\sqrt{5}-2\sqrt{2})^2}{16}}\right)\alpha_v + \e_a \\
+%        &\le 0.18 \alpha_v + \e_a \\
+%%        &\le 0.18 \alpha_v + 0.37\alpha_a \\
+%%        &\le 0.18 \alpha_v + \frac{0.37}{2}\alpha_v \\
+%        &\le 0.37 \alpha_v
+%\end{alignat*}
+%\end{itemize}
+%If $\d_v < \alpha_v$ then the error is zero and the theorem is proved by the base case.  Otherwise, 
+%\[ \e_v \le C\alpha_v \le C\d_v \].
+%\end{proof}
+
+\end{document}
