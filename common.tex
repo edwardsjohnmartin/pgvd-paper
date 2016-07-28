@@ -17,6 +17,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{adjustbox}
 \usepackage{color}
 \usepackage{tikz}
 % To balance the columns at the end
@@ -41,8 +42,8 @@
 \newcommand{\old}[1]{}
 
 %\newcommand{\red}[1]{\textcolor{red}{#1}}
-%\newcommand{\red}[1]{\textcolor{bostonuniversityred}{#1}}
-\newcommand{\red}[1]{#1}
+\newcommand{\red}[1]{\textcolor{bostonuniversityred}{#1}}
+%\newcommand{\red}[1]{#1}
 
 %\newcommand{\reconstruct}{RECONSTRUCT\textsuperscript{\texttrademark}}
 %\newcommand{\tm}{\textsuperscript{\texttrademark}}
@@ -123,4 +124,10 @@
 
 \newcolumntype{H}{@{}>{\lrbox0}l<{\endlrbox}}
 
-\newcommand{\container}[2]{container(#1, #2)}
+%\newcommand{\container}[2]{container(#1, #2)}
+\newcommand{\container}[1]{container(#1)}
+
+\newcommand{\directAncestors}[1]{direct\_ancestors(#1)}
+
+\newcommand{\lcp}{\textit{lcp}}
+
