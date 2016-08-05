@@ -269,14 +269,24 @@ Our algorithm works in both 2D and 3D. Lacking a dimension-independent term, we 
 %a(s) = a = |p^x-q^x| = |p^y-q^y|
 %\end{equation}
 
+To resolve conflict cells we consider pairs of lines of differing labels that intersect a cell $c$. Figure \ref{fig:conflict-resolution-x} shows two lines
+
 \begin{align}
-p(s) &= p = p_0 + su \label{eqn:p} \\
-q(t) &= q = q_0 + tv \label{eqn:q}
-%a(s) = a = |p^x-q^x| = |p^y-q^y| \label{eqn:a}
+q(t) &= q = q_0 + tv \label{eqn:q} \\
+r(f) &= r = r_0 + fw \label{eqn:r}
 \end{align}
-For the case that the bisecting line has slope $0 \le m \le 1$, we wish to find $a = q^x-p^x$, which results in a box that touches both lines. Given a point $p$, we find $q$ by substituting in equations \eqref{eqn:p} and \eqref{eqn:q} and solving for $t$,
+along with their bisector
+\begin{align}
+p(s) &= p = p_0 + su \label{eqn:p}
+\end{align}
+Our strategy will be to sample points $P$ on $p(u)$ (figure \ref{fig:conflict-resolution-octree}) such that an octree built on $V \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell.
+
+We consider only bisecting lines with slope $0 \le m \le 1$. All other cases can be transformed to this case. We begin by fitting the smallest box centered at ??? that intersects both $q$ and $r$.
+
+\subsubsection{Case $w^y>0$}
+
+We wish to find $a = q^x-p^x$, which results in a box that touches both lines. Given a point $p$, we find $q$ by substituting in equations \eqref{eqn:q} and \eqref{eqn:r} and solving for $t$,
 \begin{equation}
-\label{eqn:abc}
 t = \frac{p^x+p^y-(q_0^x+q_0^y)}{v^x+v^y}
 \end{equation}
 Thus,
