@@ -275,71 +275,78 @@ To resolve conflict cells we consider pairs of lines of differing labels that in
 q(t) &= q = q_0 + tv \label{eqn:q} \\
 r(f) &= r = r_0 + fw \label{eqn:r}
 \end{align}
-along with their bisector
+along with a line
 \begin{align}
 p(s) &= p = p_0 + su \label{eqn:p}
 \end{align}
 Our strategy will be to sample points $P$ on $p(u)$ (figure \ref{fig:conflict-resolution-octree}) such that an octree built on $V \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell.
 
-We consider only bisecting lines with slope $0 \le m \le 1$. All other cases can be transformed to this case. We begin by fitting the smallest box centered at ??? that intersects both $q$ and $r$.
+We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other cases can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$.
 
 \subsubsection{Case $w^y>0$}
 
-We wish to find $a = q^x-p^x$, which results in a box that touches both lines. Given a point $p$, we find $q$ by substituting in equations \eqref{eqn:q} and \eqref{eqn:r} and solving for $t$,
+Consider a box with edge length $a_0$ centered on a point $p_0 \in p$. We first find $p$, which is the line that is equidistant from $q$ and $r$ along the diagonal vector $\gamma = (1, -1)$. Given some point $q(t)$,
 \begin{equation}
-t = \frac{p^x+p^y-(q_0^x+q_0^y)}{v^x+v^y}
+q_0+tv + \lambda\gamma = r_0+fw \\
 \end{equation}
-Thus,
+Solving for $\lambda$,
+\begin{align}
+f &= \frac{1}{w^y}(q_0^y+tv^x-\lambda-r_0^y) \\
+\lambda &= r_0^x + fw^x-q_0^x-tv^x \\
+        &= r_0^x+\frac{w^x}{w^y}(q_0^y+tv^y-\lambda-r_0^y) - q_0^x-tv^x \\
+        &= \frac{1}{w^x+w^y}(r_0^xw^y+q_0^yw^x-r_0^yw^x-q_0^xw^y+t(v^yw^x-v^xw^y)
+\end{align}
+The vector $u = p - p_0$. We obtain $p$ from $q(0)$, by finding $\lambda/2$.
+\begin{align}
+p = q(0) + \frac{\lambda}{2}\gamma
+\end{align}
+We get $p_0$ by finding the intersection between the two lines. If they are parallel then we find two points $p$ using $q(0)$ and $q(1)$.
+
+To find $a$,
 \begin{align} 
-a(s) &= q^x(t) - p^x(s) \nonumber \\
-   &= q_0^x + v^x\frac{p^x(s)+p^y(s)-(q_0^x+q_0^y)}{v^x+v^y} - p^x(s) \nonumber \\
-%   &= \frac{q_0^xv^y-q_0^yv^x+p^yv^x-p^xv^y}{v^x+v^y} \nonumber \\
-   &= \frac{q_0^xv^y-q_0^yv^x+p^y(s)v^x-p^x(s)v^y}{v^x+v^y} \nonumber \\
-   &= \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y+s(u^yv^x-u^xv^y)}{v^x+v^y} \nonumber \\
-   &= s\frac{u^yv^x-u^xv^y}{v^x+v^y}+\frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{v^x+v^y} \label{eqn:a}
+p^x-\frac{a}{2} &= q^x \\
+p^y+\frac{a}{2} &= q^y
 \end{align}
-
-%$a$ is the largest power of two less than or equal to $a'$:
-%\begin{equation}
-%\label{eqn:ghi}
-%a(s) = a = 2^{\lfloor \log_2{a'} \rfloor}
-%\end{equation}
-
-
-As shown in figure \ref{fig:conflict-resolution}, we desire to build a sequence $S=(s_0, s_1, \dots)$ such that $p^x(s_i) = p^x(s_{i-2}) + a(s_{i-2})$. %For convenience, we split the sequence into even and odd components and define $p^x(s_i) = p^x(s_{i-2}) + a(s_{i-2})$.
-That is,
+Substituting equation \eqref{eqn:q},
+\begin{align} 
+t = \frac{p^x-a/2-q_0^x}{v^x} \\
+t = \frac{p^y+a/2-q_0^y}{v^y}
+\end{align}
+which leads to
+\begin{align} 
+\frac{p^x-a/2-q_0^x}{v^x} &= \frac{p^y+a/2-q_0^y}{v^y}
+\end{align}
+Solving for $a$,
 \begin{align}
-x_i &= x_{i-2} + a(s_{i-2}) \label{eqn:xi_init}
+\label{eqn:plain_a}
+a &= \frac{2(p^xv^y-q_0^xv^y-p^yv^x+q_0^yv^x)}{v^x+v^y}
 \end{align}
-Substituting in equation \eqref{eqn:a},
+$a$ is a parametric function in $s$, so using equations \eqref{eqn:plain_a} and \eqref{eqn:p},
+\begin{align}
+a(s) &= \frac{2((p_0^x+su^x)v^y-q_0^xv^y-(p_0^y+su^y)v^x+q_0^yv^x)}{v^x+v^y} \\
+     &= s\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y} \label{eqn:a}
+\end{align}
+Figure \ref{fig:conflict-resolution-even} shows that we will find a series of points $P=p(s_i)$ such that
 \begin{equation}
-x_i = x_{i-2} + s_{i-2}\frac{u^yv^x-u^xv^y}{v^x+v^y} + \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{v^x+v^y}
+p^x(s_i) = p^x(s_{i-2})+a(s_{i-2}) \label{eqn:p_s}
 \end{equation}
-%\begin{align}
-%x_i &= x_{i-1} + \frac{1}{v^x+v^y}(q_0^xv^y-q_0^yv^x+p^y(s_{i-1})v^x-p^x(s_{i-1})v^y)
-%\end{align}
-%Substituting in equation \eqref{eqn:p} and rearranging,
-%\begin{align}
-%x_i &= x_{i-1} + \frac{1}{v^x+v^y}(q_0^xv^y-q_0^yv^x+(p_0^y+s_{i-1}u^y)v^x-(p_0^x+s_{i-1}u^x)v^y) \\
-%    &= x_{i-1} + \frac{1}{v^x+v^y}(q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y+s_{i-1}(u^yv^x-u^xv^y)) \\
-%    &= x_{i-1} + s_{i-1}\frac{u^yv^x-u^xv^y}{v^x+v^y} + \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{v^x+v^y}
-%\end{align}
-Substituting in equation \eqref{eqn:p},
+Using equations \eqref{eqn:p}, \eqref{eqn:a} and \eqref{eqn:p_s},
 \begin{align}
-x_i &= p_0^x+s_{i-2}u^x + s_{i-2}\frac{u^yv^x-u^xv^y}{v^x+v^y} + \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{v^x+v^y} \\
-    &= s_{i-2}\frac{v^x(u^x+u^y)}{v^x+v^y} + \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x+p_0^xv^x}{v^x+v^y} \label{eqn:xi}
+p_0^x+s_iu^x = p_0^x+s_{i-2}u^x+s_{i-2}\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y}
 \end{align}
-We're now ready to build the sequence. From \eqref{eqn:p},
+Solving for $s_i$,
+\begin{equation}
+\label{eqn:si_rec}
+s_i = s_{i-2}\alpha + \beta
+\end{equation}
+where
 \begin{align}
-s_i &= \frac{x_i-p_0^x}{u^x}
+%\alpha &= \frac{u^xv^x+3u^xv^y-2u^yv^x}{u^x(v^x+v^y)}
+\alpha &= 1+\frac{2(u^xv^y-u^yv^x)}{u^x(v^x+v^y)} \\
+\beta &= \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{u^x(v^x+v^y)}
 \end{align}
-Substituting in equation \eqref{eqn:xi},
-\begin{align}
-s_i &= s_{i-2}\frac{v^x(u^x+u^y)}{u^x(v^x+v^y)} + \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{u^x(v^x+v^y)} \\
-    &= \alpha s_{i-2} + \beta \label{eqn:si_rec}
-\end{align}
-where $\displaystyle \alpha=\frac{v^x(u^x+u^y)}{u^x(v^x+v^y)}$ and $\displaystyle \beta=\frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y}{u^x(v^x+v^y)}$.
 
+\red{TODO: this isn't right}
 To solve the recurrence relation \eqref{eqn:si_rec},
 \begin{align}
 s_{i+2} &= \alpha s_i+\beta \\
@@ -354,30 +361,56 @@ which has roots $\alpha$ and $1$. Thus,
 \begin{equation}
 s_i = k_1 + k_2 \alpha^i
 \end{equation}
-The initial condition when $i$ is even is $s_0=0$. When $i$ is odd, the initial condition will be where $s$ is halfway along the first box (it could be anywhere in the interior of the first box, but we use halfway for convenience). So from \eqref{eqn:p},
+The initial condition when $i$ is even is $s_0$, which we take to be the point at which the line $p$ enters the cell. Using
 \begin{align}
-s_1 &= \frac{p^x-p_0^x}{2u^x} \\
-    &= \frac{a(0)}{2u^x}
+s_2 &= \alpha s_0+\beta &= k_1+k_2\alpha  \label{eqn:s2} \\
+s_4 &= \alpha s_2+\beta \\
+    &= \alpha^2s_0+\alpha \beta + \beta &= k_1+k_2\alpha^2 \label{eqn:s4}
 \end{align}
+Solving \eqref{eqn:s2} and \eqref{eqn:s4} simultaneously,
 \begin{align}
-k_1^{even} = k_1^{odd} &= \beta\left(1-\frac{\alpha}{\alpha-1}\right) \\
-k_2^{even} &= \frac{\beta}{\alpha-1} \\
-k_2^{odd} &= \frac{a(0)}{2u^x}+\frac{\beta}{\alpha-1}
+k_1^{even} &= \frac{\alpha s_0+\beta-s_0}{\alpha-1} \\
+k_2^{even} &= \frac{\alpha^2 s_0 + \alpha\beta-\alpha s_0}{\alpha-1}
+\end{align}
+The result is similar when $i$ is odd:
+\begin{align}
+k_1^{odd} &= \frac{\alpha s_0+\beta-s_0}{\alpha-1} \\
+k_2^{odd} &= \frac{\alpha^2 s_0 + \alpha\beta-\alpha s_0}{\alpha-1}
+\end{align}
+The last step to formulating $P$ for parallel computation is to determine how many samples we will need. Let $p(s_n)$ be the point at which the line $p$ exits the cell.
+\begin{align}
+k_1+k_2\alpha^i < s_n
+\end{align}
+results in
+\begin{align}
+i < \log_{\alpha}\frac{s_n-k_1}{k_2}
 \end{align}
 
-It is tempting to formulate the recurrance relation using a single initial condition. This would be done by replacing equation \eqref{eqn:xi_init} with
-\begin{align}
-x_i &= x_{i-1} + \frac{a(s_{i-1})}{2}
-\end{align}
-This formulation can lead to conflict cells as shown in figure \ref{fig:conflict-resolution-half}.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.48\columnwidth]{conflict-resolution-half.pdf}
-  \caption{Using a single recurrence solution we can no longer guarantee that every box that intersects both lines contains at least two samples. The box in red contains only one sample, so the octree may contain conflict cells.
-  }
-  \label{fig:conflict-resolution-half}
-\end{figure}
+%
+%. When $i$ is odd, the initial condition will be where $s$ is halfway along the first box (it could be anywhere in the interior of the first box, but we use halfway for convenience). So from \eqref{eqn:p},
+%\begin{align}
+%s_1 &= \frac{p^x-p_0^x}{2u^x} \\
+%    &= \frac{a(0)}{2u^x}
+%\end{align}
+%\begin{align}
+%k_1^{even} = k_1^{odd} &= \beta\left(1-\frac{\alpha}{\alpha-1}\right) \\
+%k_2^{even} &= \frac{\beta}{\alpha-1} \\
+%k_2^{odd} &= \frac{a(0)}{2u^x}+\frac{\beta}{\alpha-1}
+%\end{align}
+%
+%It is tempting to formulate the recurrance relation using a single initial condition. This would be done by replacing equation \eqref{eqn:xi_init} with
+%\begin{align}
+%x_i &= x_{i-1} + \frac{a(s_{i-1})}{2}
+%\end{align}
+%This formulation can lead to conflict cells as shown in figure \ref{fig:conflict-resolution-half}.
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.48\columnwidth]{conflict-resolution-half.pdf}
+%  \caption{Using a single recurrence solution we can no longer guarantee that every box that intersects both lines contains at least two samples. The box in red contains only one sample, so the octree may contain conflict cells.
+%  }
+%  \label{fig:conflict-resolution-half}
+%\end{figure}
 
 
 

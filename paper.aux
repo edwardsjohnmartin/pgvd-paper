@@ -77,22 +77,17 @@
 \newlabel{eqn:q}{{1}{2}{Resolving conflict cells}{equation.3.1}{}}
 \newlabel{eqn:r}{{2}{2}{Resolving conflict cells}{equation.3.2}{}}
 \newlabel{eqn:p}{{3}{2}{Resolving conflict cells}{equation.3.3}{}}
-\citation{karras2012maximizing}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Case $w^y>0$}{3}{subsubsection.3.1.1}}
-\newlabel{eqn:a}{{5}{3}{Case $w^y>0$}{equation.3.5}{}}
-\newlabel{eqn:xi_init}{{6}{3}{Case $w^y>0$}{equation.3.6}{}}
-\newlabel{eqn:xi}{{9}{3}{Case $w^y>0$}{equation.3.9}{}}
-\newlabel{eqn:si_rec}{{12}{3}{Case $w^y>0$}{equation.3.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Build octree on vertices}{3}{subsection.3.2}}
-\@writefile{brf}{\backcite{karras2012maximizing}{{3}{3.2}{subsection.3.2}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Using a single recurrence solution we can no longer guarantee that every box that intersects both lines contains at least two samples. The box in red contains only one sample, so the octree may contain conflict cells. \relax }}{4}{figure.caption.2}}
-\newlabel{fig:conflict-resolution-half}{{2}{4}{Using a single recurrence solution we can no longer guarantee that every box that intersects both lines contains at least two samples. The box in red contains only one sample, so the octree may contain conflict cells. \relax }{figure.caption.2}{}}
+\newlabel{eqn:plain_a}{{15}{3}{Case $w^y>0$}{equation.3.15}{}}
+\newlabel{eqn:a}{{17}{3}{Case $w^y>0$}{equation.3.17}{}}
+\newlabel{eqn:p_s}{{18}{3}{Case $w^y>0$}{equation.3.18}{}}
+\newlabel{eqn:si_rec}{{20}{3}{Case $w^y>0$}{equation.3.20}{}}
+\newlabel{eqn:s2}{{28}{3}{Case $w^y>0$}{equation.3.28}{}}
+\newlabel{eqn:s4}{{30}{3}{Case $w^y>0$}{equation.3.30}{}}
+\citation{karras2012maximizing}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Build octree on vertices}{4}{subsection.3.2}}
+\@writefile{brf}{\backcite{karras2012maximizing}{{4}{3.2}{subsection.3.2}}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Identify conflict cells}{4}{subsection.3.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Compute GVD surface}{4}{section.4}}
-\newlabel{sec:bisector}{{4}{4}{Compute GVD surface}{section.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results and applications}{4}{section.5}}
-\bibstyle{eg-alpha-doi}
-\bibdata{paper}
 \newlabel{alg:octree_containing_begin}{{1}{5}{Identify conflict cells}{AlgoLine.1.1}{}}
 \newlabel{alg:octree_containing_end}{{9}{5}{Identify conflict cells}{AlgoLine.1.9}{}}
 \newlabel{alg:octree_intersections_begin}{{10}{5}{Identify conflict cells}{AlgoLine.1.10}{}}
@@ -101,20 +96,25 @@
 \newlabel{alg:find-conflict-cells}{{1}{5}{Identify conflict cells}{algocf.1}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces REFINE\_OCTREE\relax }}{5}{algocf.2}}
 \newlabel{alg:refine-octree}{{2}{5}{Identify conflict cells}{algocf.2}{}}
-\newlabel{fig:octree-cartesian-1}{{3a}{5}{Subfigure 3a}{subfigure.3.1}{}}
-\newlabel{sub@fig:octree-cartesian-1}{{(a)}{a}{Subfigure 3a\relax }{subfigure.3.1}{}}
-\newlabel{fig:octree-cartesian-2}{{3b}{5}{Subfigure 3b}{subfigure.3.2}{}}
-\newlabel{sub@fig:octree-cartesian-2}{{(b)}{b}{Subfigure 3b\relax }{subfigure.3.2}{}}
-\newlabel{fig:octree-cartesian-3}{{3c}{5}{Subfigure 3c}{subfigure.3.3}{}}
-\newlabel{sub@fig:octree-cartesian-3}{{(c)}{c}{Subfigure 3c\relax }{subfigure.3.3}{}}
-\newlabel{fig:octree-cartesian-5}{{3d}{5}{Subfigure 3d}{subfigure.3.4}{}}
-\newlabel{sub@fig:octree-cartesian-5}{{(d)}{d}{Subfigure 3d\relax }{subfigure.3.4}{}}
-\newlabel{fig:octree-hierarchical-1}{{3e}{5}{Subfigure 3e}{subfigure.3.5}{}}
-\newlabel{sub@fig:octree-hierarchical-1}{{(e)}{e}{Subfigure 3e\relax }{subfigure.3.5}{}}
-\newlabel{fig:octree-hierarchical-2}{{3f}{5}{Subfigure 3f}{subfigure.3.6}{}}
-\newlabel{sub@fig:octree-hierarchical-2}{{(f)}{f}{Subfigure 3f\relax }{subfigure.3.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:octree-cartesian-1} A red object and a blue object. \subref {fig:octree-cartesian-2} The vertex octree, or octree built on the object vertices using Karras' algorithm. \subref {fig:octree-cartesian-3}, \subref {fig:octree-hierarchical-1} The vertex octree with conflict cells highlighted. Note the label of an octree cell in \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \subref {fig:octree-cartesian-5}, \subref {fig:octree-hierarchical-2} The octree after resolution of conflict cells. \relax }}{5}{figure.caption.5}}
-\newlabel{fig:steps}{{3}{5}{\protect \subref {fig:octree-cartesian-1} A red object and a blue object. \protect \subref {fig:octree-cartesian-2} The vertex octree, or octree built on the object vertices using Karras' algorithm. \protect \subref {fig:octree-cartesian-3}, \protect \subref {fig:octree-hierarchical-1} The vertex octree with conflict cells highlighted. Note the label of an octree cell in \protect \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \protect \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \protect \subref {fig:octree-cartesian-5}, \protect \subref {fig:octree-hierarchical-2} The octree after resolution of conflict cells. \relax }{figure.caption.5}{}}
+\newlabel{fig:octree-cartesian-1}{{2a}{5}{Subfigure 2a}{subfigure.2.1}{}}
+\newlabel{sub@fig:octree-cartesian-1}{{(a)}{a}{Subfigure 2a\relax }{subfigure.2.1}{}}
+\newlabel{fig:octree-cartesian-2}{{2b}{5}{Subfigure 2b}{subfigure.2.2}{}}
+\newlabel{sub@fig:octree-cartesian-2}{{(b)}{b}{Subfigure 2b\relax }{subfigure.2.2}{}}
+\newlabel{fig:octree-cartesian-3}{{2c}{5}{Subfigure 2c}{subfigure.2.3}{}}
+\newlabel{sub@fig:octree-cartesian-3}{{(c)}{c}{Subfigure 2c\relax }{subfigure.2.3}{}}
+\newlabel{fig:octree-cartesian-5}{{2d}{5}{Subfigure 2d}{subfigure.2.4}{}}
+\newlabel{sub@fig:octree-cartesian-5}{{(d)}{d}{Subfigure 2d\relax }{subfigure.2.4}{}}
+\newlabel{fig:octree-hierarchical-1}{{2e}{5}{Subfigure 2e}{subfigure.2.5}{}}
+\newlabel{sub@fig:octree-hierarchical-1}{{(e)}{e}{Subfigure 2e\relax }{subfigure.2.5}{}}
+\newlabel{fig:octree-hierarchical-2}{{2f}{5}{Subfigure 2f}{subfigure.2.6}{}}
+\newlabel{sub@fig:octree-hierarchical-2}{{(f)}{f}{Subfigure 2f\relax }{subfigure.2.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \subref {fig:octree-cartesian-1} A red object and a blue object. \subref {fig:octree-cartesian-2} The vertex octree, or octree built on the object vertices using Karras' algorithm. \subref {fig:octree-cartesian-3}, \subref {fig:octree-hierarchical-1} The vertex octree with conflict cells highlighted. Note the label of an octree cell in \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \subref {fig:octree-cartesian-5}, \subref {fig:octree-hierarchical-2} The octree after resolution of conflict cells. \relax }}{5}{figure.caption.4}}
+\newlabel{fig:steps}{{2}{5}{\protect \subref {fig:octree-cartesian-1} A red object and a blue object. \protect \subref {fig:octree-cartesian-2} The vertex octree, or octree built on the object vertices using Karras' algorithm. \protect \subref {fig:octree-cartesian-3}, \protect \subref {fig:octree-hierarchical-1} The vertex octree with conflict cells highlighted. Note the label of an octree cell in \protect \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \protect \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \protect \subref {fig:octree-cartesian-5}, \protect \subref {fig:octree-hierarchical-2} The octree after resolution of conflict cells. \relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Compute GVD surface}{5}{section.4}}
+\newlabel{sec:bisector}{{4}{5}{Compute GVD surface}{section.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results and applications}{5}{section.5}}
+\bibstyle{eg-alpha-doi}
+\bibdata{paper}
 \bibcite{bastos2008gpu}{BC08}
 \bibcite{boada2008approximations}{BCMAS08}
 \bibcite{boada2002voronoi}{BCS02}
@@ -137,11 +137,6 @@
 \bibcite{lavender1992voronoi}{LBD{$^{*}$}92}
 \bibcite{lee1982medial}{Lee82}
 \bibcite{lefebvre2007compressed}{LH07}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of octree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {octree depth} - required octree depth in order to resolve objects; \emph  {octree cells} - total number of leaf octree cells; \emph  {octree memory} - amount of memory used by the octree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{6}{table.caption.6}}
-\newlabel{tab:timings}{{1}{6}{Table of octree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {octree depth} - required octree depth in order to resolve objects; \emph {octree cells} - total number of leaf octree cells; \emph {octree memory} - amount of memory used by the octree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison to other methods}{6}{subsection.5.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{6}{section.6}}
-\@writefile{toc}{\contentsline {section}{References}{6}{section.6}}
 \bibcite{laine2011efficient}{LK11}
 \bibcite{park2010cuda}{PLKK10}
 \bibcite{qu2004feature}{QZS{$^{*}$}04}
@@ -150,7 +145,12 @@
 \bibcite{sud2006interactive}{SGGM06}
 \bibcite{strain1999fast}{Str99}
 \bibcite{teichmann1997polygonal}{TT97}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison to other methods}{6}{subsection.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{6}{section.6}}
+\@writefile{toc}{\contentsline {section}{References}{6}{section.6}}
 \bibcite{vleugels1998approximating}{VO98}
 \bibcite{wu2008gpu}{WLXZ08}
 \bibcite{yin2011fast}{YLW11}
 \bibcite{zhou2011data}{ZGHG11}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of octree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {octree depth} - required octree depth in order to resolve objects; \emph  {octree cells} - total number of leaf octree cells; \emph  {octree memory} - amount of memory used by the octree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{7}{table.caption.5}}
+\newlabel{tab:timings}{{1}{7}{Table of octree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {octree depth} - required octree depth in order to resolve objects; \emph {octree cells} - total number of leaf octree cells; \emph {octree memory} - amount of memory used by the octree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.5}{}}

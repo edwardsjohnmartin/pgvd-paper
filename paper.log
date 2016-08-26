@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  5 AUG 2016 15:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 AUG 2016 15:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1083,268 +1083,229 @@ pdfTeX warning: /usr/texbin/pdflatex (file ./figs/conflict-resolution-octree-sa
 mples.pdf): PDF inclusion: multiple pdfs with page group included in a single p
 age
 >]
-Overfull \hbox (19.85713pt too wide) in paragraph at lines 331--331
+Overfull \hbox (69.19582pt too wide) in paragraph at lines 336--336
 [] 
  []
 
-<./figs/conflict-resolution-half.pdf, id=168, 111.67436pt x 105.4511pt>
-File: ./figs/conflict-resolution-half.pdf Graphic file (type pdf)
-
-<use ./figs/conflict-resolution-half.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-half.pdf used on input line
- 376.
-(pdftex.def)             Requested size: 103.67908pt x 97.90276pt.
 
 Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
 [3]
-Underfull \hbox (badness 2080) in paragraph at lines 432--433
+Underfull \hbox (badness 2080) in paragraph at lines 465--466
 []\T1/ptm/m/n/9 The en-tire con-flict cell de-tec-tion al-go-rithm runs in
  []
 
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 434.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 467.
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 453.
+(relsize)                Using 7.0pt instead on input line 486.
 
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 453.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 486.
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 453.
-
-
-Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 453.
+(relsize)                Using 7.0pt instead on input line 486.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 453.
+(relsize)                Using 7.0pt instead on input line 486.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 454.
+(relsize)                Using 7.0pt instead on input line 486.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 458.
+(relsize)                Using 7.0pt instead on input line 487.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 458.
+(relsize)                Using 7.0pt instead on input line 491.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 458.
+(relsize)                Using 7.0pt instead on input line 491.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 458.
+(relsize)                Using 7.0pt instead on input line 491.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 491.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 469.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 470.
+(relsize)                Using 7.0pt instead on input line 502.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 503.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 479.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 512.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
 
 Package relsize Warning: Font size 6.25002pt is too small.
-(relsize)                Using 7.0pt instead on input line 499.
+(relsize)                Using 7.0pt instead on input line 532.
 
-<./figs/octree-cartesian-1.pdf, id=209, 257.76305pt x 257.76299pt>
+
+Package relsize Warning: Font size 6.25002pt is too small.
+(relsize)                Using 7.0pt instead on input line 532.
+
+<./figs/octree-cartesian-1.pdf, id=213, 257.76305pt x 257.76299pt>
 File: ./figs/octree-cartesian-1.pdf Graphic file (type pdf)
 
 <use ./figs/octree-cartesian-1.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-1.pdf used on input line 509.
+Package pdftex.def Info: ./figs/octree-cartesian-1.pdf used on input line 542.
 (pdftex.def)             Requested size: 103.67908pt x 103.6776pt.
 
-<./figs/octree-cartesian-2.pdf, id=210, 257.76305pt x 257.76299pt>
+<./figs/octree-cartesian-2.pdf, id=214, 257.76305pt x 257.76299pt>
 File: ./figs/octree-cartesian-2.pdf Graphic file (type pdf)
 
 <use ./figs/octree-cartesian-2.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-2.pdf used on input line 512.
+Package pdftex.def Info: ./figs/octree-cartesian-2.pdf used on input line 545.
 (pdftex.def)             Requested size: 103.67908pt x 103.6776pt.
 
-<./figs/octree-cartesian-3.pdf, id=211, 257.76305pt x 257.76299pt>
+<./figs/octree-cartesian-3.pdf, id=215, 257.76305pt x 257.76299pt>
 File: ./figs/octree-cartesian-3.pdf Graphic file (type pdf)
 
 <use ./figs/octree-cartesian-3.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-3.pdf used on input line 515.
+Package pdftex.def Info: ./figs/octree-cartesian-3.pdf used on input line 548.
 (pdftex.def)             Requested size: 103.67908pt x 103.6776pt.
 
-<./figs/octree-cartesian-5.pdf, id=212, 257.76305pt x 257.76299pt>
+<./figs/octree-cartesian-5.pdf, id=216, 257.76305pt x 257.76299pt>
 File: ./figs/octree-cartesian-5.pdf Graphic file (type pdf)
 
 <use ./figs/octree-cartesian-5.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-5.pdf used on input line 518.
+Package pdftex.def Info: ./figs/octree-cartesian-5.pdf used on input line 551.
 (pdftex.def)             Requested size: 103.67908pt x 103.6776pt.
 
-<./figs/octree-hierarchical-1.pdf, id=213, 301.40031pt x 221.10031pt>
+<./figs/octree-hierarchical-1.pdf, id=217, 301.40031pt x 221.10031pt>
 File: ./figs/octree-hierarchical-1.pdf Graphic file (type pdf)
 
 <use ./figs/octree-hierarchical-1.pdf>
-Package pdftex.def Info: ./figs/octree-hierarchical-1.pdf used on input line 52
-1.
+Package pdftex.def Info: ./figs/octree-hierarchical-1.pdf used on input line 55
+4.
 (pdftex.def)             Requested size: 103.67908pt x 76.05363pt.
 
-<./figs/octree-hierarchical-2.pdf, id=214, 301.40031pt x 221.10031pt>
+<./figs/octree-hierarchical-2.pdf, id=218, 301.40031pt x 221.10031pt>
 File: ./figs/octree-hierarchical-2.pdf Graphic file (type pdf)
 
 <use ./figs/octree-hierarchical-2.pdf>
-Package pdftex.def Info: ./figs/octree-hierarchical-2.pdf used on input line 52
-4.
+Package pdftex.def Info: ./figs/octree-hierarchical-2.pdf used on input line 55
+7.
 (pdftex.def)             Requested size: 103.67908pt x 76.05363pt.
 
 
 LaTeX Warning: Footnotes are not permitted in CGF articles -- please remove on 
-input line 563.
+input line 596.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 563--563
+Underfull \hbox (badness 10000) in paragraph at lines 596--596
 $[]$ [][]\T1/ptm/m/n/8 Source code is avail-able at [][]$\T1/pcr/m/n/8 http : /
  / cedmav . org /
  []
 
 
-LaTeX Warning: Reference `fig:bunny' on page 4 undefined on input line 563.
+LaTeX Warning: Reference `fig:bunny' on page 4 undefined on input line 596.
 
 
-LaTeX Warning: Reference `fig:pipes' on page 4 undefined on input line 563.
+LaTeX Warning: Reference `fig:pipes' on page 4 undefined on input line 596.
 
-[4 <./figs/conflict-resolution-half.pdf>]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 595.
-
-
-LaTeX Warning: Reference `fig:gears' on page 5 undefined on input line 595.
-
-
-LaTeX Warning: Reference `fig:knife' on page 5 undefined on input line 597.
-
-
-LaTeX Warning: Reference `fig:path' on page 5 undefined on input line 599.
-
-
-LaTeX Warning: Reference `fig:axons' on page 5 undefined on input line 601.
-
-
-LaTeX Warning: Reference `fig:mol-explode' on page 5 undefined on input line 60
-3.
-
-(./paper.bbl (./paper.brf)
-\tf@brf=\write4
-\openout4 = `paper.brf'.
-
-
-Underfull \vbox (badness 4647) has occurred while \output is active []
-
-
-
-Package balance Warning: You have called \balance in second column
-(balance)                Columns might not be balanced.
-
-
+[4]
 Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
@@ -1370,6 +1331,30 @@ DF inclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-hierarchical-2.pdf): P
 DF inclusion: multiple pdfs with page group included in a single page
 >]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 628.
+
+
+LaTeX Warning: Reference `fig:gears' on page 6 undefined on input line 628.
+
+
+LaTeX Warning: Reference `fig:knife' on page 6 undefined on input line 630.
+
+
+LaTeX Warning: Reference `fig:path' on page 6 undefined on input line 632.
+
+
+LaTeX Warning: Reference `fig:axons' on page 6 undefined on input line 634.
+
+
+LaTeX Warning: Reference `fig:mol-explode' on page 6 undefined on input line 63
+6.
+
+(./paper.bbl (./paper.brf)
+\tf@brf=\write4
+\openout4 = `paper.brf'.
+
+
 Underfull \hbox (badness 1231) in paragraph at lines 38--38
 []\T1/ptm/m/sc/8 Boissonnat J.-D., Wormser C., Yvinec M.\T1/ptm/m/n/8 :
  []
@@ -1391,61 +1376,54 @@ Underfull \hbox (badness 1189) in paragraph at lines 118--118
 ro-ceed-ings
  []
 
-[6]
+
 Underfull \hbox (badness 2689) in paragraph at lines 160--160
 []\T1/ptm/m/sc/8 Qu H., Zhang N., Shao R., Kauf-man A.,
  []
 
-)
-Overfull \vbox (0.74397pt too high) has occurred while \output is active []
-
-
+[6])
 Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
 [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 631.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 631.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 664.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 664.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 631.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 631.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 664.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 664.
 Package rerunfilecheck Info: File `paper.brf' has not changed.
-(rerunfilecheck)             Checksum: 14B5A550425C35FFA52E412A799E7D5A;1324.
+(rerunfilecheck)             Checksum: E2323C31D0617D51CAD003F1FC2D0585;1324.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 631.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 664.
  ) 
 Here is how much of TeX's memory you used:
- 21035 strings out of 493089
- 377210 string characters out of 6134842
- 491588 words of memory out of 5000000
- 23914 multiletter control sequences out of 15000+600000
- 65907 words of font info for 110 fonts, out of 8000000 for 9000
+ 21040 strings out of 493089
+ 377148 string characters out of 6134842
+ 502445 words of memory out of 5000000
+ 23911 multiletter control sequences out of 15000+600000
+ 65128 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,21n,85p,1175b,652s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
-xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
-live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive
-/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2015/texmf-di
-st/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/ti
-mes/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8
-a.pfb>
-Output written on paper.pdf (7 pages, 214028 bytes).
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2015/texmf-dist/fonts/t
+ype1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/t
+imes/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri
+8a.pfb>
+Output written on paper.pdf (7 pages, 207028 bytes).
 PDF statistics:
- 463 PDF objects out of 1000 (max. 8388607)
- 393 compressed objects within 4 object streams
- 136 named destinations out of 1000 (max. 500000)
- 68 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 471 PDF objects out of 1000 (max. 8388607)
+ 402 compressed objects within 5 object streams
+ 148 named destinations out of 1000 (max. 500000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 
