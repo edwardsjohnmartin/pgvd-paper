@@ -3,8 +3,8 @@
 \backcite {karras2012maximizing}{{1}{1.}{Item.1}}
 \backcite {boissonnat2006curved}{{1}{2}{section.2}}
 \backcite {de2008computational}{{1}{2}{section.2}}
-\backcite {lee1982medial,karavelas2004robust}{{1}{2}{section.2}}
-\backcite {lavender1992voronoi}{{1}{2}{section.2}}
+\backcite {lee1982medial,karavelas2004robust}{{2}{2}{section.2}}
+\backcite {lavender1992voronoi}{{2}{2}{section.2}}
 \backcite {etzion2002computing}{{2}{2}{section.2}}
 \backcite {boada2002voronoi,boada2008approximations}{{2}{2}{section.2}}
 \backcite {teichmann1997polygonal,vleugels1998approximating}{{2}{2}{section.2}}
