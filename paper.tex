@@ -244,7 +244,13 @@ Two works \cite{bastos2008gpu,park2010cuda} implement the ADF using GPU parallel
     \includegraphics[width=0.48\columnwidth]{conflict-resolution-all.pdf} }
   \subfloat[][]{
     \label{fig:conflict-resolution-octree}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-octree.pdf} }
+    \includegraphics[width=0.48\columnwidth]{conflict-resolution-octree.pdf} } \\
+  \subfloat[][]{
+    \label{fig:conflict-resolution-adjacent-even}
+    \includegraphics[width=0.48\columnwidth]{conflict-resolution-adjacent-even.pdf} }
+  \subfloat[][]{
+    \label{fig:conflict-resolution-adjacent-all}
+    \includegraphics[width=0.48\columnwidth]{conflict-resolution-adjacent-all.pdf} }
   \caption{
     \protect\subref{fig:conflict-resolution-x} A conflict cell with two lines from different objects.
     \protect\subref{fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots).
@@ -278,111 +284,203 @@ along with a line
 \begin{align}
 p(s) &= p = p_0 + su \label{eqn:p}
 \end{align}
-that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(u)$ (figure \ref{fig:conflict-resolution-octree}) such that an quadtree built on $V \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell.
+that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(s)$ (figure \ref{fig:conflict-resolution-octree}) such that an quadtree built on $V \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell. We will find a series of boxes such that each box's left-most intersection with $p(s)$ is a sample point meeting the above criterion.
 
-We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other cases can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$. We break the problem into two cases: the \textit{opposite} case is where $w^y > 0$, so each box intersects $q$ and $r$ at its top-left and bottom-right corners, respectively. The \textit{adjacent} case  is where $w^y < 0$, so the line intersections are adjacent -- the top-left and bottom-left corners of the box. Figure \ref{fig:conflict-resolution-octree} shows the \textit{opposite} case.
+We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other cases can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$. We break the problem into two cases: the \textit{opposite} case (see Figure \ref{fig:conflict-resolution-even}) is where $w^y > 0$, so each box intersects $q$ and $r$ at its top-left and bottom-right corners, respectively. The \textit{adjacent} case (see Figure \ref{fig:conflict-resolution-adjacent-even}) is where $w^y < 0$, so the line intersections are adjacent at the top-left and bottom-left corners of the box.
 
-\subsubsection{\textit{Opposite} case}
+\subsubsection{Finding $a(s)$ -- \textit{opposite} case}
 
-Consider a box with edge length $a_0$ centered on a point $p_0 \in p$. We first find $p$, which is the line that is equidistant from $q$ and $r$ along the diagonal vector $\gamma = (1, -1)$. Given some point $q(t)$,
+Given a point $p(s)$, we wish to find $a=a(s)$, which will give us the starting $x$ coordinate for the next box. Consider the top-left corner of the box $q(t(s))=q(t)$ and the bottom-right corner $r(f(s))=r(f)$.
+
+Because $p^x(s)=q^x(t)$,
 \begin{equation}
-q_0+tv + \lambda\gamma = r_0+fw \\
+t = \frac{p^x(s)-q_0^x}{v^x} = \frac{p_x^x-q_0^x+su^x}{v^x} \label{eqn:t}
 \end{equation}
-Solving for $\lambda$,
-\begin{align}
-f &= \frac{1}{w^y}(q_0^y+tv^x-\lambda-r_0^y) \\
-\lambda &= r_0^x + fw^x-q_0^x-tv^x \\
-        &= r_0^x+\frac{w^x}{w^y}(q_0^y+tv^y-\lambda-r_0^y) - q_0^x-tv^x \\
-        &= \frac{1}{w^x+w^y}(r_0^xw^y+q_0^yw^x-r_0^yw^x-q_0^xw^y+t(v^yw^x-v^xw^y)
-\end{align}
-The vector $u = p - p_0$. We obtain $p$ from $q(0)$, by finding $\lambda/2$.
-\begin{align}
-p = q(0) + \frac{\lambda}{2}\gamma
-\end{align}
-We get $p_0$ by finding the intersection between the two lines. If they are parallel then we find two points $p$ using $q(0)$ and $q(1)$.
-
-To find $a$,
-\begin{align} 
-p^x-\frac{a}{2} &= q^x \\
-p^y+\frac{a}{2} &= q^y
-\end{align}
-Substituting equation \eqref{eqn:q},
-\begin{align} 
-t = \frac{p^x-a/2-q_0^x}{v^x} \\
-t = \frac{p^y+a/2-q_0^y}{v^y}
-\end{align}
-which leads to
-\begin{align} 
-\frac{p^x-a/2-q_0^x}{v^x} &= \frac{p^y+a/2-q_0^y}{v^y}
-\end{align}
-Solving for $a$,
-\begin{align}
-\label{eqn:plain_a}
-a &= \frac{2(p^xv^y-q_0^xv^y-p^yv^x+q_0^yv^x)}{v^x+v^y}
-\end{align}
-$a$ is a parametric function in $s$, so using equations \eqref{eqn:plain_a} and \eqref{eqn:p},
-\begin{align}
-a(s) &= \frac{2((p_0^x+su^x)v^y-q_0^xv^y-(p_0^y+su^y)v^x+q_0^yv^x)}{v^x+v^y} \\
-     &= s\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y} \label{eqn:a}
-\end{align}
-Figure \ref{fig:conflict-resolution-even} shows that we will find a series of points $P=p(s_i)$ such that
+Because our boxes are square,
 \begin{equation}
-p^x(s_i) = p^x(s_{i-2})+a(s_{i-2}) \label{eqn:p_s}
+r(f) = r_0+fw = q_0+tv+a\begin{bmatrix}1\\-1\end{bmatrix} \label{eqn:ro}
 \end{equation}
-Using equations \eqref{eqn:p}, \eqref{eqn:a} and \eqref{eqn:p_s},
+From \eqref{eqn:ro},
 \begin{align}
-p_0^x+s_iu^x = p_0^x+s_{i-2}u^x+s_{i-2}\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y}
+f &= \frac{1}{w^y}(q_0^y+tv^y-a-r_0^y) \label{eqn:f} \\
+a &= r_0^x+fw^x-q_0^x-tv^x \label{eqn:a1o}
 \end{align}
-Solving for $s_i$,
+Substituting equations \eqref{eqn:t} and \eqref{eqn:f} into equation \eqref{eqn:a1o} and solving for $a$,
 \begin{equation}
-\label{eqn:si_rec}
-s_i = s_{i-2}\alpha + \beta
+a(s) = \hat{\alpha}_o s + \hat{\beta}_o \label{eqn:ao}
 \end{equation}
 where
-\begin{align}
-%\alpha &= \frac{u^xv^x+3u^xv^y-2u^yv^x}{u^x(v^x+v^y)}
-\alpha &= 1+\frac{2(u^xv^y-u^yv^x)}{u^x(v^x+v^y)} \\
-\beta &= \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{u^x(v^x+v^y)}
-\end{align}
-
-\red{TODO: this isn't right}
-To solve the recurrence relation \eqref{eqn:si_rec},
-\begin{align}
-s_{i+2} &= \alpha s_i+\beta \\
-s_{i+2}-s_i &= \alpha s_i-\alpha s_{i-2} \\
-s_{i+2} &= (\alpha+1) s_i-\alpha s_{i-2}
-\end{align}
-The characteristic polynomial is
 \begin{equation}
-p(t) = t^2-(\alpha+1)t + \alpha
+\hat{\alpha}_o = \frac{u^x|w \times v|}{v^x(w^x+w^y)}
 \end{equation}
-which has roots $\alpha$ and $1$. Thus,
+and
+\begin{equation}
+\hat{\beta}_o = \frac{|w \times v|(p_0^x-q_0^x) + v^x(|r_0 \times w| + |w \times q_0|)}{v^x(w^x+w^y)}
+\end{equation}
+
+\subsubsection{Finding $a(s)$ -- \textit{adjacent} case}
+
+Consider the top-left corner of the box $q(t(s))=q(t)$ and the bottom-left corner $r(f(s))=r(f)$. $r(f)$ is now defined as
+\begin{equation}
+r(f) = r_0+fw = q_0+tv+a\begin{bmatrix}0\\-1\end{bmatrix} \label{eqn:ra}
+\end{equation}
+Equations \eqref{eqn:t} and \eqref{eqn:f} remain the same while \eqref{eqn:a1o} becomes
+\begin{equation}
+0 = r_0^x+fw^x-q_0^x-tv^x \label{eqn:a1a}
+\end{equation}
+Substituting equations \eqref{eqn:t} and \eqref{eqn:f} into equation \eqref{eqn:a1a} and solving for $a$,
+\begin{equation}
+a(s) = \hat{\alpha}_a s + \hat{\beta}_a \label{eqn:aa}
+\end{equation}
+where
+\begin{equation}
+\hat{\alpha}_a = \frac{u^x}{v^xw^x}
+\end{equation}
+and
+\begin{equation}
+\hat{\beta}_a = \frac{w^x(p_0^x-q_0^x)+|w \times q_0| + |r_0 \times w|}{w^x}
+\end{equation}
+
+
+%
+%
+%Because $p^x(s)=q^x(t)$,
+%\begin{equation}
+%t = \frac{p^x(s)-q_0^x}{v^x} = \frac{p_x^x-q_0^x+su^x}{v^x} \label{eqn:t}
+%\end{equation}
+%Because our boxes are square,
+%\begin{equation}
+%r(f) = r_0+fw = q_0+tv+a
+%\begin{bmatrix}
+%1\\-1
+%\end{bmatrix}
+%\label{eqn:r}
+%\end{equation}
+%From \eqref{eqn:r},
+%\begin{align}
+%f &= \frac{1}{w^y}(q_0^y+tv^y-a-r_0^y) \label{eqn:f} \\
+%a &= r_0^x+fw^x-q_0^x-tv^x \label{eqn:a1}
+%\end{align}
+%Substituting equations \eqref{eqn:t} and \eqref{eqn:f} into equation \eqref{eqn:a1} and solving for $a$,
+%\begin{equation}
+%a = \alpha s + \beta
+%\end{equation}
+%where
+%\begin{equation}
+%\alpha = \frac{u^x|w \times v|}{v^x(w^x+w^y)}
+%\end{equation}
+%and
+%\begin{equation}
+%\beta = \frac{|w \times v|(p_0^x-q_0^x) + v^x(|r_0 \times w| + |w \times q_0|)}{v^x(w^x+w^y)}
+%\end{equation}
+%
+%Consider a box with edge length $a_0$ centered on a point $p_0 \in p$. We first find $p$, which is the line that is equidistant from $q$ and $r$ along the diagonal vector $\gamma = (1, -1)$. Given some point $q(t)$,
+%\begin{equation}
+%q_0+tv + \lambda\gamma = r_0+fw \\
+%\end{equation}
+%Solving for $\lambda$,
+%\begin{align}
+%f &= \frac{1}{w^y}(q_0^y+tv^x-\lambda-r_0^y) \\
+%\lambda &= r_0^x + fw^x-q_0^x-tv^x \\
+%        &= r_0^x+\frac{w^x}{w^y}(q_0^y+tv^y-\lambda-r_0^y) - q_0^x-tv^x \\
+%        &= \frac{1}{w^x+w^y}(r_0^xw^y+q_0^yw^x-r_0^yw^x-q_0^xw^y+t(v^yw^x-v^xw^y)
+%\end{align}
+%The vector $u = p - p_0$. We obtain $p$ from $q(0)$, by finding $\lambda/2$.
+%\begin{align}
+%p = q(0) + \frac{\lambda}{2}\gamma
+%\end{align}
+%We get $p_0$ by finding the intersection between the two lines. If they are parallel then we find two points $p$ using $q(0)$ and $q(1)$.
+%
+%To find $a$,
+%\begin{align} 
+%p^x-\frac{a}{2} &= q^x \\
+%p^y+\frac{a}{2} &= q^y
+%\end{align}
+%Substituting equation \eqref{eqn:q},
+%\begin{align} 
+%t = \frac{p^x-a/2-q_0^x}{v^x} \\
+%t = \frac{p^y+a/2-q_0^y}{v^y}
+%\end{align}
+%which leads to
+%\begin{align} 
+%\frac{p^x-a/2-q_0^x}{v^x} &= \frac{p^y+a/2-q_0^y}{v^y}
+%\end{align}
+%Solving for $a$,
+%\begin{align}
+%\label{eqn:plain_a}
+%a &= \frac{2(p^xv^y-q_0^xv^y-p^yv^x+q_0^yv^x)}{v^x+v^y}
+%\end{align}
+%$a$ is a parametric function in $s$, so using equations \eqref{eqn:plain_a} and \eqref{eqn:p},
+%\begin{align}
+%a(s) &= \frac{2((p_0^x+su^x)v^y-q_0^xv^y-(p_0^y+su^y)v^x+q_0^yv^x)}{v^x+v^y} \\
+%     &= s\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y} \label{eqn:a}
+%\end{align}
+%Figure \ref{fig:conflict-resolution-even} shows that we will find a series of points $P=p(s_i)$ such that
+%\begin{equation}
+%p^x(s_i) = p^x(s_{i-2})+a(s_{i-2}) \label{eqn:p_s}
+%\end{equation}
+%Using equations \eqref{eqn:p}, \eqref{eqn:a} and \eqref{eqn:p_s},
+%\begin{align}
+%p_0^x+s_iu^x = p_0^x+s_{i-2}u^x+s_{i-2}\frac{2(u^xv^y-u^yv^x)}{v^x+v^y} + \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{v^x+v^y}
+%\end{align}
+%Solving for $s_i$,
+%\begin{equation}
+%\label{eqn:si_rec}
+%s_i = s_{i-2}\alpha + \beta
+%\end{equation}
+%where
+%\begin{align}
+%%\alpha &= \frac{u^xv^x+3u^xv^y-2u^yv^x}{u^x(v^x+v^y)}
+%\alpha &= 1+\frac{2(u^xv^y-u^yv^x)}{u^x(v^x+v^y)} \\
+%\beta &= \frac{2(p_0^xv^y-q_0^xv^y-p_0^yv^x+q_0^yv^x)}{u^x(v^x+v^y)}
+%\end{align}
+
+\subsubsection{Sampling}
+In both the \textit{opposite} and the \textit{adjacent} cases, $a(s)$ is of the form $a(s) = \hat{\alpha} s + \hat{\beta}$. We now use $a(s)$ to construct a sequence of $s$ values $S = \{s_0, s_1, s_2, \dots, s_n\}$ that meet our sampling criterion. We first construct the even samples (see Figures \ref{fig:conflict-resolution-even} and \ref{fig:conflict-resolution-adjacent-even}). Given a starting point $p(s_0)$,
+\begin{equation}
+p^x(s_{i+2}) = p^x(s_i) + a(s_i)
+\end{equation}
+Substituting in equations \eqref{eqn:p} and \eqref{eqn:ao}/\eqref{eqn:aa},
+\begin{equation}
+p_0^x + s_{i+2}u^x = p_0^x + s_i + \hat{\alpha} s_i + \hat{\beta}
+\end{equation}
+Solving for $s_{i+2}$ gives the recurrence relation
+\begin{equation}
+s_{i+2} = \alpha s_i + \beta \label{eqn:recurrence}
+\end{equation}
+where
+\begin{equation}
+\alpha = 1 + \frac{\hat{\alpha}}{u^x}
+\end{equation}
+and
+\begin{equation}
+\beta = \frac{\hat{\beta}}{u^x}
+\end{equation}
+
+Constructing the odd samples is identical, except that we start at
+\begin{equation}
+s_1 = \left(1+\frac{\hat{\alpha}}{2u^x}\right)s_0 + \frac{\hat{\beta}}{2}
+\end{equation}
+which is the point in the center of the first box in the x-dimension.
+
+We solve the recurrence relation \eqref{eqn:recurrence} using the characteristic polynomial to yield
 \begin{equation}
 s_i = k_1 + k_2 \alpha^i
 \end{equation}
-The initial condition when $i$ is even is $s_0$, which we take to be the point at which the line $p$ enters the cell. Using
+where
 \begin{align}
-s_2 &= \alpha s_0+\beta &= k_1+k_2\alpha  \label{eqn:s2} \\
-s_4 &= \alpha s_2+\beta \\
-    &= \alpha^2s_0+\alpha \beta + \beta &= k_1+k_2\alpha^2 \label{eqn:s4}
+k_1^{even} &= \frac{\beta}{1-\alpha} \\
+k_1^{odd} &= \frac{\beta}{1-\alpha} \\
+k_2^{even} &= \frac{\alpha s_0 + \beta - s_0}{\alpha-1} \\
+k_2^{odd} &= \frac{\alpha s_1 + \beta - s_1}{\alpha-1}
 \end{align}
-Solving \eqref{eqn:s2} and \eqref{eqn:s4} simultaneously,
+The last step to formulating $P$ for parallel computation is to determine how many samples we will need. Let $p(s_{exit})$ be the point at which the line $p$ exits the cell.
 \begin{align}
-k_1^{even} &= \frac{\alpha s_0+\beta-s_0}{\alpha-1} \\
-k_2^{even} &= \frac{\alpha^2 s_0 + \alpha\beta-\alpha s_0}{\alpha-1}
-\end{align}
-The result is similar when $i$ is odd:
-\begin{align}
-k_1^{odd} &= \frac{\alpha s_0+\beta-s_0}{\alpha-1} \\
-k_2^{odd} &= \frac{\alpha^2 s_0 + \alpha\beta-\alpha s_0}{\alpha-1}
-\end{align}
-The last step to formulating $P$ for parallel computation is to determine how many samples we will need. Let $p(s_n)$ be the point at which the line $p$ exits the cell.
-\begin{align}
-k_1+k_2\alpha^i < s_n
+k_1+k_2\alpha^i < s_{exit}
 \end{align}
 results in
 \begin{align}
-i < \log_{\alpha}\frac{s_n-k_1}{k_2}
+i < \log_{\alpha}\frac{s_{exit}-k_1}{k_2}
 \end{align}
 
 %
