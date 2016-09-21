@@ -183,15 +183,15 @@ We present a parallel quadtree algorithm that resolves between geometric objects
 %-------------------------------------------------------------------------------
 \section{Introduction}
 \label{sec:intro}
-Previous paper: \cite{edwards2015approximating}
+Constructing quadtrees on objects in an important task with applications to collision detection, distance fields, robot navigation, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. Our work however, centers on using quadtrees to separate, or resolve, collections of closely spaced objects. Using a quadtree, we can model the space between objects, the first step in constructing distance fields, detecting collisions, and computing the generalized Voronoi diagram. Modeling inter-object spacing is computationally straightforward when inter-object spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation using, very often, graphics processors.
 
-The generalized Voronoi diagram (GVD) is an important structure that divides space into a complex of generalized Voronoi cells (GVCs) around objects.  Similar to the ordinary Voronoi diagram, each GVC contains exactly one object, or site, and every point in the GVC is closer to its contained object than to any other object.  The generalized Voronoi diagram is the boundary of the cell complex, and thus every point on the GVD is equidistant from two or more closest objects.  Applications of the GVD range from motion path planning to GIS analysis to mosaicking.
+\gray{Whereas most algorithms are efficient and robust on certain datasets, all algorithms but one \cite{edwards2015approximating} require inordinate amounts of memory on datasets where objects are very closely spaced relative to the size of the domain. The failures occur because the space is uniformly gridded. In such approaches, voxel size must be small enough to resolve object spacings, and if two objects are very close to each other the number of voxels can become prohibitively large.}
 
-Ordinary Voronoi diagrams have been studied extensively and efficient algorithms exist to compute them, but the GVD is difficult to compute analytically in general \cite{boissonnat2006curved,hoff1999fast} and so the majority of approaches compute an approximation.  Whereas most algorithms are efficient and robust on certain datasets, all algorithms to our knowledge require inordinate amounts of memory on datasets where objects are very closely spaced relative to the size of the domain.  The failures occur because the space is uniformly gridded.  In such approaches, voxel size must be small enough to resolve object spacings, and if two objects are very close to each other the number of voxels can become prohibitively large.
+We present an algorithm to compute a quadtree on arbitrary datasets, including those with closely spaced and intersecting objects. \red{Keep going...}
 
-We present an algorithm to compute a GVD approximation on arbitrary datasets, including those with closely spaced objects.  The approach applies a distance transform over an quadtree representation of the objects.  Our quadtree, its associated data structure, and our distance transform are novel and optimized to GVD approximation. For the remainder of the paper, ``GVD'' will refer to the approximated Generalized Voronoi Diagram.
+\gray{The approach applies a distance transform over an quadtree representation of the objects.  Our quadtree, its associated data structure, and our distance transform are novel and optimized to GVD approximation. For the remainder of the paper, ``GVD'' will refer to the approximated Generalized Voronoi Diagram.}
 
-This paper demonstrates GVD computation on data beyond the computational abilities of previous algorithms, unlocking interesting and important applications.  Our approach allows GVD-based proximity queries and other applications using a larger class of meaningful datasets.
+\gray{This paper demonstrates GVD computation on data beyond the computational abilities of previous algorithms, unlocking interesting and important applications.  Our approach allows GVD-based proximity queries and other applications using a larger class of meaningful datasets.}
 
 
 Our algorithm has three steps:
@@ -201,6 +201,8 @@ Our algorithm has three steps:
 \item Detect quadtree cells that intersect more than one object, which we call ``conflict cells'' (contribution)
 \item Subdivide conflict cells to resolve objects (contribution)
 \end{enumerate}
+
+Each step is done in parallel either on vertices, quadtree cells or object facets (lines).
 
 %-------------------------------------------------------------------------------
 % Related work
@@ -227,6 +229,98 @@ Two works \cite{bastos2008gpu,park2010cuda} implement the ADF using GPU parallel
 %-----------------------------------------------------------
 \section{Algorithm}
 \label{sec:algorithm}
+
+\subsection{Detecting conflict cells}
+
+Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:octree-cartesian-5} shows the addresses of each leaf cell in the quadtree.
+
+We define a smallest containing cell (SCC) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by two endpoints $p$ and $q$, the quadtree address of the SCC is the longest common prefix of the Morton codes of $p$ and $q$. In figure \ref{fig:octree-cartesian-3}, the address of the SCC of facet D is 10. The SCC of facet E is $R$.
+
+We construct an array of facet-SCC pairs, which is the same size as the number of facets. After allocation, SCC discovery for each facet is done in parallel. We call the array the SCC array.
+
+Next we sort the SCC array, which is demonstrated in figure \ref{fig:scc-sort}. We first sort using a radix lexicographical sort, then sort by SCC address size. This sort is done in parallel with Karras octree construction.
+
+\begin{figure}
+  \begin{minipage}{0.3\columnwidth}
+    \uline{raw} \\
+    10110 \\
+    11 \\
+    0001 \\
+    10110 \\
+    10 \\
+    010110 \\
+    10110 \\
+    00101 \\
+    0110100 \\
+    10 \\
+    11
+  \end{minipage}%
+  \begin{minipage}{0.3\columnwidth}
+    \uline{lexsort} \\
+    0001 \\
+    00101 \\
+    010110 \\
+    0110100 \\
+    10 \\
+    10 \\
+    10110 \\
+    10110 \\
+    10110 \\
+    11 \\
+    11
+  \end{minipage}%
+  \begin{minipage}{0.3\columnwidth}
+    \uline{lensort} \\
+    10 \\
+    10 \\
+    11 \\
+    11 \\
+    0001 \\
+    00101 \\
+    10110 \\
+    10110 \\
+    10110 \\
+    010110 \\
+    0110100
+  \end{minipage}
+  \caption{Sorting the SCC-facet pairs. We first sort lexicographically (\textit{lexsort}), then by length (\textit{lensort}), using a parallel radix sort. In the \textit{lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red{How exactly is the \textit{lensort} done?}}
+  \label{fig:scc-sort}
+\end{figure}
+
+Then we use the SCC array to find the conflict cells using algorithm \ref{alg:find-conflict-cells}.
+
+\algorithmspace
+\begin{algorithm}
+  \DontPrintSemicolon
+  \LinesNumbered
+  \KwIn{VertexQuadtree}
+  \BlankLine
+  \ForPar{leaf cell $L$}{
+    $L$.color = -1\;
+    \ForEach{cell $A$ in \directAncestors{$L$}}{
+      id := compute\_cell\_index($A$)\;
+      \ForEach{cell2facet in identical elements of cells2facets[id]}{
+        $f$ := cell2facet.facet\;
+        \If{$f$ intersects $L$}{
+          \If{$L$.color == -1} {
+            \tcp{First facet found}
+            \tcp{that intersects $L$}
+            $L$.color = $f$.color\;
+            $L$.facet[0] = $f$\;
+          }
+          \ElseIf{$L$.color != $f$.color} {
+            \tcp{Cell $L$ is ambiguous}
+            $L$.color = -2\;
+            $L$.facet[1] = $f$\;
+          }
+        }
+      }
+    }
+  } \label{alg:quadtree_intersections_end}
+\caption{FIND\_CONFLICT\_CELLS}
+\label{alg:find-conflict-cells}
+\end{algorithm}
+\algorithmspace
 
 \subsection{Resolving conflict cells}
 

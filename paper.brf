@@ -1,8 +1,7 @@
 \backcite {edwards2015approximating}{{1}{1}{section.1}}
-\backcite {boissonnat2006curved,hoff1999fast}{{1}{1}{section.1}}
 \backcite {karras2012maximizing}{{1}{1.}{Item.1}}
 \backcite {boissonnat2006curved}{{1}{2}{section.2}}
-\backcite {de2008computational}{{1}{2}{section.2}}
+\backcite {de2008computational}{{2}{2}{section.2}}
 \backcite {lee1982medial,karavelas2004robust}{{2}{2}{section.2}}
 \backcite {lavender1992voronoi}{{2}{2}{section.2}}
 \backcite {etzion2002computing}{{2}{2}{section.2}}
@@ -18,4 +17,4 @@
 \backcite {bastos2008gpu,park2010cuda}{{2}{2}{section.2}}
 \backcite {yin2011fast}{{2}{2}{section.2}}
 \backcite {kim2014exact}{{2}{2}{section.2}}
-\backcite {karras2012maximizing}{{4}{3.2}{subsection.3.2}}
+\backcite {karras2012maximizing}{{5}{3.3}{subsection.3.3}}
