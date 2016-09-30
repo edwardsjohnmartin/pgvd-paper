@@ -25,13 +25,6 @@
 \citation{etzion2002computing}
 \citation{boada2002voronoi,boada2008approximations}
 \citation{teichmann1997polygonal,vleugels1998approximating}
-\providecommand \oddpage@label [2]{}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
-\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
-\@writefile{brf}{\backcite{edwards2015approximating}{{1}{1}{section.1}}}
-\@writefile{brf}{\backcite{karras2012maximizing}{{1}{1.}{Item.1}}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}}
-\@writefile{brf}{\backcite{boissonnat2006curved}{{1}{2}{section.2}}}
 \citation{cao2010parallel,fischer2006fast,hsieh2005simple,rong2007variants,sud2006interactive,sud2006fast,hoff1999fast,wu2008gpu}
 \citation{jones20063d}
 \citation{strain1999fast}
@@ -39,99 +32,89 @@
 \citation{qu2004feature}
 \citation{bedorf2012sparse,karras2012maximizing,zhou2011data}
 \citation{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}
+\providecommand \oddpage@label [2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}}
 \citation{bastos2008gpu,park2010cuda}
 \citation{yin2011fast}
 \citation{kim2014exact}
-\@writefile{brf}{\backcite{de2008computational}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{lee1982medial,karavelas2004robust}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{lavender1992voronoi}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{etzion2002computing}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{boada2002voronoi,boada2008approximations}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{teichmann1997polygonal,vleugels1998approximating}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{cao2010parallel,fischer2006fast,hsieh2005simple,rong2007variants,sud2006interactive,sud2006fast,hoff1999fast,wu2008gpu}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{jones20063d}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{strain1999fast}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{frisken2000adaptively}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{qu2004feature}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{bedorf2012sparse,karras2012maximizing,zhou2011data}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{bastos2008gpu,park2010cuda}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{yin2011fast}{{2}{2}{section.2}}}
-\@writefile{brf}{\backcite{kim2014exact}{{2}{2}{section.2}}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Sorting the SCC-facet pairs. We first sort lexicographically (\textit  {lexsort}), then by length (\textit  {lensort}), using a parallel radix sort. In the \textit  {lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \leavevmode {\color  {bostonuniversityred}How exactly is the \textit  {lensort} done?}\relax }}{2}{figure.caption.1}}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:scc-sort}{{1}{2}{Sorting the SCC-facet pairs. We first sort lexicographically (\textit {lexsort}), then by length (\textit {lensort}), using a parallel radix sort. In the \textit {lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red {How exactly is the \textit {lensort} done?}\relax }{figure.caption.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Algorithm}{2}{section.3}}
 \newlabel{sec:algorithm}{{3}{2}{Algorithm}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Detecting conflict cells}{2}{subsection.3.1}}
-\newlabel{alg:quadtree_intersections_end}{{19}{3}{Detecting conflict cells}{AlgoLine.1.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Build initial octree}{2}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Detect conflict cells}{2}{subsection.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Resolve conflict cells}{2}{subsection.3.3}}
+\newlabel{eqn:q}{{1}{2}{Resolve conflict cells}{equation.3.1}{}}
+\newlabel{eqn:r}{{2}{2}{Resolve conflict cells}{equation.3.2}{}}
+\newlabel{eqn:p}{{3}{2}{Resolve conflict cells}{equation.3.3}{}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:conflict-find-1}{{1a}{3}{Subfigure 1a}{subfigure.1.1}{}}
+\newlabel{sub@fig:conflict-find-1}{{(a)}{a}{Subfigure 1a\relax }{subfigure.1.1}{}}
+\newlabel{fig:conflict-find-2}{{1b}{3}{Subfigure 1b}{subfigure.1.2}{}}
+\newlabel{sub@fig:conflict-find-2}{{(b)}{b}{Subfigure 1b\relax }{subfigure.1.2}{}}
+\newlabel{fig:conflict-find-4}{{1c}{3}{Subfigure 1c}{subfigure.1.3}{}}
+\newlabel{sub@fig:conflict-find-4}{{(c)}{c}{Subfigure 1c\relax }{subfigure.1.3}{}}
+\newlabel{fig:conflict-find-5}{{1d}{3}{Subfigure 1d}{subfigure.1.4}{}}
+\newlabel{sub@fig:conflict-find-5}{{(d)}{d}{Subfigure 1d\relax }{subfigure.1.4}{}}
+\newlabel{fig:conflict-find-6}{{1e}{3}{Subfigure 1e}{subfigure.1.5}{}}
+\newlabel{sub@fig:conflict-find-6}{{(e)}{e}{Subfigure 1e\relax }{subfigure.1.5}{}}
+\newlabel{fig:scc-sort-1}{{1f}{3}{Subfigure 1f}{subfigure.1.6}{}}
+\newlabel{sub@fig:scc-sort-1}{{(f)}{f}{Subfigure 1f\relax }{subfigure.1.6}{}}
+\newlabel{fig:scc-sort-2}{{1g}{3}{Subfigure 1g}{subfigure.1.7}{}}
+\newlabel{sub@fig:scc-sort-2}{{(g)}{g}{Subfigure 1g\relax }{subfigure.1.7}{}}
+\newlabel{fig:scc-sort-3}{{1h}{3}{Subfigure 1h}{subfigure.1.8}{}}
+\newlabel{sub@fig:scc-sort-3}{{(h)}{h}{Subfigure 1h\relax }{subfigure.1.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  \subref {fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I. \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \subref {fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \subref {fig:scc-sort-1}. \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \subref {fig:scc-sort-1} The SCC-facet pairs are stored in an array initially sorted on facet index (letters are used here for clarity). We then sort the pairs using two stable, parallel radix sorts on SCC address for fast indexed access. The first sort is \textit  {lexsort}, a lexicographical sort \subref {fig:scc-sort-2}, then comes \textit  {lensort}, a sort by length \subref {fig:scc-sort-3}. In the \textit  {lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \leavevmode {\color  {bostonuniversityred}How exactly is the \textit  {lensort} done?} \relax }}{3}{figure.caption.1}}
+\newlabel{fig:conflict-find}{{1}{3}{\protect \subref {fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I. \protect \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \protect \subref {fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \protect \subref {fig:scc-sort-1}. \protect \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \protect \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \protect \subref {fig:scc-sort-1} The SCC-facet pairs are stored in an array initially sorted on facet index (letters are used here for clarity). We then sort the pairs using two stable, parallel radix sorts on SCC address for fast indexed access. The first sort is \textit {lexsort}, a lexicographical sort \protect \subref {fig:scc-sort-2}, then comes \textit {lensort}, a sort by length \protect \subref {fig:scc-sort-3}. In the \textit {lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red {How exactly is the \textit {lensort} done?} \relax }{figure.caption.1}{}}
+\newlabel{fig:scc-sort}{{\caption@xref {fig:scc-sort}{ on input line 280}}{3}{Detect conflict cells}{figure.caption.2}{}}
+\newlabel{alg:quadtree_intersections_end}{{19}{3}{Detect conflict cells}{AlgoLine.1.19}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces FIND\_CONFLICT\_CELLS\relax }}{3}{algocf.1}}
-\newlabel{alg:find-conflict-cells}{{1}{3}{Detecting conflict cells}{algocf.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Resolving conflict cells}{3}{subsection.3.2}}
-\newlabel{eqn:q}{{1}{3}{Resolving conflict cells}{equation.3.1}{}}
-\newlabel{eqn:r}{{2}{3}{Resolving conflict cells}{equation.3.2}{}}
-\newlabel{eqn:p}{{3}{3}{Resolving conflict cells}{equation.3.3}{}}
-\newlabel{fig:conflict-resolution-x}{{2a}{3}{Subfigure 2a}{subfigure.2.1}{}}
+\newlabel{alg:find-conflict-cells}{{1}{3}{Detect conflict cells}{algocf.1}{}}
+\newlabel{fig:conflict-resolution-x}{{2a}{4}{Subfigure 2a}{subfigure.2.1}{}}
 \newlabel{sub@fig:conflict-resolution-x}{{(a)}{a}{Subfigure 2a\relax }{subfigure.2.1}{}}
-\newlabel{fig:conflict-resolution-even}{{2b}{3}{Subfigure 2b}{subfigure.2.2}{}}
+\newlabel{fig:conflict-resolution-even}{{2b}{4}{Subfigure 2b}{subfigure.2.2}{}}
 \newlabel{sub@fig:conflict-resolution-even}{{(b)}{b}{Subfigure 2b\relax }{subfigure.2.2}{}}
-\newlabel{fig:conflict-resolution-all}{{2c}{3}{Subfigure 2c}{subfigure.2.3}{}}
+\newlabel{fig:conflict-resolution-all}{{2c}{4}{Subfigure 2c}{subfigure.2.3}{}}
 \newlabel{sub@fig:conflict-resolution-all}{{(c)}{c}{Subfigure 2c\relax }{subfigure.2.3}{}}
-\newlabel{fig:conflict-resolution-octree}{{2d}{3}{Subfigure 2d}{subfigure.2.4}{}}
+\newlabel{fig:conflict-resolution-octree}{{2d}{4}{Subfigure 2d}{subfigure.2.4}{}}
 \newlabel{sub@fig:conflict-resolution-octree}{{(d)}{d}{Subfigure 2d\relax }{subfigure.2.4}{}}
-\newlabel{fig:conflict-resolution-adjacent-even}{{2e}{3}{Subfigure 2e}{subfigure.2.5}{}}
+\newlabel{fig:conflict-resolution-adjacent-even}{{2e}{4}{Subfigure 2e}{subfigure.2.5}{}}
 \newlabel{sub@fig:conflict-resolution-adjacent-even}{{(e)}{e}{Subfigure 2e\relax }{subfigure.2.5}{}}
-\newlabel{fig:conflict-resolution-adjacent-all}{{2f}{3}{Subfigure 2f}{subfigure.2.6}{}}
+\newlabel{fig:conflict-resolution-adjacent-all}{{2f}{4}{Subfigure 2f}{subfigure.2.6}{}}
 \newlabel{sub@fig:conflict-resolution-adjacent-all}{{(f)}{f}{Subfigure 2f\relax }{subfigure.2.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }}{3}{figure.caption.3}}
-\newlabel{fig:conflict-resolution}{{2}{3}{\protect \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \protect \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }{figure.caption.3}{}}
-\citation{karras2012maximizing}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Finding $a(s)$ -- \textit  {opposite} case}{4}{subsubsection.3.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }}{4}{figure.caption.4}}
+\newlabel{fig:conflict-resolution}{{2}{4}{\protect \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \protect \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Finding $a(s)$ -- \textit  {opposite} case}{4}{subsubsection.3.3.1}}
 \newlabel{eqn:t}{{4}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.4}{}}
 \newlabel{eqn:ro}{{5}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.5}{}}
 \newlabel{eqn:f}{{6}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.6}{}}
 \newlabel{eqn:a1o}{{7}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.7}{}}
 \newlabel{eqn:ao}{{8}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Finding $a(s)$ -- \textit  {adjacent} case}{4}{subsubsection.3.2.2}}
-\newlabel{eqn:ra}{{11}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.11}{}}
-\newlabel{eqn:a1a}{{12}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.12}{}}
-\newlabel{eqn:aa}{{13}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Sampling}{4}{subsubsection.3.2.3}}
-\newlabel{eqn:recurrence}{{18}{4}{Sampling}{equation.3.18}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Build quadtree on vertices}{5}{subsection.3.3}}
-\@writefile{brf}{\backcite{karras2012maximizing}{{5}{3.3}{subsection.3.3}}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Identify conflict cells}{5}{subsection.3.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Compute GVD surface}{5}{section.4}}
-\newlabel{sec:bisector}{{4}{5}{Compute GVD surface}{section.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results and applications}{5}{section.5}}
+\citation{karras2012maximizing}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Finding $a(s)$ -- \textit  {adjacent} case}{5}{subsubsection.3.3.2}}
+\newlabel{eqn:ra}{{11}{5}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.11}{}}
+\newlabel{eqn:a1a}{{12}{5}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.12}{}}
+\newlabel{eqn:aa}{{13}{5}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sampling}{5}{subsubsection.3.3.3}}
+\newlabel{eqn:recurrence}{{18}{5}{Sampling}{equation.3.18}{}}
 \bibstyle{eg-alpha-doi}
 \bibdata{paper}
 \bibcite{bastos2008gpu}{BC08}
-\newlabel{alg:quadtree_containing_begin}{{1}{6}{Identify conflict cells}{AlgoLine.2.1}{}}
-\newlabel{alg:quadtree_containing_end}{{9}{6}{Identify conflict cells}{AlgoLine.2.9}{}}
-\newlabel{alg:quadtree_intersections_begin}{{10}{6}{Identify conflict cells}{AlgoLine.2.10}{}}
-\newlabel{alg:quadtree_intersections_end}{{28}{6}{Identify conflict cells}{AlgoLine.2.28}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces FIND\_CONFLICT\_CELLS\relax }}{6}{algocf.2}}
-\newlabel{alg:find-conflict-cells}{{2}{6}{Identify conflict cells}{algocf.2}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces REFINE\_QUADTREE\relax }}{6}{algocf.3}}
-\newlabel{alg:refine-quadtree}{{3}{6}{Identify conflict cells}{algocf.3}{}}
-\newlabel{fig:octree-cartesian-1}{{3a}{6}{Subfigure 3a}{subfigure.3.1}{}}
-\newlabel{sub@fig:octree-cartesian-1}{{(a)}{a}{Subfigure 3a\relax }{subfigure.3.1}{}}
-\newlabel{fig:octree-cartesian-2}{{3b}{6}{Subfigure 3b}{subfigure.3.2}{}}
-\newlabel{sub@fig:octree-cartesian-2}{{(b)}{b}{Subfigure 3b\relax }{subfigure.3.2}{}}
-\newlabel{fig:octree-cartesian-3}{{3c}{6}{Subfigure 3c}{subfigure.3.3}{}}
-\newlabel{sub@fig:octree-cartesian-3}{{(c)}{c}{Subfigure 3c\relax }{subfigure.3.3}{}}
-\newlabel{fig:octree-cartesian-5}{{3d}{6}{Subfigure 3d}{subfigure.3.4}{}}
-\newlabel{sub@fig:octree-cartesian-5}{{(d)}{d}{Subfigure 3d\relax }{subfigure.3.4}{}}
-\newlabel{fig:octree-hierarchical-1}{{3e}{6}{Subfigure 3e}{subfigure.3.5}{}}
-\newlabel{sub@fig:octree-hierarchical-1}{{(e)}{e}{Subfigure 3e\relax }{subfigure.3.5}{}}
-\newlabel{fig:octree-hierarchical-2}{{3f}{6}{Subfigure 3f}{subfigure.3.6}{}}
-\newlabel{sub@fig:octree-hierarchical-2}{{(f)}{f}{Subfigure 3f\relax }{subfigure.3.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:octree-cartesian-1} A red object and a blue object. \subref {fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm. \subref {fig:octree-cartesian-3}, \subref {fig:octree-hierarchical-1} The vertex quadtree with conflict cells highlighted. Note the label of an quadtree cell in \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \subref {fig:octree-cartesian-5}, \subref {fig:octree-hierarchical-2} The quadtree after resolution of conflict cells. \relax }}{6}{figure.caption.6}}
-\newlabel{fig:steps}{{3}{6}{\protect \subref {fig:octree-cartesian-1} A red object and a blue object. \protect \subref {fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm. \protect \subref {fig:octree-cartesian-3}, \protect \subref {fig:octree-hierarchical-1} The vertex quadtree with conflict cells highlighted. Note the label of an quadtree cell in \protect \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \protect \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \protect \subref {fig:octree-cartesian-5}, \protect \subref {fig:octree-hierarchical-2} The quadtree after resolution of conflict cells. \relax }{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison to other methods}{6}{subsection.5.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{6}{section.6}}
-\@writefile{toc}{\contentsline {section}{References}{6}{section.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Build quadtree on vertices}{6}{subsection.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Identify conflict cells}{6}{subsection.3.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Compute GVD surface}{6}{section.4}}
+\newlabel{sec:bisector}{{4}{6}{Compute GVD surface}{section.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results and applications}{6}{section.5}}
+\newlabel{alg:quadtree_containing_begin}{{1}{7}{Identify conflict cells}{AlgoLine.2.1}{}}
+\newlabel{alg:quadtree_containing_end}{{9}{7}{Identify conflict cells}{AlgoLine.2.9}{}}
+\newlabel{alg:quadtree_intersections_begin}{{10}{7}{Identify conflict cells}{AlgoLine.2.10}{}}
+\newlabel{alg:quadtree_intersections_end}{{28}{7}{Identify conflict cells}{AlgoLine.2.28}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces FIND\_CONFLICT\_CELLS\relax }}{7}{algocf.2}}
+\newlabel{alg:find-conflict-cells}{{2}{7}{Identify conflict cells}{algocf.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces REFINE\_QUADTREE\relax }}{7}{algocf.3}}
+\newlabel{alg:refine-quadtree}{{3}{7}{Identify conflict cells}{algocf.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {quadtree cells} - total number of leaf quadtree cells; \emph  {quadtree memory} - amount of memory used by the quadtree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{7}{table.caption.8}}
+\newlabel{tab:timings}{{1}{7}{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {quadtree cells} - total number of leaf quadtree cells; \emph {quadtree memory} - amount of memory used by the quadtree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.8}{}}
 \bibcite{boada2008approximations}{BCMAS08}
 \bibcite{boada2002voronoi}{BCS02}
 \bibcite{bedorf2012sparse}{BGPZ12}
@@ -146,6 +129,22 @@
 \bibcite{frisken2000adaptively}{FPRJ00}
 \bibcite{hoff1999fast}{HIKL{$^{*}$}99}
 \bibcite{hsieh2005simple}{HT05}
+\newlabel{fig:octree-cartesian-1}{{3a}{8}{Subfigure 3a}{subfigure.3.1}{}}
+\newlabel{sub@fig:octree-cartesian-1}{{(a)}{a}{Subfigure 3a\relax }{subfigure.3.1}{}}
+\newlabel{fig:octree-cartesian-2}{{3b}{8}{Subfigure 3b}{subfigure.3.2}{}}
+\newlabel{sub@fig:octree-cartesian-2}{{(b)}{b}{Subfigure 3b\relax }{subfigure.3.2}{}}
+\newlabel{fig:octree-cartesian-3}{{3c}{8}{Subfigure 3c}{subfigure.3.3}{}}
+\newlabel{sub@fig:octree-cartesian-3}{{(c)}{c}{Subfigure 3c\relax }{subfigure.3.3}{}}
+\newlabel{fig:octree-cartesian-5}{{3d}{8}{Subfigure 3d}{subfigure.3.4}{}}
+\newlabel{sub@fig:octree-cartesian-5}{{(d)}{d}{Subfigure 3d\relax }{subfigure.3.4}{}}
+\newlabel{fig:octree-hierarchical-1}{{3e}{8}{Subfigure 3e}{subfigure.3.5}{}}
+\newlabel{sub@fig:octree-hierarchical-1}{{(e)}{e}{Subfigure 3e\relax }{subfigure.3.5}{}}
+\newlabel{fig:octree-hierarchical-2}{{3f}{8}{Subfigure 3f}{subfigure.3.6}{}}
+\newlabel{sub@fig:octree-hierarchical-2}{{(f)}{f}{Subfigure 3f\relax }{subfigure.3.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:octree-cartesian-1} A red object and a blue object. \subref {fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm. \subref {fig:octree-cartesian-3}, \subref {fig:octree-hierarchical-1} The vertex quadtree with conflict cells highlighted. Note the label of an quadtree cell in \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \subref {fig:octree-cartesian-5}, \subref {fig:octree-hierarchical-2} The quadtree after resolution of conflict cells. \relax }}{8}{figure.caption.7}}
+\newlabel{fig:steps}{{3}{8}{\protect \subref {fig:octree-cartesian-1} A red object and a blue object. \protect \subref {fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm. \protect \subref {fig:octree-cartesian-3}, \protect \subref {fig:octree-hierarchical-1} The vertex quadtree with conflict cells highlighted. Note the label of an quadtree cell in \protect \subref {fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \protect \subref {fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell. \protect \subref {fig:octree-cartesian-5}, \protect \subref {fig:octree-hierarchical-2} The quadtree after resolution of conflict cells. \relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Comparison to other methods}{8}{subsection.5.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{8}{section.6}}
 \bibcite{jones20063d}{JBS06}
 \bibcite{karavelas2004robust}{Kar04}
 \bibcite{karras2012maximizing}{Kar12}
@@ -155,8 +154,6 @@
 \bibcite{lefebvre2007compressed}{LH07}
 \bibcite{laine2011efficient}{LK11}
 \bibcite{park2010cuda}{PLKK10}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {quadtree cells} - total number of leaf quadtree cells; \emph  {quadtree memory} - amount of memory used by the quadtree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{7}{table.caption.7}}
-\newlabel{tab:timings}{{1}{7}{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {quadtree cells} - total number of leaf quadtree cells; \emph {quadtree memory} - amount of memory used by the quadtree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.7}{}}
 \bibcite{qu2004feature}{QZS{$^{*}$}04}
 \bibcite{rong2007variants}{RT07}
 \bibcite{sud2006fast}{SGG{$^{*}$}06}

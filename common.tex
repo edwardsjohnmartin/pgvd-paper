@@ -33,6 +33,10 @@
 				% Makediss for the last time.
 \usepackage[normalem]{ulem}
 
+\usepackage{cite}
+\usepackage{balance}
+\usepackage{color}
+
 \definecolor{bostonuniversityred}{rgb}{0.8, 0.0, 0.0}
 
 %------------------------------------------------------------
@@ -80,17 +84,17 @@
 
 \newcommand{\hgt}{22mm}
 
-%--------------------------------------------------
-% Theorem environments (amsthm package required)
-%--------------------------------------------------
-% \theoremstyle{plain} %% This is the default
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
-\newtheorem{corollary}{Corollary}
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{crit}{Criterion}
-\newtheorem{condition}{Condition}
-\newtheorem{fact}{Fact}
+%%--------------------------------------------------
+%% Theorem environments (amsthm package required)
+%%--------------------------------------------------
+%% \theoremstyle{plain} %% This is the default
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{crit}{Criterion}
+%\newtheorem{condition}{Condition}
+%\newtheorem{fact}{Fact}
 
 %\theoremstyle{definition}
 %\newtheorem{defn}{Definition}[section]
@@ -132,4 +136,8 @@
 \newcommand{\directAncestors}[1]{direct\_ancestors(#1)}
 
 \newcommand{\lcp}{\textit{lcp}}
+
+\newcommand{\shortcite}[1]{\cite{#1}}
+
+\renewcommand{\paragraph}[1]{\noindent \textbf{#1}}
 

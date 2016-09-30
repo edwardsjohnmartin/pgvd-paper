@@ -1,106 +1,24 @@
-% ---------------------------------------------------------------------------
-% Author guideline and sample document for EG publication using LaTeX2e input
-% D.Fellner, v1.13, Jul 31, 2008
+\documentclass[submission]{gmp2017}
+%\documentclass{gmp2017}
 
-\documentclass{egpubl}
-\usepackage{eg2015}
+\title{Parallel Quadtree Construction on Collections of Objects}
 
-% --- for  Annual CONFERENCE
-%\ConferenceSubmission   % uncomment for Conference submission
-\ConferencePaper        % uncomment for (final) Conference Paper
-% \STAR                   % uncomment for STAR contribution
-% \Tutorial               % uncomment for Tutorial contribution
-% \ShortPresentation      % uncomment for (final) Short Conference Presentation
-% \Areas                  % uncomment for Areas contribution
-% \MedicalPrize           % uncomment for Medical Prize contribution
-% \Education              % uncomment for Education contribution
-%
-% --- for  CGF Journal
-% \JournalSubmission    % uncomment for submission to Computer Graphics Forum
-% \JournalPaper         % uncomment for final version of Journal Paper
-%
-% --- for  CGF Journal: special issue
-% \SpecialIssueSubmission    % uncomment for submission to Computer Graphics Forum, special issue
-% \SpecialIssuePaper         % uncomment for final version of Journal Paper, special issue
-%
-% --- for  EG Workshop Proceedings
-% \WsSubmission    % uncomment for submission to EG Workshop
-% \WsPaper         % uncomment for final version of EG Workshop contribution
-%
- \electronicVersion % can be used both for the printed and electronic version
+% Put your submission number here.
+% This number will appear instead of authors and affiliations if the
+% class option "submission" is active.
+\SubNumber{142}
 
-% !! *please* don't change anything above
-% !! unless you REALLY know what you are doing
-% ------------------------------------------------------------------------
+% Put the author names here.
+% Use the second argument as a reference to the list of affiliations.
+% No authors and affiliations will appear if the class option "submission"
+% is active.
+\author{John Edwards}{1}
+\author{Nathan Vollmer}{1}
+\author{Nicholas Harrison}{1}
 
-% for including postscript figures
-% mind: package option 'draft' will replace PS figure by a filname within a frame
-%\ifpdf \usepackage[pdftex]{graphicx} \pdfcompresslevel=9
-%\else \usepackage[dvips]{graphicx} \fi
+% Put the affiliations of the authors here.
+\affiliation{1}{Department of Informatics and Computer Science, Idaho State University, USA}
 
-\PrintedOrElectronic
-
-% prepare for electronic version of your document
-\usepackage{t1enc,dfadobe}
-
-\usepackage{egweblnk}
-\usepackage{cite}
-\usepackage{balance}
-\usepackage{color}
-
-% For backwards compatibility to old LaTeX type font selection.
-% Uncomment if your document adheres to LaTeX2e recommendations.
-% \let\rm=\rmfamily    \let\sf=\sffamily    \let\tt=\ttfamily
-% \let\it=\itshape     \let\sl=\slshape     \let\sc=\scshape
-% \let\bf=\bfseries
-
-% end of prologue
-
-%\input{EGauthorGuidelines-body.inc}
-% ---------------------------------------------------------------------
-% EG author guidelines plus sample file for EG publication using LaTeX2e input
-% D.Fellner, v1.17, Sep 23, 2010
-
-
-\title[PGVD]%
-      {Parallel Quadtree Construction on Collections of Objects}
-
-% for anonymous conference submission please enter your SUBMISSION ID
-% instead of the author's name (and leave the affiliation blank) !!
-% For Computer Graphics Forum: Please use the abbreviation of your first name.
-
-%% author example
-%\author[D. Fellner \& S. Behnke]
-%       {D.\,W. Fellner\thanks{Chairman Eurographics Publications Board}$^{1,2}$
-%        and S. Behnke$^{2}$
-%        S. Spencer$^2$\thanks{Chairman Siggraph Publications Board} \\
-%         $^1$TU Darmstadt \& Fraunhofer IGD, Germany \\
-%         $^2$Institut f{\"u}r ComputerGraphik \& Wissensvisualisierung, TU Graz, Austria
-%       }
-
-\author[J. Edwards \& N. Vollmer \& N. Harrison]
-%       {John Edwards\thanks{jedwards@sci.utah.edu}$^1$ and
-%       {John Edwards\\
-       {John Edwards and
-         Nathan Vollmer and
-         Nicholas Harrison \\
-         \parbox[t]{10cm}{\centering Idaho State University}
-%         $^2$Google, Inc. \\
-%         \footnotesize{$^3$The University of Texas at Austin}}
-       }
-%\author[paper1040]
-%       {paper1040}
-
-% ------------------------------------------------------------------------
-
-% if the Editors-in-Chief have given you the data, you may uncomment
-% the following five lines and insert it here
-%
-% \volume{27}   % the volume in which the issue will be published;
-% \issue{1}     % the issue number of the publication
-% \pStartPage{1}      % set starting page
-
-\renewcommand{\paragraph}[1]{\noindent \textbf{#1}}
 \input{common}
 
 %-------------------------------------------------------------------------
@@ -166,11 +84,11 @@ We present a parallel quadtree algorithm that resolves between geometric objects
 %   then add the subject categories according to the ACM Classification Index 
 %   (see http://www.acm.org/class/1998/).
 
-\begin{classification} % according to http://www.acm.org/class/1998/
-  \CCScat{I.3.5}{Computer Graphics}{Computational Geometry and Object Modeling}{Boundary representations}
-  \CCScat{I.3.6}{Computer Graphics}{Methodology and Techniques}{Graphics data structures and data types}
-  %\CCScat{Computer Graphics}{I.3.3}{Picture/Image Generation}{Line and curve generation}
-\end{classification}
+%\begin{classification} % according to http://www.acm.org/class/1998/
+%  \CCScat{I.3.5}{Computer Graphics}{Computational Geometry and Object Modeling}{Boundary representations}
+%  \CCScat{I.3.6}{Computer Graphics}{Methodology and Techniques}{Graphics data structures and data types}
+%  %\CCScat{Computer Graphics}{I.3.3}{Picture/Image Generation}{Line and curve generation}
+%\end{classification}
 
 \end{abstract}
 
@@ -230,60 +148,135 @@ Two works \cite{bastos2008gpu,park2010cuda} implement the ADF using GPU parallel
 \section{Algorithm}
 \label{sec:algorithm}
 
-\subsection{Detecting conflict cells}
+Our algorithm proceeds in three main steps:
 
-Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:octree-cartesian-5} shows the addresses of each leaf cell in the quadtree.
+\begin{tightenumerate}
+\item Build initial octree on vertices $V$
+\item Detect conflict cells
+  \begin{tightenumerate}
+  \item Build smallest common cell (SCC) array
+  \item Sort SCC array
+  \item Find intersecting facets for each leaf cell using SCC array
+  \end{tightenumerate}
+\item Resolve conflict cells
+  \begin{tightenumerate}
+  \item Compute sample points $S$
+  \item Build new octree on $V \cup S$
+  \end{tightenumerate}
+\end{tightenumerate}
 
-We define a smallest containing cell (SCC) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by two endpoints $p$ and $q$, the quadtree address of the SCC is the longest common prefix of the Morton codes of $p$ and $q$. In figure \ref{fig:octree-cartesian-3}, the address of the SCC of facet D is 10. The SCC of facet E is $R$.
+Steps 1 and 2 are independent of dimension, and so our descriptions will use dimension-independent terms. In this paper, step 3 is described in 2D, with a 3D extension left to future work.
 
-We construct an array of facet-SCC pairs, which is the same size as the number of facets. After allocation, SCC discovery for each facet is done in parallel. We call the array the SCC array.
+\subsection{Build initial octree}
+Our first step is to build an octree on the vertices using Karras' algorithm. This step gives us our first approximation to our final octree.
+
+\subsection{Detect conflict cells}
+
+Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in the quadtree.
+
+We define a smallest containing cell (SCC) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the SCC is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:scc-sort-1} gives the addresses of the SCCs of the facets in figure \ref{fig:conflict-find-4}.
+
+We begin by constructing an array of facet-SCC pairs (see figure \ref{fig:scc-sort-1}), which is done in parallel over all facets.
 
 Next we sort the SCC array, which is demonstrated in figure \ref{fig:scc-sort}. We first sort using a radix lexicographical sort, then sort by SCC address size. This sort is done in parallel with Karras octree construction.
 
 \begin{figure}
-  \begin{minipage}{0.3\columnwidth}
-    \uline{raw} \\
-    10110 \\
-    11 \\
-    0001 \\
-    10110 \\
-    10 \\
-    010110 \\
-    10110 \\
-    00101 \\
-    0110100 \\
-    10 \\
-    11
-  \end{minipage}%
-  \begin{minipage}{0.3\columnwidth}
-    \uline{lexsort} \\
-    0001 \\
-    00101 \\
-    010110 \\
-    0110100 \\
-    10 \\
-    10 \\
-    10110 \\
-    10110 \\
-    10110 \\
-    11 \\
-    11
-  \end{minipage}%
-  \begin{minipage}{0.3\columnwidth}
-    \uline{lensort} \\
-    10 \\
-    10 \\
-    11 \\
-    11 \\
-    0001 \\
-    00101 \\
-    10110 \\
-    10110 \\
-    10110 \\
-    010110 \\
-    0110100
-  \end{minipage}
-  \caption{Sorting the SCC-facet pairs. We first sort lexicographically (\textit{lexsort}), then by length (\textit{lensort}), using a parallel radix sort. In the \textit{lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red{How exactly is the \textit{lensort} done?}}
+  \centering
+  \subfloat[][]{
+    \label{fig:conflict-find-1}
+    \includegraphics[width=0.24\columnwidth]{conflict-find-1.pdf} }
+  \subfloat[][]{
+    \label{fig:conflict-find-2}
+    \includegraphics[width=0.24\columnwidth]{conflict-find-2.pdf} }
+  \subfloat[][]{
+    \label{fig:conflict-find-4}
+    \includegraphics[width=0.24\columnwidth]{conflict-find-4.pdf} }
+  \subfloat[][]{
+    \label{fig:conflict-find-5}
+    \includegraphics[width=0.24\columnwidth]{conflict-find-5.pdf} } \\
+  \subfloat[][]{
+    \label{fig:conflict-find-6}
+    \includegraphics[width=0.24\columnwidth]{conflict-find-6.pdf} }
+  \subfloat[][]{
+    \label{fig:scc-sort-1}
+  \begin{minipage}{0.24\columnwidth}
+    \centering
+    raw \\
+    \vspace{0.1cm}
+    \begin{tabular}{|l|l|}
+      \hline
+      facet & SCC \\
+      \hline
+      A & 10 \\
+      B & 100110 \\
+      C & 1001 \\
+      D &  \\
+      E & 1010 \\
+      F & 10 \\
+      G & 10 \\
+      H & 10 \\
+      I & 011010 \\
+      \hline
+    \end{tabular}
+  \end{minipage} }
+  \subfloat[][]{
+    \label{fig:scc-sort-2}
+  \begin{minipage}{0.24\columnwidth}
+    \centering
+    lexsort \\
+    \vspace{0.1cm}
+    \begin{tabular}{|l|l|}
+      \hline
+      facet & SCC \\
+      \hline
+      D &  \\
+      I & 011010 \\
+      A & 10 \\
+      F & 10 \\
+      G & 10 \\
+      H & 10 \\
+      C & 1001 \\
+      B & 100110 \\
+      E & 1010 \\
+      \hline
+    \end{tabular}
+  \end{minipage} }
+  \subfloat[][]{
+    \label{fig:scc-sort-3}
+  \begin{minipage}{0.24\columnwidth}
+    \centering
+    lensort \\
+    \vspace{0.1cm}
+    \begin{tabular}{|l|l|}
+      \hline
+      facet & SCC \\
+      \hline
+      D &  \\
+      A & 10 \\
+      F & 10 \\
+      G & 10 \\
+      H & 10 \\
+      C & 1001 \\
+      E & 1010 \\
+      I & 011010 \\
+      B & 100110 \\
+      \hline
+    \end{tabular}
+  \end{minipage} }
+  \caption{
+    \protect\subref{fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I.
+    \protect\subref{fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm.
+    \protect\subref{fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \protect\subref{fig:scc-sort-1}.
+    \protect\subref{fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted.
+    \protect\subref{fig:conflict-find-6} The new quadtree after conflict resolution.
+    \protect\subref{fig:scc-sort-1} The SCC-facet pairs are stored in an array initially sorted on facet index (letters are used here for clarity). We then sort the pairs using two stable, parallel radix sorts on SCC address for fast indexed access.
+    The first sort is \textit{lexsort}, a lexicographical sort \protect\subref{fig:scc-sort-2},
+    then comes \textit{lensort}, a sort by length \protect\subref{fig:scc-sort-3}. In the \textit{lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red{How exactly is the \textit{lensort} done?}
+  }
+  \label{fig:conflict-find}
+\end{figure}
+
+\begin{figure}
   \label{fig:scc-sort}
 \end{figure}
 
@@ -322,29 +315,29 @@ Then we use the SCC array to find the conflict cells using algorithm \ref{alg:fi
 \end{algorithm}
 \algorithmspace
 
-\subsection{Resolving conflict cells}
+\subsection{Resolve conflict cells}
 
 %\begin{adjustbox}{valign=t}
 \begin{figure}
   \centering
   \subfloat[][]{
     \label{fig:conflict-resolution-x}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-x.pdf} }
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-x.pdf} }
   \subfloat[][]{
     \label{fig:conflict-resolution-even}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-even.pdf} } \\
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-even.pdf} }
   \subfloat[][]{
     \label{fig:conflict-resolution-all}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-all.pdf} }
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-all.pdf} }
   \subfloat[][]{
     \label{fig:conflict-resolution-octree}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-octree.pdf} } \\
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-octree.pdf} } \\
   \subfloat[][]{
     \label{fig:conflict-resolution-adjacent-even}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-adjacent-even.pdf} }
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-adjacent-even.pdf} }
   \subfloat[][]{
     \label{fig:conflict-resolution-adjacent-all}
-    \includegraphics[width=0.48\columnwidth]{conflict-resolution-adjacent-all.pdf} }
+    \includegraphics[width=0.24\columnwidth]{conflict-resolution-adjacent-all.pdf} }
   \caption{
     \protect\subref{fig:conflict-resolution-x} A conflict cell with two lines from different objects.
     \protect\subref{fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots).
@@ -730,22 +723,22 @@ The second procedure we use is $\directAncestors{c}$, which finds all ancestors 
   \centering
   \subfloat[][]{
     \label{fig:octree-cartesian-1}
-    \includegraphics[width=0.48\columnwidth]{octree-cartesian-1.pdf} }
+    \includegraphics[width=0.24\columnwidth]{octree-cartesian-1.pdf} }
   \subfloat[][]{
     \label{fig:octree-cartesian-2}
-    \includegraphics[width=0.48\columnwidth]{octree-cartesian-2.pdf} } \\
+    \includegraphics[width=0.24\columnwidth]{octree-cartesian-2.pdf} }
   \subfloat[][]{
     \label{fig:octree-cartesian-3}
-    \includegraphics[width=0.48\columnwidth]{octree-cartesian-3.pdf} }
+    \includegraphics[width=0.24\columnwidth]{octree-cartesian-3.pdf} }
   \subfloat[][]{
     \label{fig:octree-cartesian-5}
-    \includegraphics[width=0.48\columnwidth]{octree-cartesian-5.pdf} } \\
+    \includegraphics[width=0.24\columnwidth]{octree-cartesian-5.pdf} } \\
   \subfloat[][]{
     \label{fig:octree-hierarchical-1}
-    \includegraphics[width=0.48\columnwidth]{octree-hierarchical-1.pdf} }
+    \includegraphics[width=0.24\columnwidth]{octree-hierarchical-1.pdf} }
   \subfloat[][]{
     \label{fig:octree-hierarchical-2}
-    \includegraphics[width=0.48\columnwidth]{octree-hierarchical-2.pdf} }
+    \includegraphics[width=0.24\columnwidth]{octree-hierarchical-2.pdf} }
   \caption{
     \protect\subref{fig:octree-cartesian-1} A red object and a blue object.
     \protect\subref{fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm.
