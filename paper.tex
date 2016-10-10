@@ -21,6 +21,8 @@
 
 \input{common}
 
+\usepackage[inline]{showlabels}
+
 %-------------------------------------------------------------------------
 \begin{document}
 
@@ -101,16 +103,11 @@ We present a parallel quadtree algorithm that resolves between geometric objects
 %-------------------------------------------------------------------------------
 \section{Introduction}
 \label{sec:intro}
-Constructing quadtrees on objects in an important task with applications to collision detection, distance fields, robot navigation, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. Our work however, centers on using quadtrees to separate, or resolve, collections of closely spaced objects. Using a quadtree, we can model the space between objects, the first step in constructing distance fields, detecting collisions, and computing the generalized Voronoi diagram. Modeling inter-object spacing is computationally straightforward when inter-object spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation using, very often, graphics processors.
+Constructing quadtrees on objects in an important task with applications to collision detection, distance fields, robot navigation, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. Our work however, centers on using quadtrees to separate, or resolve, collections of closely spaced objects. Using a quadtree, we can model the space between objects, the first step in constructing distance fields, detecting collisions, and computing the generalized Voronoi diagram. Modeling inter-object spacing is computationally straightforward when inter-object spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation that often uses graphics processors.
 
-\gray{Whereas most algorithms are efficient and robust on certain datasets, all algorithms but one \cite{edwards2015approximating} require inordinate amounts of memory on datasets where objects are very closely spaced relative to the size of the domain. The failures occur because the space is uniformly gridded. In such approaches, voxel size must be small enough to resolve object spacings, and if two objects are very close to each other the number of voxels can become prohibitively large.}
+Difficulties arise when spacing between objects is small relative to the size of the domain. An approach using a uniform grid would have excessive memory requirements in order to resolve between objects. \red{What does ``resolve'' mean?} In these cases, teh uniformly sized grid cell must be small enough to fit between objects at every location in the domain. To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory.
 
-We present an algorithm to compute a quadtree on arbitrary datasets, including those with closely spaced and intersecting objects. \red{Keep going...}
-
-\gray{The approach applies a distance transform over an quadtree representation of the objects.  Our quadtree, its associated data structure, and our distance transform are novel and optimized to GVD approximation. For the remainder of the paper, ``GVD'' will refer to the approximated Generalized Voronoi Diagram.}
-
-\gray{This paper demonstrates GVD computation on data beyond the computational abilities of previous algorithms, unlocking interesting and important applications.  Our approach allows GVD-based proximity queries and other applications using a larger class of meaningful datasets.}
-
+We present an algorithm that builds a quadtree on arbitrarily spaced objects in parallel. This work extends the work done by Edwards et al \cite{edwards2015approximating} by computing the quadtree in parallel with an algorithm targeted for the GPU. Our algorithm performs an order of magnitude faster than the previous work and will be an excellent base for later distance transform and generalized Voronoi diagram computation.
 
 Our algorithm has three steps:
 
@@ -120,27 +117,19 @@ Our algorithm has three steps:
 \item Subdivide conflict cells to resolve objects (contribution)
 \end{enumerate}
 
-Each step is done in parallel either on vertices, quadtree cells or object facets (lines).
+Each step is done in parallel either on vertices, quadtree cells or object facets.
 
 %-------------------------------------------------------------------------------
 % Related work
 %-------------------------------------------------------------------------------
 \section{Related work}
-Related work falls into two categories: algorithms that compute the GVD and algorithms that compute distance fields, many of which are adaptive.
-
-\paragraph{Generalized Voronoi diagrams}
-A theoretical framework for generalized Voronoi diagrams can be found in Boissonnat \etal \shortcite{boissonnat2006curved}. Ordinary Voronoi diagrams are well studied and efficient algorithms exist that compute them exactly \cite{de2008computational}, but exact algorithms for the generalized Voronoi diagram are limited to a small set of special cases \cite{lee1982medial,karavelas2004robust}. In an early work, Lavender \etal \shortcite{lavender1992voronoi} define and compute GVDs over a set of solid models using an quadtree.  Etzion and Rappoport \shortcite{etzion2002computing} represent the GVD bisector symbolically for lazy evaluation, but are limited to sites that are polyhedra.  Boada \etal \shortcite{boada2002voronoi,boada2008approximations} use an adaptive approach to GVD computation, but their algorithm is restricted to GVDs with connected regions and is inefficient for polyhedral objects with many facets.  Two other works are adaptive \cite{teichmann1997polygonal,vleugels1998approximating} but are computationally expensive and are restricted to convex sites.
-
-In recent years Voronoi diagram algorithms that take advantage of fast graphics hardware have become more common \cite{cao2010parallel,fischer2006fast,hsieh2005simple,rong2007variants,sud2006interactive,sud2006fast,hoff1999fast,wu2008gpu}.  These algorithms are efficient and generalize well to the GVD, but most are limited to a subset of site types.  More importantly, all of them use uniform grids and require an extraordinary number of voxels to resolve closely spaced objects (for example, Figs. \ref{fig:knife} and \ref{fig:path} would require $2^{36}$ and $2^{48}$ voxels, respectively).  To our knowledge, ours is the first fully adaptive algorithm that computes the generalized Voronoi diagram for arbitrary datasets.
-
-\paragraph{Distance fields and quadtrees}
-The GVD is a subset of the locus of distance field critical points, a property that we take advantage of. In that light, the GVD could be a post-processing step to any method that computes a distance field.  Distance transforms compute a distance field, but most are uniformly gridded \cite{jones20063d} and are thus no more suitable than GVD algorithms that use the GPU.
+In an early work, Lavender \etal \shortcite{lavender1992voronoi} define and compute quadtrees over a set of solid models. \red{Boada \etal \shortcite{boada2002voronoi,boada2008approximations} use an adaptive approach to GVD computation, but their algorithm is restricted to GVDs with connected regions and is inefficient for polyhedral objects with many facets.  Two other works are adaptive \cite{teichmann1997polygonal,vleugels1998approximating} but are computationally expensive and are restricted to convex sites.}
 
 % JME: note that in the Bastos work, ``reconstruction'' is reconstruction
 % of the surface from the quadtree at rendering time.
-Two seminal works adaptively compute the Adaptive Distance Field (ADF) on quadtree vertices.  Strain~\shortcite{strain1999fast} fully resolves the quadtree everywhere on the object surface, and Frisken \etal~\shortcite{frisken2000adaptively} resolve the quadtree fully only in areas of small local feature size.  Both approaches are designed to retain features of a single object rather than resolving between multiple objects, as is required for GVD computation.  Qu \etal \shortcite{qu2004feature} implement an energy-minimizing distance field algorithm that preserves features at the expense of efficiency.  Many recent works on fast quadtree construction using the GPU are limited to point sites \cite{bedorf2012sparse,karras2012maximizing,zhou2011data}. Most quadtree approaches that support surfaces \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed} are designed for efficient rendering, and actual construction of the quadtree is implemented on the CPU.
+Two seminal works build octrees on objects in order to compute the Adaptive Distance Field (ADF) on octree vertices.  Strain~\shortcite{strain1999fast} fully resolves the quadtree everywhere on the object surface, and Frisken \etal~\shortcite{frisken2000adaptively} resolve the quadtree fully only in areas of small local feature size.  Both approaches are designed to retain features of a single object rather than resolving between multiple objects, as is required for GVD computation. Many recent works on fast quadtree construction using the GPU are limited to point sites \cite{bedorf2012sparse,karras2012maximizing,zhou2011data}. Kim and Liu's work~\shortcite{kim2014exact} is similar, computing the quadtree on the barycenters of triangles, giving an approximation of an object-resolving quadtree. Most quadtree approaches that support surfaces \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed} are designed for efficient rendering, and actual construction of the quadtree is implemented on the CPU.
 
-Two works \cite{bastos2008gpu,park2010cuda} implement the ADF using GPU parallelism to compute the distance value at sample points, but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} compute the distance field entirely on the GPU using a bottom-up approach by initially subdividing into a complete quadtree, resulting in memory usage that is no better than using a uniform grid.  A method by Kim and Liu~\shortcite{kim2014exact} computes the quadtree and a BVH entirely on the GPU. However, quadtree construction is performed on barycenters of triangles, and so a leaf quadtree cell can have an arbitrary number of triangle intersections as long as it contains no more than one triangle's barycenter.  We have found no GPU quadtree construction method that can resolve between objects.
+Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields in parallel on quadtrees but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} compute the octree entirely on the GPU using a bottom-up approach by initially subdividing into a complete quadtree, resulting in memory usage that is no better than using a uniform grid. We have found no GPU quadtree construction method that is fully adaptive and can resolve between objects.
 
 %-----------------------------------------------------------
 % Build quadtree
@@ -148,130 +137,77 @@ Two works \cite{bastos2008gpu,park2010cuda} implement the ADF using GPU parallel
 \section{Algorithm}
 \label{sec:algorithm}
 
+We refer to quadtree leaf cells that intersect two or more objects as ``conflict cells.'' A necessary and sufficient condition for a quadtree to resolve objects is to have no conflict cells. Our approach to computing such a quadtree is to first detexct conflict cells in parallel and then resolve them.
+
 Our algorithm proceeds in three main steps:
 
 \begin{tightenumerate}
-\item Build initial octree on vertices $V$
+\item Build initial octree on vertices $V$ \cite{karras2012maximizing}
 \item Detect conflict cells
   \begin{tightenumerate}
-  \item Build smallest common cell (SCC) array
-  \item Sort SCC array
-  \item Find intersecting facets for each leaf cell using SCC array
+  \item Build bounding cells (BCells) array (Figure \ref{fig:data-structures-1})
+  \item Sort BCells array (Figure \ref{fig:data-structures-2})
+  \item Index BCells with octree data structure (Figure \ref{fig:data-structures-3})
+  \item Find facets that intersect each leaf cell
   \end{tightenumerate}
 \item Resolve conflict cells
   \begin{tightenumerate}
   \item Compute sample points $S$
   \item Build new octree on $V \cup S$
   \end{tightenumerate}
+\item Iterate
 \end{tightenumerate}
 
 Steps 1 and 2 are independent of dimension, and so our descriptions will use dimension-independent terms. In this paper, step 3 is described in 2D, with a 3D extension left to future work.
 
 \subsection{Build initial octree}
-Our first step is to build an octree on the vertices using Karras' algorithm. This step gives us our first approximation to our final octree.
+Our first step is to build an octree on the vertices using Karras' algorithm \cite{karras2012maximizing}. This step gives us our first approximation to our final octree.
 
 \subsection{Detect conflict cells}
 
-Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in the quadtree.
+Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
 
-We define a smallest containing cell (SCC) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the SCC is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:scc-sort-1} gives the addresses of the SCCs of the facets in figure \ref{fig:conflict-find-4}.
+We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:scc-sort-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
 
-We begin by constructing an array of facet-SCC pairs (see figure \ref{fig:scc-sort-1}), which is done in parallel over all facets.
+We begin by constructing an array of BCells (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$].Cell\_ID}.
 
-Next we sort the SCC array, which is demonstrated in figure \ref{fig:scc-sort}. We first sort using a radix lexicographical sort, then sort by SCC address size. This sort is done in parallel with Karras octree construction.
+Next we sort the \texttt{BCells} array on the \texttt{Cell\_ID} field using a parallel radix lexicographical sort (Figure \ref{fig:data-structures-2}). \texttt{BCells} array construction and sorting is done in parallel with the initial Karras octree construction.
 
 \begin{figure}
   \centering
   \subfloat[][]{
     \label{fig:conflict-find-1}
-    \includegraphics[width=0.24\columnwidth]{conflict-find-1.pdf} }
+    \includegraphics[width=0.22\columnwidth]{conflict-find-1.pdf} } \hfill
   \subfloat[][]{
     \label{fig:conflict-find-2}
-    \includegraphics[width=0.24\columnwidth]{conflict-find-2.pdf} }
+    \includegraphics[width=0.22\columnwidth]{conflict-find-2.pdf} } \hfill
   \subfloat[][]{
     \label{fig:conflict-find-4}
-    \includegraphics[width=0.24\columnwidth]{conflict-find-4.pdf} }
+    \includegraphics[width=0.22\columnwidth]{conflict-find-4.pdf} } \hfill
   \subfloat[][]{
     \label{fig:conflict-find-5}
-    \includegraphics[width=0.24\columnwidth]{conflict-find-5.pdf} } \\
+    \includegraphics[width=0.22\columnwidth]{conflict-find-5.pdf} } \\
   \subfloat[][]{
     \label{fig:conflict-find-6}
-    \includegraphics[width=0.24\columnwidth]{conflict-find-6.pdf} }
+    \includegraphics[width=0.22\columnwidth]{conflict-find-6.pdf} } \hfill
   \subfloat[][]{
-    \label{fig:scc-sort-1}
-  \begin{minipage}{0.24\columnwidth}
-    \centering
-    raw \\
-    \vspace{0.1cm}
-    \begin{tabular}{|l|l|}
-      \hline
-      facet & SCC \\
-      \hline
-      A & 10 \\
-      B & 100110 \\
-      C & 1001 \\
-      D &  \\
-      E & 1010 \\
-      F & 10 \\
-      G & 10 \\
-      H & 10 \\
-      I & 011010 \\
-      \hline
-    \end{tabular}
-  \end{minipage} }
+    \label{fig:data-structures-1}
+    \includegraphics[width=0.22\columnwidth]{data-structures-1.pdf} } \hfill
   \subfloat[][]{
-    \label{fig:scc-sort-2}
-  \begin{minipage}{0.24\columnwidth}
-    \centering
-    lexsort \\
-    \vspace{0.1cm}
-    \begin{tabular}{|l|l|}
-      \hline
-      facet & SCC \\
-      \hline
-      D &  \\
-      I & 011010 \\
-      A & 10 \\
-      F & 10 \\
-      G & 10 \\
-      H & 10 \\
-      C & 1001 \\
-      B & 100110 \\
-      E & 1010 \\
-      \hline
-    \end{tabular}
-  \end{minipage} }
+    \label{fig:data-structures-2}
+    \includegraphics[width=0.22\columnwidth]{data-structures-2.pdf} } \hfill
   \subfloat[][]{
-    \label{fig:scc-sort-3}
-  \begin{minipage}{0.24\columnwidth}
-    \centering
-    lensort \\
-    \vspace{0.1cm}
-    \begin{tabular}{|l|l|}
-      \hline
-      facet & SCC \\
-      \hline
-      D &  \\
-      A & 10 \\
-      F & 10 \\
-      G & 10 \\
-      H & 10 \\
-      C & 1001 \\
-      E & 1010 \\
-      I & 011010 \\
-      B & 100110 \\
-      \hline
-    \end{tabular}
-  \end{minipage} }
+    \label{fig:data-structures-3}
+    \includegraphics[width=0.22\columnwidth]{data-structures-3.pdf} }
   \caption{
     \protect\subref{fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I.
     \protect\subref{fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm.
     \protect\subref{fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \protect\subref{fig:scc-sort-1}.
     \protect\subref{fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted.
     \protect\subref{fig:conflict-find-6} The new quadtree after conflict resolution.
-    \protect\subref{fig:scc-sort-1} The SCC-facet pairs are stored in an array initially sorted on facet index (letters are used here for clarity). We then sort the pairs using two stable, parallel radix sorts on SCC address for fast indexed access.
-    The first sort is \textit{lexsort}, a lexicographical sort \protect\subref{fig:scc-sort-2},
-    then comes \textit{lensort}, a sort by length \protect\subref{fig:scc-sort-3}. In the \textit{lexsort}, we implicitly pad with zeros on the right so that all values are the same length. \red{How exactly is the \textit{lensort} done?}
+    \protect\subref{fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity).
+    \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access.
+    \protect\subref{fig:data-structures-3} We then, in parallel on each element of BCells, store the index of the quadtree cell corresponding to the Cell\_ID and, if the previous element in the BCells array does not have an identical Cell\_ID, store the BCell index in the quadtree Facets field. \red{I don't think we need \texttt{BCells.Cell\_idx}. I don't use it in the algorithm description.}
   }
   \label{fig:conflict-find}
 \end{figure}
@@ -280,7 +216,7 @@ Next we sort the SCC array, which is demonstrated in figure \ref{fig:scc-sort}. 
   \label{fig:scc-sort}
 \end{figure}
 
-Then we use the SCC array to find the conflict cells using algorithm \ref{alg:find-conflict-cells}.
+Then we use the \texttt{BCells} array and octree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel. We set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$. We find the ancestors using the \texttt{Parent} field in the octree data structure. Using the \texttt{Facets} field, we find the first of possibly multiple facets bounded by $A$. The first facet's index is found using \texttt{BCells[Quadtree[$A$].Facets].Facet\_idx}. Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and \red{continue on here...}.
 
 \algorithmspace
 \begin{algorithm}
