@@ -80,7 +80,7 @@
 \maketitle
 
 \begin{abstract}
-We present a parallel quadtree algorithm that resolves between geometric objects. The quadtree has the property that no quadtree cell intersects more than one labeled object. Previous parallel algorithms either spawn kernels hierarchically, separate points only, or make no hard guarantees of object separation. Our algorithm runs in \red{complexity?} in the average case and has excellent results in practice. We demonstrate with results on 2D and 3D datasets.
+We present a parallel quadtree algorithm that resolves between geometric objects. The quadtree has the property that no quadtree cell intersects more than one labeled object. Previous parallel algorithms either spawn kernels hierarchically, separate points only, or make no hard guarantees of object separation. We derive the time complexity and demonstrate excellent results in practice.
 
 %   Leave one blank line after the abstract, 
 %   then add the subject categories according to the ACM Classification Index 
@@ -105,11 +105,11 @@ We present a parallel quadtree algorithm that resolves between geometric objects
 \label{sec:intro}
 Constructing quadtrees on objects in an important task with applications to collision detection, distance fields, robot navigation, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. Our work however, centers on using quadtrees to separate, or resolve, collections of closely spaced objects. Using a quadtree, we can model the space between objects, the first step in constructing distance fields, detecting collisions, and computing the generalized Voronoi diagram. Modeling inter-object spacing is computationally straightforward when inter-object spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation that often uses graphics processors.
 
-Difficulties arise when spacing between objects is small relative to the size of the domain. An approach using a uniform grid would have excessive memory requirements in order to resolve between objects. \red{What does ``resolve'' mean?} In these cases, teh uniformly sized grid cell must be small enough to fit between objects at every location in the domain. To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory.
+Difficulties arise when spacing between objects is small relative to the size of the domain. An approach using a uniform grid would have excessive memory requirements in order to resolve between objects. \red{What does ``resolve'' mean?} In these cases, the uniformly sized grid cell must be small enough to fit between objects at every location in the domain. To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory.
 
 We present an algorithm that builds a quadtree on arbitrarily spaced objects in parallel. This work extends the work done by Edwards et al \cite{edwards2015approximating} by computing the quadtree in parallel with an algorithm targeted for the GPU. Our algorithm performs an order of magnitude faster than the previous work and will be an excellent base for later distance transform and generalized Voronoi diagram computation.
 
-Our algorithm has three steps:
+Our algorithm has three main components:
 
 \begin{enumerate}
 \item Construct an quadtree on object vertices using Karras' algorithm \cite{karras2012maximizing}
@@ -137,41 +137,23 @@ Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields i
 \section{Algorithm}
 \label{sec:algorithm}
 
-We refer to quadtree leaf cells that intersect two or more objects as ``conflict cells.'' A necessary and sufficient condition for a quadtree to resolve objects is to have no conflict cells. Our approach to computing such a quadtree is to first detexct conflict cells in parallel and then resolve them.
+We refer to quadtree leaf cells that intersect two or more objects as ``conflict cells.'' A necessary and sufficient condition for a quadtree to resolve objects is to have no conflict cells. Our approach to computing such a quadtree is to first build an initial quadtree using a set $S$ of point samples. We initialize $S$ to be the object vertices. We then detect conflict cells in parallel, followed by augmenting $S$ with sample points such that a subsequent quadtree built on $S$ resolves conflict cells. If $S$ changed, then we iterate.
 
-Our algorithm proceeds in three main steps:
-
-\begin{tightenumerate}
-\item Build initial octree on vertices $V$ \cite{karras2012maximizing}
-\item Detect conflict cells
-  \begin{tightenumerate}
-  \item Build bounding cells (BCells) array (Figure \ref{fig:data-structures-1})
-  \item Sort BCells array (Figure \ref{fig:data-structures-2})
-  \item Index BCells with octree data structure (Figure \ref{fig:data-structures-3})
-  \item Find facets that intersect each leaf cell
-  \end{tightenumerate}
-\item Resolve conflict cells
-  \begin{tightenumerate}
-  \item Compute sample points $S$
-  \item Build new octree on $V \cup S$
-  \end{tightenumerate}
-\item Iterate
-\end{tightenumerate}
-
-Steps 1 and 2 are independent of dimension, and so our descriptions will use dimension-independent terms. In this paper, step 3 is described in 2D, with a 3D extension left to future work.
+Most of our algorithm is independent of dimension, and so we will use terms ``facet'' and ``octree'' (which lacks a dimension-independent term). The process of finding sample points to resolve conflict cells is in 2D in this paper, so for that section we will use ``line'' and ``quadtree''.
 
 \subsection{Build initial octree}
-Our first step is to build an octree on the vertices using Karras' algorithm \cite{karras2012maximizing}. This step gives us our first approximation to our final octree.
+\label{sec:build-initial-octree}
+Our first step is to build an octree on the vertices. This step gives us our first approximation to our final octree. We use Karras' algorithm \cite{karras2012maximizing} which sorts the Morton codes of the vertices in parallel, then constructs the binary radix tree in parallel. With the binary radix tree, the quadtree can be constructed with a single parallel call. The strength of this algorithm lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
 
 \subsection{Detect conflict cells}
 
-Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$. The address of the root cell is a special case and is defined as $R$. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
+Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$, where the local address is the Morton code of a $2^{DIM}$ block of voxels. The address of the root cell is defined as the empty string. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
 
-We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:scc-sort-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
+We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:data-structures-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
 
-We begin by constructing an array of BCells (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$].Cell\_ID}.
+We begin by constructing an array \texttt{BCells} and sibling array \texttt{FacetMap} (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$]}.
 
-Next we sort the \texttt{BCells} array on the \texttt{Cell\_ID} field using a parallel radix lexicographical sort (Figure \ref{fig:data-structures-2}). \texttt{BCells} array construction and sorting is done in parallel with the initial Karras octree construction.
+Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCell} values using a parallel radix lexicographical sort (Figure \ref{fig:data-structures-2}). \texttt{BCells} array construction and sorting is done in parallel with the initial Karras octree construction.
 
 \begin{figure}
   \centering
@@ -195,19 +177,19 @@ Next we sort the \texttt{BCells} array on the \texttt{Cell\_ID} field using a pa
     \includegraphics[width=0.22\columnwidth]{data-structures-1.pdf} } \hfill
   \subfloat[][]{
     \label{fig:data-structures-2}
-    \includegraphics[width=0.22\columnwidth]{data-structures-2.pdf} } \hfill
+    \includegraphics[width=0.22\columnwidth]{data-structures-3.pdf} } \hfill
   \subfloat[][]{
     \label{fig:data-structures-3}
-    \includegraphics[width=0.22\columnwidth]{data-structures-3.pdf} }
+    \includegraphics[width=0.22\columnwidth]{data-structures-4.pdf} }
   \caption{
     \protect\subref{fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I.
     \protect\subref{fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm.
     \protect\subref{fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \protect\subref{fig:scc-sort-1}.
     \protect\subref{fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted.
     \protect\subref{fig:conflict-find-6} The new quadtree after conflict resolution.
-    \protect\subref{fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity).
+    \protect\subref{fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure) and start and end facets (``SFacet'' and ``EFacet'').
     \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access.
-    \protect\subref{fig:data-structures-3} We then, in parallel on each element of BCells, store the index of the quadtree cell corresponding to the Cell\_ID and, if the previous element in the BCells array does not have an identical Cell\_ID, store the BCell index in the quadtree Facets field. \red{I don't think we need \texttt{BCells.Cell\_idx}. I don't use it in the algorithm description.}
+    \protect\subref{fig:data-structures-3} We then, in parallel on each element of BCells, store the index of the quadtree cell corresponding to the Cell\_ID and, if the previous element in the BCells array does not have an identical Cell\_ID, store the BCell index in the quadtree Facets field.
   }
   \label{fig:conflict-find}
 \end{figure}
@@ -216,33 +198,32 @@ Next we sort the \texttt{BCells} array on the \texttt{Cell\_ID} field using a pa
   \label{fig:scc-sort}
 \end{figure}
 
-Then we use the \texttt{BCells} array and octree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel. We set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$. We find the ancestors using the \texttt{Parent} field in the octree data structure. Using the \texttt{Facets} field, we find the first of possibly multiple facets bounded by $A$. The first facet's index is found using \texttt{BCells[Quadtree[$A$].Facets].Facet\_idx}. Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and \red{continue on here...}.
+Then we use the \texttt{BCells} array and octree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel (line \ref{alg:L}). We set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$ (line \ref{alg:A}). We find the ancestors using the \texttt{Parent} field in the octree data structure. Using the \texttt{SFacet} and \texttt{EFacet} fields, we find, respectively, the first and (inclusive) last of possibly multiple facets bounded by $A$ (line \ref{alg:i}). We use the \texttt{FacetMap} array to find all facets bounded by bounding cell $A$ (line \ref{alg:f}). Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and store the first two facets of differing color (lines \ref{alg:7}-\ref{alg:16}). If at the conclusion of execution $L$.color is equal to $-2$ then $L$ is a conflict cell and must be resolved.
 
 \algorithmspace
 \begin{algorithm}
   \DontPrintSemicolon
   \LinesNumbered
-  \KwIn{VertexQuadtree}
+  \KwIn{Quadtree}
   \BlankLine
-  \ForPar{leaf cell $L$}{
+  \ForPar{leaf cell $L$}{ \label{alg:L}
     $L$.color = -1\;
-    \ForEach{cell $A$ in \directAncestors{$L$}}{
-      id := compute\_cell\_index($A$)\;
-      \ForEach{cell2facet in identical elements of cells2facets[id]}{
-        $f$ := cell2facet.facet\;
-        \If{$f$ intersects $L$}{
+    \ForEach{cell $A$ in \directAncestors{$L$}}{  \label{alg:A}
+      \ForEach{i in \{SFacets[A]$\dots$EFacets[A]\}}{
+%      i := Quadtree[$A$].Facets\; \label{alg:i}
+%      \While{BCells[i].Cell\_ID = Address($A$)}{
+%        $f$ := Facets[BCells[i].Facet\_idx]\; \label{alg:f}
+        $f$ := Facets[FacetMap[i]]\; \label{alg:f}
+        \If{$f$ intersects $L$}{ \label{alg:7}
           \If{$L$.color == -1} {
-            \tcp{First facet found}
-            \tcp{that intersects $L$}
             $L$.color = $f$.color\;
             $L$.facet[0] = $f$\;
           }
-          \ElseIf{$L$.color != $f$.color} {
-            \tcp{Cell $L$ is ambiguous}
+          \ElseIf{$L$.color $\ne$ $f$.color} {
             $L$.color = -2\;
             $L$.facet[1] = $f$\;
           }
-        }
+        } \label{alg:16}
       }
     }
   } \label{alg:quadtree_intersections_end}
@@ -297,7 +278,7 @@ Then we use the \texttt{BCells} array and octree data structure to find the conf
 %a(s) = a = |p^x-q^x| = |p^y-q^y|
 %\end{equation}
 
-A conflict cell is a quadtree cell that intersects at least two different objects. To resolve a conflict cell $c$, we consider pairs of lines of differing labels that intersect $c$. Figure \ref{fig:conflict-resolution-x} shows two lines
+To resolve a conflict cell $C$, we consider pairs of lines of differing labels that intersect $C$. Figure \ref{fig:conflict-resolution-x} shows two lines
 
 \begin{align}
 q(t) &= q = q_0 + tv \label{eqn:q} \\
@@ -307,9 +288,9 @@ along with a line
 \begin{align}
 p(s) &= p = p_0 + su \label{eqn:p}
 \end{align}
-that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(s)$ (figure \ref{fig:conflict-resolution-octree}) such that an quadtree built on $V \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell. We will find a series of boxes such that each box's left-most intersection with $p(s)$ is a sample point meeting the above criterion.
+that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(s)$ (figure \ref{fig:conflict-resolution-octree}) such that an quadtree built on $S \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell. We will find a series of boxes such that each box's left-most intersection with $p(s)$ is a sample point meeting the above criterion.
 
-We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other cases can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$. We break the problem into two cases: the \textit{opposite} case (see Figure \ref{fig:conflict-resolution-even}) is where $w^y > 0$, so each box intersects $q$ and $r$ at its top-left and bottom-right corners, respectively. The \textit{adjacent} case (see Figure \ref{fig:conflict-resolution-adjacent-even}) is where $w^y < 0$, so the line intersections are adjacent at the top-left and bottom-left corners of the box.
+We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other instances can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$. We break the problem into two cases: the \textit{opposite} case (see Figure \ref{fig:conflict-resolution-even}) is where $w^y > 0$, so each box intersects $q$ and $r$ at its top-left and bottom-right corners, respectively. The \textit{adjacent} case (see Figure \ref{fig:conflict-resolution-adjacent-even}) is where $w^y < 0$, so the line intersections are adjacent at the top-left and bottom-left corners of the box.
 
 \subsubsection{Finding $a(s)$ -- \textit{opposite} case}
 
@@ -459,7 +440,7 @@ and
 %\end{align}
 
 \subsubsection{Sampling}
-In both the \textit{opposite} and the \textit{adjacent} cases, $a(s)$ is of the form $a(s) = \hat{\alpha} s + \hat{\beta}$. We now use $a(s)$ to construct a sequence of $s$ values $S = \{s_0, s_1, s_2, \dots, s_n\}$ that meet our sampling criterion. We first construct the even samples (see Figures \ref{fig:conflict-resolution-even} and \ref{fig:conflict-resolution-adjacent-even}). Given a starting point $p(s_0)$,
+In both the \textit{opposite} and the \textit{adjacent} cases, $a(s)$ is of the form $a(s) = \hat{\alpha} s + \hat{\beta}$. We now use $a(s)$ to construct a sequence of values $S = \{s_0, s_1, s_2, \dots, s_n\}$ that meet our sampling criterion. We first construct the even samples (see Figures \ref{fig:conflict-resolution-even} and \ref{fig:conflict-resolution-adjacent-even}). Given a starting point $p(s_0)$,
 \begin{equation}
 p^x(s_{i+2}) = p^x(s_i) + a(s_i)
 \end{equation}
@@ -488,9 +469,9 @@ which is the point in the center of the first box in the x-dimension.
 
 We solve the recurrence relation \eqref{eqn:recurrence} using the characteristic polynomial to yield
 \begin{equation}
-s_i = k_1 + k_2 \alpha^i
+s_i = k_1 + k_2 \alpha^i \label{eqn:sample}
 \end{equation}
-where
+where the $k$ variables are split into those for even values of $i$ and those for odd values of $i$, and are given as
 \begin{align}
 k_1^{even} &= \frac{\beta}{1-\alpha} \\
 k_1^{odd} &= \frac{\beta}{1-\alpha} \\
@@ -503,211 +484,38 @@ k_1+k_2\alpha^i < s_{exit}
 \end{align}
 results in
 \begin{align}
-i < \log_{\alpha}\frac{s_{exit}-k_1}{k_2}
+i < \log_{\alpha}\frac{s_{exit}-k_1}{k_2} \label{eqn:num-samples}
 \end{align}
 
-%
-%. When $i$ is odd, the initial condition will be where $s$ is halfway along the first box (it could be anywhere in the interior of the first box, but we use halfway for convenience). So from \eqref{eqn:p},
-%\begin{align}
-%s_1 &= \frac{p^x-p_0^x}{2u^x} \\
-%    &= \frac{a(0)}{2u^x}
-%\end{align}
-%\begin{align}
-%k_1^{even} = k_1^{odd} &= \beta\left(1-\frac{\alpha}{\alpha-1}\right) \\
-%k_2^{even} &= \frac{\beta}{\alpha-1} \\
-%k_2^{odd} &= \frac{a(0)}{2u^x}+\frac{\beta}{\alpha-1}
-%\end{align}
-%
-%It is tempting to formulate the recurrance relation using a single initial condition. This would be done by replacing equation \eqref{eqn:xi_init} with
-%\begin{align}
-%x_i &= x_{i-1} + \frac{a(s_{i-1})}{2}
-%\end{align}
-%This formulation can lead to conflict cells as shown in figure \ref{fig:conflict-resolution-half}.
-%
-%\begin{figure}
-%  \centering
-%  \includegraphics[width=0.48\columnwidth]{conflict-resolution-half.pdf}
-%  \caption{Using a single recurrence solution we can no longer guarantee that every box that intersects both lines contains at least two samples. The box in red contains only one sample, so the quadtree may contain conflict cells.
-%  }
-%  \label{fig:conflict-resolution-half}
-%\end{figure}
+In short, we first use equation \eqref{eqn:num-samples} compute the number of samples required to resolve the cell. The second step is to compute the samples themselves, which is done in parallel over all new samples to be computed, using equation \eqref{eqn:sample}.
 
+\subsubsection{Iterate}
 
+Because conflict cell resolution only considers two facets at a time, we may have to iterate multiple times if more than two facets intersect a given cell. If new sample points were found then we add them to the current set $S$ of sample points and return to building the octree from points (section \ref{sec:build-initial-octree}). We finish when no new sample points are found.
 
-%With $a$ in hand, the question becomes, at what value of $s$ does $a(s)$ double? We desire to build a sequence $S=(s_0, s_1, \dots)$ such that $a(s_i) = 2a(s_{i-1})$. Substituting \eqref{eqn:p} into \eqref{eqn:a_prime} we get
-%\begin{align}
-%\label{eqn:klm}
-%2a(s_{i-1}) &= \frac{q_0^xv^y-q_0^yv^x+(p_0^y+s_iu^y)v^x-(p_0^x+s_iu^x)v^y}{v^x+v^y} \nonumber \\
-%&= \frac{q_0^xv^y-q_0^yv^x+p_0^yv^x-p_0^xv^y+s_i(u^yv^x-u^xv^y)}{v^x+v^y}
-%\end{align}
-%Solving for $s_i$ results in
-%\begin{equation}
-%\label{eqn:klm}
-%s_i = \frac{2(v^x+v^y)a(s_{i-1})-q_0^xv^y+q_0^yv^x-p_0^yv^x+p_0^xv^y}{u^yv^x-u^xv^y}
-%\end{equation}
-%
-%For $i>0$, $a(s_i)=a'(s_i)$, so we can characterize $s_i$ as a linear equation:
-%\begin{align}
-%s_0 &= 0 \nonumber \\
-%s_1 &= 2ma(s_0)+b \nonumber \\
-%s_2 &= 2^2ma(s_0)+b \nonumber \\
-%\cdots \nonumber \\
-%s_i &= 2^ima(s_0)+b
-%\label{eqn:si}
-%\end{align}
-%where 
-%\[m=\frac{v^x+v^y}{u^yv^x-u^xv^y}\]
-%and
-%\[b=\frac{-q_0^xv^y+q_0^yv^x-p_0^yv^x+p_0^xv^y}{u^yv^x-u^xv^y}\]
-%%where $m=(v^x+v^y)/(u^yv^x-u^xv^y)$ and $b=(-q_0^xv^y+q_0^yv^x-p_0^yv^x+p_0^xv^y)/(u^yv^x-u^xv^y)$.
-%
-%The number of elements in sequence $S$ is obtained by setting equation \eqref{eqn:si} less than one and solving for $i$:
-%\begin{equation}
-%i < \log_2{\frac{1-b}{ma(s_0)}}
-%\end{equation}
+\subsection{Time complexity analysis}
 
-\subsection{Build quadtree on vertices}
+Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the object vertices. Let $D$ be the depth of the octree. In this analysis we assume sufficient parallel units to maximize parallelization.
 
-We first construct an quadtree on the vertices of the objects, which we call the ``vertex quadtree''. We use Karras' algorithm \cite{karras2012maximizing} which sorts the Morton codes of the vertices in parallel, then constructs the binary radix tree in parallel. With the binary radix tree, the quadtree can be constructed with a single parallel call. The strength of this algorithm lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made. Given enough parallel units, the Karras algorithm runs in $O(\log{N})$ time, where $N$ is the number of vertices.
+\begin{tightenumerate}
+\item Build octree using Karras' algorithm \cite{karras2012maximizing} - $O(D)$.
+\item Detect conflict cells
+  \begin{tightenumerate}
+  \item Build BCells array - $O(D)$. Building of the array runs in parallel for each facet $f$. The facet looks at each vertex (we assume simplices with a constant number of dimensions), computes Morton codes and finds the longest common prefix among vertices. This requires looking at each bit, of which there are $O(D)$.
+  \item Sort BCells array - $O(\log{M})$. The array has $M$ elements, and we use a parallel radix sort with $\log$ complexity.
+  \item Index BCells with octree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the octree for a given cell ID, taking at most $D$ steps.
+  \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the octree due to visiting each ancestor of the leaf cell.
+  \end{tightenumerate}
+\item Resolve conflict cells
+  \begin{tightenumerate}
+  \item Compute new sample points - $O(1)$. The first step computes, in parallel over conflict cells, the number of samples required to resolve the cell using equation \eqref{eqn:num-samples}. The second step is to compute the samples themselves, which is done in parallel over all new samples to be computed, using equation \eqref{eqn:sample}.
+  \item $S \leftarrow S \cup S'$ - $O(1)$.
+  \end{tightenumerate}
+\item Iterate - $O(Q)$ iterations. In the worst case, all facets intersect a single cell, requiring potentially $Q=O(M^2)$ iterations. In our testing, we have never seen $Q$ exceed \red{fill in with some value here}.
+\end{tightenumerate}
 
-\subsection{Identify conflict cells}
+The final complexity of each iteration is $O(M+D)$ worst case and $O(\log{M}+D)$ average case. In practice we must fix the depth of the octree to a constant value in order to use a predetermined integer size for the Morton codes, which brings the average case complexity to $O(\log{M})$. Taking iteration into account, the final complexity is $(Q\log{M})$ average case.
 
-Our end goal is to construct an quadtree such that no quadtree cell intersects more than one object. Note that a cell is allowed to intersect more than one facet, but all facets must belong to the same object, or, in other words, all facets must share the same label. It is possible, but unlikely, that the vertex quadtree has this property. If so, then we are done. Otherwise, we must identify subdivide conflict cells.
-
-One naive algorithm to identify conflict cells is to process each leaf cell $c$ in parallel and store which facets intersect $c$. This is $O(N)$. Another approach is to process each facet in parallel and add it to every cell that it intersects. This is $O(k\log{N})$ where $k$ is maximum number of cells that any facet intersects. As we will show, our algorithm is $O(j + \log{N})$ where $j$ is the maximum number of facets that intersect any cell. In practice, $\log{N} > j$, making our algorithm $O(\log{N})$.
-
-We identify conflict cells as shown in algorithm \ref{alg:find-conflict-cells}. In lines \ref{alg:quadtree_containing_begin}-\ref{alg:quadtree_containing_end}, for each internal quadtree cell $c$, we store all facets for which $c$ is the smallest containing cell. Since we are implementing this in a GPGPU environment, we don't have dynamic memory, so each facet must be processed twice. The first loop discovers how many facets are to be stored in each cell after which we allocate space for the facets. We use parallel prefix sums to determine the amount of space we need to allocate as well as the offsets for each internal cell. The second loop actually stores the facets.
-
-The $\container{f}$ procedure finds the smallest quadtree cell that fully contains the facet $f$. A straightforward implementation of $\container{f}$ is to perform a standard quadtree search on the vertices of $f$ and take the smallest quadtree cell that contains all of them. (Note that the cell is always an internal node, since a post-condition of the Karras algorithm is that no leaf cell contains more than one vertex.) In our implementation however, we take advantage of our existing data structures. The quadtree cell that contains a vertex $v$ is uniquely determined by the D-tuple bits of its morton code. For example, if a 2D vertex has morton code $010010$, then the quadtree is traversed from the root to child $01$ to child $00$ to child $10$. To determine $\container{f}$, we find the longest common prefix (\lcp) of the vertices. Truncating the length of \lcp\,to a multiple of D, we find the smallest quadtree cell that contains all vertices of $f$. The complexity of $\container{f}$ is $O(\log{N})$ for both implementations. Thus, lines \ref{alg:quadtree_containing_begin}-\ref{alg:quadtree_containing_end} run in $O(\log{N})$ time.
-
-Lines \ref{alg:quadtree_intersections_begin}-\ref{alg:quadtree_intersections_end} of the algorithm identify and store all facets that intersect with a given leaf cell $c$. Again, it is done in two steps for memory allocation purposes. Each leaf cell $c$ looks at its $O(\log{N})$ ancestors and tests all facets stored in those ancestors for intersection with $c$. Any intersecting facets get stored in $c$. These lines run in $O(F)$ time, where $F$ is the number of facets in all objects. Even though the loop is doubly-nested, each facet is stored in a unique internal node, so no more than $F$ facets will be visited in the loops. In practice, far fewer than $F$ facets will be checked for each leaf cell, because most datasets have facets that are completely contained in internal cells that are reasonably low in the tree.
-
-The entire conflict cell detection algorithm runs in $O(\log{N}+L) = O(L)$ because $L > \log{N}$. However, average case is $O(\log{N})$, considering that most lines are contained entirely in a cell at reasonably low depth.
-
-In Step 4, Stack is preallocated to size $M\cdot2^D$ where $M$ is the maximum quadtree depth and $D$ is the dimension. A conflict cell is a cell that intersects at least two different objects, or two lines of different labels.
-
-
-The second procedure we use is $\directAncestors{c}$, which finds all ancestors of quadtree cell $c$.
-
-
-%\SetKwFor{ForPar}{for}{do in parallel}{endfpar}
-
-\algorithmspace
-\begin{algorithm}
-  \DontPrintSemicolon
-  \LinesNumbered
-  \KwIn{VertexQuadtree}
-  \BlankLine
-  \tcp{Store contained facets}
-  \ForPar{facet $f$ in Objects}{
-    \label{alg:quadtree_containing_begin}
-    a := $\container{f}$\;
-    a.numFacets := a.numFacets + 1\;
-  }
-  Allocate space for facets in internal cells\;
-  \ForPar{facet $f$ in Objects}{
-    a := $\container{f}$\;
-    a.facets := a.facets $\cup$ f
-  } \label{alg:quadtree_containing_end}
-  \tcp{Store intersecting facets}
-  \ForPar{leaf cell c in VertexQuadtree}{
-    \label{alg:quadtree_intersections_begin}
-    \ForEach{cell a in \directAncestors{c}}{
-      \ForEach{facet $f$ in a.facets}{
-        \If{$f$ intersects c}{
-          c.numFacets := c.numFacets + 1\;
-        }
-      }
-    }
-  }
-  Allocate space for facets in leaf cells\;
-  \ForPar{leaf cell c in VertexQuadtree}{
-    \ForEach{cell a in \directAncestors{c}}{
-      \ForEach{facet $f$ in a.facets}{
-        \If{$f$ intersects c}{
-          c.facets := c.facets $\cup$ f\;
-        }
-      }
-    }
-  } \label{alg:quadtree_intersections_end}
-\caption{FIND\_CONFLICT\_CELLS}
-\label{alg:find-conflict-cells}
-\end{algorithm}
-\algorithmspace
-
-\algorithmspace
-\begin{algorithm}
-  \DontPrintSemicolon
-  \LinesNumbered
-  \KwIn{Quadtree, conflict\_cells}
-  \BlankLine
-  \tcp{4. Quadtree refinement}
-  \ForPar{leaf cell c in Quadtree}{
-    c' := c\;
-    \While{c' $\in$ conflict\_cells}{
-      $(c'_0,c'_1,\dots,c'_{2^D-1})$ := subdivide c'\;
-      push $(c'_0,c'_1,\dots,c'_{2^D-1})$ onto Stack\;
-      c' := Stack.pop
-    }
-  }
-\caption{REFINE\_QUADTREE}
-\label{alg:refine-quadtree}
-\end{algorithm}
-\algorithmspace
-
-\begin{figure}
-  \centering
-  \subfloat[][]{
-    \label{fig:octree-cartesian-1}
-    \includegraphics[width=0.24\columnwidth]{octree-cartesian-1.pdf} }
-  \subfloat[][]{
-    \label{fig:octree-cartesian-2}
-    \includegraphics[width=0.24\columnwidth]{octree-cartesian-2.pdf} }
-  \subfloat[][]{
-    \label{fig:octree-cartesian-3}
-    \includegraphics[width=0.24\columnwidth]{octree-cartesian-3.pdf} }
-  \subfloat[][]{
-    \label{fig:octree-cartesian-5}
-    \includegraphics[width=0.24\columnwidth]{octree-cartesian-5.pdf} } \\
-  \subfloat[][]{
-    \label{fig:octree-hierarchical-1}
-    \includegraphics[width=0.24\columnwidth]{octree-hierarchical-1.pdf} }
-  \subfloat[][]{
-    \label{fig:octree-hierarchical-2}
-    \includegraphics[width=0.24\columnwidth]{octree-hierarchical-2.pdf} }
-  \caption{
-    \protect\subref{fig:octree-cartesian-1} A red object and a blue object.
-    \protect\subref{fig:octree-cartesian-2} The vertex quadtree, or quadtree built on the object vertices using Karras' algorithm.
-    \protect\subref{fig:octree-cartesian-3}, \protect\subref{fig:octree-hierarchical-1} The vertex quadtree with conflict cells highlighted. Note the label of an quadtree cell in \protect\subref{fig:octree-cartesian-3} is the concatenation of labels from root R to the leaf cell in \protect\subref{fig:octree-hierarchical-1}. This value also corresponds to the highest order bits of the morton code of any point in the cell.
-    \protect\subref{fig:octree-cartesian-5}, \protect\subref{fig:octree-hierarchical-2} The quadtree after resolution of conflict cells.
-  }
-  \label{fig:steps}
-\end{figure}
-
-In Fig. \ref{fig:steps}, R (Root) is the smallest containing cell for lines A, B, and C, cell 20 contains line D, and cell 2 contains lines E and F. After Step 3 of the algorithm, line A is stored in leaf cells 202, 203, 21, and 3. Conflict cells, which are the only cells that are subdivided, are 203 and 21.
-
-%\begin{table}
-%  \centering
-%  \begin{tabular}{ll}
-%    \toprule
-%    line &  $\container{line}$ \\
-%    \midrule
-%    A & R \\
-%    B & R \\
-%    C & R \\
-%    D & 20 \\
-%    E & 2 \\
-%    F & 2 \\
-%    \bottomrule
-%  \end{tabular}
-%\end{table}
-
-
-%-----------------------------------------------------------
-% Compute GVD surface
-%-----------------------------------------------------------
-\section{Compute GVD surface}
-\label{sec:bisector}
 
 %-------------------------------------------------------------------------------
 % Results
@@ -776,8 +584,7 @@ Our implementation\footnote{Source code is available at \url{http://cedmav.org/r
 % Bibliography
 %-------------------------------------------------------------------------
 
-%\bibliographystyle{eg-alpha}
-\bibliographystyle{eg-alpha-doi}
+\bibliographystyle{abbrv}
 \balance
 \bibliography{paper}
 

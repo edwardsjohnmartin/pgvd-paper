@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  10 OCT 2016 17:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  13 OCT 2016 15:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -869,14 +869,7 @@ Package: showlabels 2013/12/06 v1.6.6
 Package: `showlabels' v1.6.6 <2013/12/06>
 with amsmath equation tags
 \SL@labelposition=\count164
-) (./paper.aux
-
-LaTeX Warning: Label `alg:quadtree_intersections_end' multiply defined.
-
-
-LaTeX Warning: Label `alg:find-conflict-cells' multiply defined.
-
-)
+) (./paper.aux)
 \openout1 = `paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -1006,90 +999,94 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 105.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 126.
+LaTeX Font Info:    Try loading font information for U+msa on input line 140.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 126.
+LaTeX Font Info:    Try loading font information for U+msb on input line 140.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 126.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 140.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-LaTeX Warning: Reference `fig:scc-sort-1' on page 2 undefined on input line 170
-.
-
-<./figs/conflict-find-1.pdf, id=135, 257.76305pt x 257.76299pt>
+<./figs/conflict-find-1.pdf, id=126, 257.76305pt x 257.76299pt>
 File: ./figs/conflict-find-1.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-1.pdf>
-Package pdftex.def Info: ./figs/conflict-find-1.pdf used on input line 180.
+Package pdftex.def Info: ./figs/conflict-find-1.pdf used on input line 162.
 (pdftex.def)             Requested size: 105.16237pt x 105.1604pt.
 
-<./figs/conflict-find-2.pdf, id=136, 257.76305pt x 257.76299pt>
+<./figs/conflict-find-2.pdf, id=127, 257.76305pt x 257.76299pt>
 File: ./figs/conflict-find-2.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-2.pdf>
-Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 183.
+Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 165.
 (pdftex.def)             Requested size: 105.16237pt x 105.1604pt.
 
-<./figs/conflict-find-4.pdf, id=137, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-4.pdf, id=128, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-4.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-4.pdf>
-Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 186.
+Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 168.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
-<./figs/conflict-find-5.pdf, id=138, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-5.pdf, id=129, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-5.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-5.pdf>
-Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 189.
+Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 171.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
-<./figs/conflict-find-6.pdf, id=139, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-6.pdf, id=130, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-6.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-6.pdf>
-Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 192.
+Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 174.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
-<./figs/data-structures-1.pdf, id=140, 204.97522pt x 236.80449pt>
+<./figs/data-structures-1.pdf, id=131, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-1.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-1.pdf>
-Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 195.
-(pdftex.def)             Requested size: 105.16237pt x 121.49496pt.
+Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 177.
+(pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
 
-<./figs/data-structures-2.pdf, id=141, 204.97522pt x 236.80449pt>
-File: ./figs/data-structures-2.pdf Graphic file (type pdf)
-
-<use ./figs/data-structures-2.pdf>
-Package pdftex.def Info: ./figs/data-structures-2.pdf used on input line 198.
-(pdftex.def)             Requested size: 105.16237pt x 121.49496pt.
-
-<./figs/data-structures-3.pdf, id=142, 204.97522pt x 236.80449pt>
+<./figs/data-structures-3.pdf, id=132, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-3.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-3.pdf>
-Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 201.
-(pdftex.def)             Requested size: 105.16237pt x 121.49496pt.
+Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 180.
+(pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
+
+<./figs/data-structures-4.pdf, id=133, 198.8pt x 227.92291pt>
+File: ./figs/data-structures-4.pdf Graphic file (type pdf)
+
+<use ./figs/data-structures-4.pdf>
+Package pdftex.def Info: ./figs/data-structures-4.pdf used on input line 183.
+(pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
 
 
 LaTeX Warning: Reference `sub@fig:scc-sort-1' on page 2 undefined on input line
- 211.
+ 193.
 
 
 LaTeX Warning: Reference `sub@fig:scc-sort-1' on page 2 undefined on input line
- 211.
+ 193.
+
+
+LaTeX Warning: Reference `alg:i' on page 2 undefined on input line 201.
+
+
+Overfull \hbox (72.08276pt too wide) detected at line 232
+[][] 
+ []
 
 [2 <./figs/conflict-find-1.pdf> <./figs/conflict-find-2.pdf
 
@@ -1111,88 +1108,83 @@ lusion: multiple pdfs with page group included in a single page
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./figs/data-structures-1.pdf): PDF i
 nclusion: multiple pdfs with page group included in a single page
-> <./figs/data-structures-2.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/data-structures-2.pdf): PDF i
-nclusion: multiple pdfs with page group included in a single page
 > <./figs/data-structures-3.pdf
 
 pdfTeX warning: /usr/texbin/pdflatex (file ./figs/data-structures-3.pdf): PDF i
 nclusion: multiple pdfs with page group included in a single page
->]
-Overfull \hbox (14.99634pt too wide) detected at line 251
-[][] 
- []
+> <./figs/data-structures-4.pdf
 
-<./figs/conflict-resolution-x.pdf, id=239, 104.86066pt x 105.45108pt>
+pdfTeX warning: /usr/texbin/pdflatex (file ./figs/data-structures-4.pdf): PDF i
+nclusion: multiple pdfs with page group included in a single page
+>] <./figs/conflict-resolution-x.pdf, id=231, 104.86066pt x 105.45108pt>
 File: ./figs/conflict-resolution-x.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-x.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-x.pdf used on input line 26
-1.
+Package pdftex.def Info: ./figs/conflict-resolution-x.pdf used on input line 24
+2.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-<./figs/conflict-resolution-even.pdf, id=240, 104.86066pt x 105.45108pt>
+<./figs/conflict-resolution-even.pdf, id=232, 104.86066pt x 105.45108pt>
 File: ./figs/conflict-resolution-even.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-even.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-even.pdf used on input line
- 264.
+ 245.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-<./figs/conflict-resolution-all.pdf, id=241, 104.86066pt x 105.45108pt>
+<./figs/conflict-resolution-all.pdf, id=233, 104.86066pt x 105.45108pt>
 File: ./figs/conflict-resolution-all.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-all.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-all.pdf used on input line 
-267.
+248.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-<./figs/conflict-resolution-octree.pdf, id=242, 104.86066pt x 105.45108pt>
+<./figs/conflict-resolution-octree.pdf, id=234, 104.86066pt x 105.45108pt>
 File: ./figs/conflict-resolution-octree.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-octree.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-octree.pdf used on input li
-ne 270.
+ne 251.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-Overfull \hbox (5.55084pt too wide) in paragraph at lines 261--270
+Overfull \hbox (5.55084pt too wide) in paragraph at lines 242--251
  [][][][][][][][] 
  []
 
 
-<./figs/conflict-resolution-adjacent-even.pdf, id=243, 104.86066pt x 105.45108p
+<./figs/conflict-resolution-adjacent-even.pdf, id=235, 104.86066pt x 105.45108p
 t>
 File: ./figs/conflict-resolution-adjacent-even.pdf Graphic file (type pdf)
  <use ./figs/conflict-resolution-adjacent-even.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-adjacent-even.pdf used on i
-nput line 273.
+nput line 254.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-<./figs/conflict-resolution-adjacent-all.pdf, id=244, 104.86066pt x 105.45108pt
+<./figs/conflict-resolution-adjacent-all.pdf, id=236, 104.86066pt x 105.45108pt
 >
 File: ./figs/conflict-resolution-adjacent-all.pdf Graphic file (type pdf)
  <use ./figs/conflict-resolution-adjacent-all.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-adjacent-all.pdf used on in
-put line 276.
+put line 257.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 314.
+(hyperref)                removing `math shift' on input line 295.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 314.
+(hyperref)                removing `math shift' on input line 295.
 
 [3]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 344.
+(hyperref)                removing `math shift' on input line 325.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 344.
+(hyperref)                removing `math shift' on input line 325.
 
 [4 <./figs/conflict-resolution-x.pdf> <./figs/conflict-resolution-even.pdf
 
@@ -1217,178 +1209,87 @@ pdfTeX warning: /usr/texbin/pdflatex (file ./figs/conflict-resolution-adjacent-
 all.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
 e
 >] [5]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 587.
 
- (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 587.
-
-Overfull \hbox (29.26794pt too wide) detected at line 635
-[][] 
- []
+LaTeX Warning: Reference `fig:bunny' on page 6 undefined on input line 524.
 
 
-Overfull \hbox (14.99634pt too wide) detected at line 655
-[][] 
- []
+LaTeX Warning: Reference `fig:pipes' on page 6 undefined on input line 524.
 
-<./figs/octree-cartesian-1.pdf, id=406, 257.76305pt x 257.76299pt>
-File: ./figs/octree-cartesian-1.pdf Graphic file (type pdf)
 
-<use ./figs/octree-cartesian-1.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-1.pdf used on input line 662.
-(pdftex.def)             Requested size: 114.72456pt x 114.7258pt.
+LaTeX Warning: Reference `fig:gears' on page 6 undefined on input line 556.
 
-<./figs/octree-cartesian-2.pdf, id=407, 257.76305pt x 257.76299pt>
-File: ./figs/octree-cartesian-2.pdf Graphic file (type pdf)
 
-<use ./figs/octree-cartesian-2.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-2.pdf used on input line 665.
-(pdftex.def)             Requested size: 114.72456pt x 114.7258pt.
+LaTeX Warning: Reference `fig:knife' on page 6 undefined on input line 558.
 
-<./figs/octree-cartesian-3.pdf, id=408, 257.76305pt x 257.76299pt>
-File: ./figs/octree-cartesian-3.pdf Graphic file (type pdf)
 
-<use ./figs/octree-cartesian-3.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-3.pdf used on input line 668.
-(pdftex.def)             Requested size: 114.72456pt x 114.7258pt.
+LaTeX Warning: Reference `fig:path' on page 6 undefined on input line 560.
 
-<./figs/octree-cartesian-5.pdf, id=409, 257.76305pt x 257.76299pt>
-File: ./figs/octree-cartesian-5.pdf Graphic file (type pdf)
 
-<use ./figs/octree-cartesian-5.pdf>
-Package pdftex.def Info: ./figs/octree-cartesian-5.pdf used on input line 671.
-(pdftex.def)             Requested size: 114.72456pt x 114.7258pt.
+LaTeX Warning: Reference `fig:axons' on page 6 undefined on input line 562.
 
-Overfull \hbox (5.55084pt too wide) in paragraph at lines 662--671
- [][][][][][][][] 
- []
 
-<./figs/octree-hierarchical-1.pdf, id=410, 301.40031pt x 221.10031pt>
-File: ./figs/octree-hierarchical-1.pdf Graphic file (type pdf)
-
-<use ./figs/octree-hierarchical-1.pdf>
-Package pdftex.def Info: ./figs/octree-hierarchical-1.pdf used on input line 67
+LaTeX Warning: Reference `fig:mol-explode' on page 6 undefined on input line 56
 4.
-(pdftex.def)             Requested size: 114.72456pt x 84.1573pt.
 
-<./figs/octree-hierarchical-2.pdf, id=411, 301.40031pt x 221.10031pt>
-File: ./figs/octree-hierarchical-2.pdf Graphic file (type pdf)
-
-<use ./figs/octree-hierarchical-2.pdf>
-Package pdftex.def Info: ./figs/octree-hierarchical-2.pdf used on input line 67
-7.
-(pdftex.def)             Requested size: 114.72456pt x 84.1573pt.
-
-
-LaTeX Warning: Reference `fig:bunny' on page 6 undefined on input line 716.
-
-
-LaTeX Warning: Reference `fig:pipes' on page 6 undefined on input line 716.
-
-[6] [7 <./figs/octree-cartesian-1.pdf> <./figs/octree-cartesian-2.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-cartesian-2.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
-> <./figs/octree-cartesian-3.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-cartesian-3.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
-> <./figs/octree-cartesian-5.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-cartesian-5.pdf): PDF 
-inclusion: multiple pdfs with page group included in a single page
-> <./figs/octree-hierarchical-1.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-hierarchical-1.pdf): P
-DF inclusion: multiple pdfs with page group included in a single page
-> <./figs/octree-hierarchical-2.pdf
-
-pdfTeX warning: /usr/texbin/pdflatex (file ./figs/octree-hierarchical-2.pdf): P
-DF inclusion: multiple pdfs with page group included in a single page
->]
-
-LaTeX Warning: Reference `fig:gears' on page 8 undefined on input line 748.
-
-
-LaTeX Warning: Reference `fig:knife' on page 8 undefined on input line 750.
-
-
-LaTeX Warning: Reference `fig:path' on page 8 undefined on input line 752.
-
-
-LaTeX Warning: Reference `fig:axons' on page 8 undefined on input line 754.
-
-
-LaTeX Warning: Reference `fig:mol-explode' on page 8 undefined on input line 75
-6.
-
-(./paper.bbl [8]) [9]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 784.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 784.
+(./paper.bbl [6]) [7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 591.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 591.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 784.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 784.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 591.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 591.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 9C0C21C6678866D974B0A59CFD4BE903;987.
+(rerunfilecheck)             Checksum: 77CF652DE6E1633C775E210CCCF8A72D;924.
 
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 784.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 591.
  ) 
 Here is how much of TeX's memory you used:
- 21643 strings out of 493089
- 385455 string characters out of 6134842
- 489839 words of memory out of 5000000
- 24457 multiletter control sequences out of 15000+600000
- 32565 words of font info for 78 fonts, out of 8000000 for 9000
+ 21500 strings out of 493089
+ 382568 string characters out of 6134842
+ 488230 words of memory out of 5000000
+ 24392 multiletter control sequences out of 15000+600000
+ 31890 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,24n,85p,1389b,711s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 57i,24n,85p,1448b,737s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.p
-fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
-></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/
-local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
-texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
-live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texliv
-e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
-2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
-15/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/cm-super/sfbx0600.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/cm-super/sfbx0700.pfb></usr/local/texlive/2015/tex
-mf-dist/fonts/type1/public/cm-super/sfbx0800.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2015/texmf-d
-ist/fonts/type1/public/cm-super/sfcc0800.pfb></usr/local/texlive/2015/texmf-dis
-t/fonts/type1/public/cm-super/sfrm0500.pfb></usr/local/texlive/2015/texmf-dist/
-fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2015/texmf-dist/fo
-nts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/
-type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/cm-super/sfso0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
-public/cm-super/sfsx0700.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/cm-super/sfsx0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
-ic/cm-super/sfsx0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/cm-super/sfsx1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/c
-m-super/sfsx1440.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-
-super/sfti0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-su
-per/sfti0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-supe
-r/sfti1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/
-sftt0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sf
-tt0900.pfb>
-Output written on paper.pdf (9 pages, 709890 bytes).
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
+ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
+l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/cm-super/sfbx0600.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/cm-super/sfbx0700.pfb></usr/local/texlive/2015/t
+exmf-dist/fonts/type1/public/cm-super/sfbx0800.pfb></usr/local/texlive/2015/tex
+mf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/cm-super/sfrm0500.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2015/texmf-dist/
+fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2015/texmf-dist/fo
+nts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2015/texmf-dist/font
+s/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/public/cm-super/sfso0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/public/cm-super/sfsx0700.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
+1/public/cm-super/sfsx0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
+public/cm-super/sfsx0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
+blic/cm-super/sfsx1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
+ic/cm-super/sfsx1440.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
+/cm-super/sfti0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/c
+m-super/sfti0900.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-
+super/sfti1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-su
+per/sftt0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-supe
+r/sftt0900.pfb>
+Output written on paper.pdf (7 pages, 620112 bytes).
 PDF statistics:
- 716 PDF objects out of 1000 (max. 8388607)
- 587 compressed objects within 6 object streams
- 191 named destinations out of 1000 (max. 500000)
- 233 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 551 PDF objects out of 1000 (max. 8388607)
+ 453 compressed objects within 5 object streams
+ 123 named destinations out of 1000 (max. 500000)
+ 195 words of extra memory for PDF output out of 10000 (max. 10000000)
 
