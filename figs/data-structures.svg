@@ -4211,7 +4211,7 @@
          id="tspan51117"
          x="37.011555"
          y="598.35492"
-         style="font-size:10px">(S/E)Facet</tspan></text>
+         style="font-size:10px">(F/L)Facet</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:11.53750038px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -4373,7 +4373,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="BCell IDs"
-     style="display:none"
+     style="display:inline"
      transform="translate(-391.93521,-356.46441)">
     <text
        sodipodi:linespacing="125%"
@@ -4473,7 +4473,7 @@
          sodipodi:role="line">011010</tspan></text>
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="BCell IDs sorted"
      id="g24221"
      inkscape:groupmode="layer"
@@ -4579,7 +4579,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="BCells Mask"
-     style="display:inline"
+     style="display:none"
      transform="translate(12.295189,-11.060479)">
     <rect
        transform="translate(-404.2304,-345.40393)"
@@ -4727,7 +4727,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="FacetMap2Facets"
-     style="display:none"
+     style="display:inline"
      transform="translate(-391.93521,-356.46441)">
     <g
        style="display:inline"
@@ -4792,7 +4792,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="FacetMap2Facets sorted"
-     style="display:inline"
+     style="display:none"
      transform="translate(-391.93521,-356.46441)">
     <path
        sodipodi:nodetypes="cc"
@@ -4879,7 +4879,7 @@
      inkscape:groupmode="layer"
      id="g10374"
      inkscape:label="Quad2FacetMap"
-     style="display:inline">
+     style="display:none">
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#marker10388)"
        d="m 556.5485,406.84562 c -14.22854,-8.12816 -97.50124,-7.00768 -107.9353,-1.9023"

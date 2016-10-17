@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="57.82967mm"
-   height="57.984436mm"
-   viewBox="0 0 204.90828 205.45666"
+   width="90.593346mm"
+   height="90.59333mm"
+   viewBox="0 0 321.00004 320.99998"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -26,13 +26,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="185.99123"
-     inkscape:cy="46.660415"
+     inkscape:cx="112.52694"
+     inkscape:cy="136.45376"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer2"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="751"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -56,9 +56,8 @@
      inkscape:label="octree"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-454.08175,-330.8223)"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     transform="translate(-456.47461,-333.64374)"
+     style="display:inline">
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3336"
@@ -314,7 +313,7 @@
   </g>
   <g
      style="display:none"
-     transform="translate(-454.08175,-330.8223)"
+     transform="translate(-456.47461,-333.64374)"
      id="g4239"
      inkscape:groupmode="layer"
      inkscape:label="octree 2"
@@ -618,8 +617,8 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="screen"
-     style="display:inline"
-     transform="translate(2.3928571,2.8214369)"
+     style="display:none"
+     transform="translate(-2.275e-6,-8.9296876e-7)"
      sodipodi:insensitive="true">
     <rect
        style="fill:#ffffff;fill-opacity:0.61676648;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -631,7 +630,7 @@
   </g>
   <g
      style="display:none"
-     transform="translate(-454.08175,-330.8223)"
+     transform="translate(-456.47461,-333.64374)"
      id="g4387"
      inkscape:groupmode="layer"
      inkscape:label="highlight"
@@ -690,9 +689,9 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="objects"
-     style="display:inline"
-     sodipodi:insensitive="true"
-     transform="translate(2.3928571,2.8214369)">
+     style="display:none"
+     transform="translate(-2.275e-6,-8.9296876e-7)"
+     sodipodi:insensitive="true">
     <path
        style="fill:none;fill-rule:evenodd;stroke:#0000ff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 30.175866,58.781311 25.28045,3.398138 39.272144,46.807991 -74.561859,6.69725 z"
@@ -706,7 +705,7 @@
        d="m 54.705195,30.360679 58.324455,62.728095 2.42823,21.676616 -18.547577,28.66307 -61.105751,27.79848"
        style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
-       style="fill:#00ff00;fill-rule:evenodd;stroke:#ff6806;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#1ac006;fill-opacity:1;fill-rule:evenodd;stroke:#1acd06;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 194.89511,173.22796 -29.28595,15.17158"
        id="path4354"
        inkscape:connector-curvature="0"
@@ -717,8 +716,7 @@
      id="layer7"
      inkscape:label="object vertices"
      style="display:inline"
-     sodipodi:insensitive="true"
-     transform="translate(2.3928571,2.8214369)">
+     transform="translate(-2.275e-6,-8.9296876e-7)">
     <path
        d="m 58.658165,29.194465 a 3.2829957,3.2829957 0 0 1 -0.843648,4.563637 3.2829957,3.2829957 0 0 1 -4.564324,-0.839923 3.2829957,3.2829957 0 0 1 0.836199,-4.565009 3.2829957,3.2829957 0 0 1 4.565689,0.832474"
        sodipodi:open="true"
@@ -828,7 +826,7 @@
        sodipodi:open="true"
        d="m 117.85579,112.94051 a 3.2829957,3.2829957 0 0 1 -0.84365,4.56364 3.2829957,3.2829957 0 0 1 -4.56432,-0.83992 3.2829957,3.2829957 0 0 1 0.8362,-4.56501 3.2829957,3.2829957 0 0 1 4.56569,0.83247" />
     <path
-       style="display:inline;fill:#ff6806;fill-opacity:1;stroke:#ff6806;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="display:inline;fill:#1ac006;fill-opacity:1;stroke:#1ac006;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path5172"
        sodipodi:type="arc"
        sodipodi:cx="165.73225"
@@ -850,15 +848,15 @@
        sodipodi:cx="195.02667"
        sodipodi:type="arc"
        id="path5174"
-       style="display:inline;fill:#ff6806;fill-opacity:1;stroke:#ff6806;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+       style="display:inline;fill:#1ac006;fill-opacity:1;stroke:#1ac006;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="object labels"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true"
-     transform="translate(2.3928571,2.8214369)">
+     transform="translate(-2.275e-6,-8.9296876e-7)">
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'Courier New';-inkscape-font-specification:'Courier New';letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -972,9 +970,9 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="cell labels"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true"
-     transform="translate(2.3928571,2.8214369)">
+     transform="translate(-2.275e-6,-8.9296876e-7)">
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1285,7 +1283,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="bounding box zoomed"
-     transform="translate(2.3928571,2.8214369)"
+     transform="translate(-2.275e-6,-8.9296876e-7)"
      style="display:none">
     <rect
        style="fill:none;fill-opacity:1;stroke:#ed5d00;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0;stroke-opacity:1"

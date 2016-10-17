@@ -20,10 +20,10 @@
 \citation{edwards2015approximating}
 \citation{karras2012maximizing}
 \citation{lavender1992voronoi}
-\citation{boada2002voronoi,boada2008approximations}
-\citation{teichmann1997polygonal,vleugels1998approximating}
 \citation{strain1999fast}
 \citation{frisken2000adaptively}
+\citation{boada2002voronoi,boada2008approximations}
+\citation{teichmann1997polygonal,vleugels1998approximating}
 \citation{bedorf2012sparse,karras2012maximizing,zhou2011data}
 \citation{kim2014exact}
 \citation{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}
@@ -33,8 +33,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
 \newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Algorithm}{1}{section.3}}
-\newlabel{sec:algorithm}{{3}{1}{Algorithm}{section.3}{}}
 \citation{karras2012maximizing}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:conflict-find-1}{{1a}{2}{Subfigure 1a}{subfigure.1.1}{}}
@@ -53,18 +51,20 @@
 \newlabel{sub@fig:data-structures-2}{{(g)}{g}{Subfigure 1g\relax }{subfigure.1.7}{}}
 \newlabel{fig:data-structures-3}{{1h}{2}{Subfigure 1h}{subfigure.1.8}{}}
 \newlabel{sub@fig:data-structures-3}{{(h)}{h}{Subfigure 1h\relax }{subfigure.1.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  \subref {fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I. \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \subref {fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \subref {fig:scc-sort-1}. \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure) and start and end facets (``SFacet'' and ``EFacet''). \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. \subref {fig:data-structures-3} We then, in parallel on each element of BCells, store the index of the quadtree cell corresponding to the Cell\_ID and, if the previous element in the BCells array does not have an identical Cell\_ID, store the BCell index in the quadtree Facets field. \relax }}{2}{figure.caption.1}}
-\newlabel{fig:conflict-find}{{1}{2}{\protect \subref {fig:conflict-find-1} We have three objects, blue, red, and orange with facets labeled A-I. \protect \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \protect \subref {fig:conflict-find-4} We then compute the smallest common cell (SCC) for each facet. These pairs are given in figure \protect \subref {fig:scc-sort-1}. \protect \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \protect \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \protect \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure) and start and end facets (``SFacet'' and ``EFacet''). \protect \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. \protect \subref {fig:data-structures-3} We then, in parallel on each element of BCells, store the index of the quadtree cell corresponding to the Cell\_ID and, if the previous element in the BCells array does not have an identical Cell\_ID, store the BCell index in the quadtree Facets field. \relax }{figure.caption.1}{}}
-\newlabel{fig:scc-sort}{{\caption@xref {fig:scc-sort}{ on input line 198}}{2}{Detect conflict cells}{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  \subref {fig:conflict-find-1} We have three objects, blue, red, and green with facets labeled A-I. \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \subref {fig:conflict-find-4} Zoomed-in view of the boundary cell (BCell) computation for each facet. These pairs are given in figure \subref {fig:data-structures-1}. \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure). \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given octree cell in \texttt  {FFacet} and \texttt  {LFacet}, respectively. \subref {fig:data-structures-3} For a given octree cell, we can find all contained facets for use in algorithm \ref  {alg:find-conflict-cells}. \relax }}{2}{figure.caption.1}}
+\newlabel{fig:conflict-find}{{1}{2}{\protect \subref {fig:conflict-find-1} We have three objects, blue, red, and green with facets labeled A-I. \protect \subref {fig:conflict-find-2} We construct an initial quadtree on the vertices using Karras' algorithm. \protect \subref {fig:conflict-find-4} Zoomed-in view of the boundary cell (BCell) computation for each facet. These pairs are given in figure \protect \subref {fig:data-structures-1}. \protect \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \protect \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \protect \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure). \protect \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given octree cell in \texttt {FFacet} and \texttt {LFacet}, respectively. \protect \subref {fig:data-structures-3} For a given octree cell, we can find all contained facets for use in algorithm \ref {alg:find-conflict-cells}. \relax }{figure.caption.1}{}}
+\newlabel{fig:scc-sort}{{\caption@xref {fig:scc-sort}{ on input line 220}}{2}{Detect conflict cells}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Algorithm}{2}{section.3}}
+\newlabel{sec:algorithm}{{3}{2}{Algorithm}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Build initial octree}{2}{subsection.3.1}}
 \newlabel{sec:build-initial-octree}{{3.1}{2}{Build initial octree}{subsection.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Detect conflict cells}{2}{subsection.3.2}}
 \newlabel{alg:L}{{1}{3}{Detect conflict cells}{AlgoLine.1.1}{}}
 \newlabel{alg:A}{{3}{3}{Detect conflict cells}{AlgoLine.1.3}{}}
+\newlabel{alg:i}{{4}{3}{Detect conflict cells}{AlgoLine.1.4}{}}
 \newlabel{alg:f}{{5}{3}{Detect conflict cells}{AlgoLine.1.5}{}}
 \newlabel{alg:7}{{6}{3}{Detect conflict cells}{AlgoLine.1.6}{}}
 \newlabel{alg:16}{{15}{3}{Detect conflict cells}{AlgoLine.1.15}{}}
-\newlabel{alg:quadtree_intersections_end}{{18}{3}{Detect conflict cells}{AlgoLine.1.18}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces FIND\_CONFLICT\_CELLS\relax }}{3}{algocf.1}}
 \newlabel{alg:find-conflict-cells}{{1}{3}{Detect conflict cells}{algocf.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Resolve conflict cells}{3}{subsection.3.3}}
@@ -73,10 +73,6 @@
 \newlabel{eqn:p}{{3}{3}{Resolve conflict cells}{equation.3.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Finding $a(s)$ -- \textit  {opposite} case}{3}{subsubsection.3.3.1}}
 \newlabel{eqn:t}{{4}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.4}{}}
-\newlabel{eqn:ro}{{5}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.5}{}}
-\newlabel{eqn:f}{{6}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.6}{}}
-\newlabel{eqn:a1o}{{7}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.7}{}}
-\newlabel{eqn:ao}{{8}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.8}{}}
 \newlabel{fig:conflict-resolution-x}{{2a}{4}{Subfigure 2a}{subfigure.2.1}{}}
 \newlabel{sub@fig:conflict-resolution-x}{{(a)}{a}{Subfigure 2a\relax }{subfigure.2.1}{}}
 \newlabel{fig:conflict-resolution-even}{{2b}{4}{Subfigure 2b}{subfigure.2.2}{}}
@@ -91,17 +87,21 @@
 \newlabel{sub@fig:conflict-resolution-adjacent-all}{{(f)}{f}{Subfigure 2f\relax }{subfigure.2.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }}{4}{figure.caption.4}}
 \newlabel{fig:conflict-resolution}{{2}{4}{\protect \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \protect \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }{figure.caption.4}{}}
+\newlabel{eqn:ro}{{5}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.5}{}}
+\newlabel{eqn:f}{{6}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.6}{}}
+\newlabel{eqn:a1o}{{7}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.7}{}}
+\newlabel{eqn:ao}{{8}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.8}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Finding $a(s)$ -- \textit  {adjacent} case}{4}{subsubsection.3.3.2}}
 \newlabel{eqn:ra}{{11}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.11}{}}
 \newlabel{eqn:a1a}{{12}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.12}{}}
 \newlabel{eqn:aa}{{13}{4}{Finding $a(s)$ -- \textit {adjacent} case}{equation.3.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sampling}{4}{subsubsection.3.3.3}}
 \citation{karras2012maximizing}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sampling}{5}{subsubsection.3.3.3}}
 \newlabel{eqn:recurrence}{{18}{5}{Sampling}{equation.3.18}{}}
 \newlabel{eqn:sample}{{22}{5}{Sampling}{equation.3.22}{}}
 \newlabel{eqn:num-samples}{{28}{5}{Sampling}{equation.3.28}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Iterate}{5}{subsubsection.3.3.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Time complexity analysis}{5}{subsection.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Complexity analysis}{5}{subsection.3.4}}
 \bibstyle{abbrv}
 \bibdata{paper}
 \bibcite{baert2013out}{1}
@@ -115,16 +115,16 @@
 \bibcite{karras2012maximizing}{9}
 \bibcite{kim2014exact}{10}
 \bibcite{laine2011efficient}{11}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {quadtree cells} - total number of leaf quadtree cells; \emph  {quadtree memory} - amount of memory used by the quadtree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{6}{table.caption.5}}
+\newlabel{tab:timings}{{1}{6}{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {quadtree cells} - total number of leaf quadtree cells; \emph {quadtree memory} - amount of memory used by the quadtree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results and applications}{6}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Comparison to other methods}{6}{subsection.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{6}{section.5}}
 \bibcite{lavender1992voronoi}{12}
 \bibcite{lefebvre2007compressed}{13}
 \bibcite{park2010cuda}{14}
 \bibcite{strain1999fast}{15}
 \bibcite{teichmann1997polygonal}{16}
 \bibcite{vleugels1998approximating}{17}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {quadtree cells} - total number of leaf quadtree cells; \emph  {quadtree memory} - amount of memory used by the quadtree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{6}{table.caption.5}}
-\newlabel{tab:timings}{{1}{6}{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {quadtree cells} - total number of leaf quadtree cells; \emph {quadtree memory} - amount of memory used by the quadtree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results and applications}{6}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Comparison to other methods}{6}{subsection.4.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{6}{section.5}}
 \bibcite{yin2011fast}{18}
 \bibcite{zhou2011data}{19}
