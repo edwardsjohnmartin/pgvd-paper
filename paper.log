@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  17 OCT 2016 13:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  12 NOV 2016 12:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -869,29 +869,33 @@ Package: showlabels 2013/12/06 v1.6.6
 Package: `showlabels' v1.6.6 <2013/12/06>
 with amsmath equation tags
 \SL@labelposition=\count164
-) (./paper.aux)
+) (./paper.aux
+
+LaTeX Warning: Label `tab:timings' multiply defined.
+
+)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 26.
  (/usr/local/texlive/2015/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    ... okay on input line 26.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -932,7 +936,7 @@ Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box54
-Package hyperref Info: Link coloring ON on input line 27.
+Package hyperref Info: Link coloring ON on input line 26.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -941,9 +945,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count165
 )
-LaTeX Info: Redefining \ref on input line 27.
-LaTeX Info: Redefining \pageref on input line 27.
-LaTeX Info: Redefining \nameref on input line 27.
+LaTeX Info: Redefining \ref on input line 26.
+LaTeX Info: Redefining \pageref on input line 26.
+LaTeX Info: Redefining \nameref on input line 26.
 
 (./paper.out) (./paper.out)
 \@outlinefile=\write4
@@ -989,27 +993,27 @@ Package SIunits Warning: The command \gray was already defined.
 Hint: use option `pstricks' or `Gray' with SIunits package.
 See SIunits.dvi or readme.txt section: Known problems and limitations.
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 80.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 79.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 105.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 104.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 140.
+LaTeX Font Info:    Try loading font information for U+msa on input line 139.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 140.
+LaTeX Font Info:    Try loading font information for U+msb on input line 139.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 140.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 139.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
@@ -1020,56 +1024,56 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 File: ./figs/conflict-find-1.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-1.pdf>
-Package pdftex.def Info: ./figs/conflict-find-1.pdf used on input line 164.
+Package pdftex.def Info: ./figs/conflict-find-1.pdf used on input line 163.
 (pdftex.def)             Requested size: 105.16237pt x 105.1604pt.
 
 <./figs/conflict-find-2.pdf, id=127, 257.76305pt x 257.76299pt>
 File: ./figs/conflict-find-2.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-2.pdf>
-Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 167.
+Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 166.
 (pdftex.def)             Requested size: 105.16237pt x 105.1604pt.
 
 <./figs/conflict-find-4.pdf, id=128, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-4.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-4.pdf>
-Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 170.
+Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 169.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
 <./figs/conflict-find-5.pdf, id=129, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-5.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-5.pdf>
-Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 173.
+Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 172.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
 <./figs/conflict-find-6.pdf, id=130, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-6.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-6.pdf>
-Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 196.
+Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 195.
 (pdftex.def)             Requested size: 105.16237pt x 105.44441pt.
 
 <./figs/data-structures-1.pdf, id=131, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-1.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-1.pdf>
-Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 199.
+Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 198.
 (pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
 
 <./figs/data-structures-3.pdf, id=132, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-3.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-3.pdf>
-Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 202.
+Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 201.
 (pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
 
 <./figs/data-structures-4.pdf, id=133, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-4.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-4.pdf>
-Package pdftex.def Info: ./figs/data-structures-4.pdf used on input line 205.
+Package pdftex.def Info: ./figs/data-structures-4.pdf used on input line 204.
 (pdftex.def)             Requested size: 105.16237pt x 120.56902pt.
  [2 <./figs/conflict-find-1.pdf> <./figs/conflict-find-2.pdf
 
@@ -1100,7 +1104,7 @@ nclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: /usr/texbin/pdflatex (file ./figs/data-structures-4.pdf): PDF i
 nclusion: multiple pdfs with page group included in a single page
 >]
-Overfull \hbox (72.08276pt too wide) detected at line 254
+Overfull \hbox (72.08276pt too wide) detected at line 253
 [][] 
  []
 
@@ -1109,7 +1113,7 @@ File: ./figs/conflict-resolution-x.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-x.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-x.pdf used on input line 26
-3.
+2.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 <./figs/conflict-resolution-even.pdf, id=231, 104.86066pt x 105.45108pt>
@@ -1117,7 +1121,7 @@ File: ./figs/conflict-resolution-even.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-even.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-even.pdf used on input line
- 266.
+ 265.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 <./figs/conflict-resolution-all.pdf, id=232, 104.86066pt x 105.45108pt>
@@ -1125,7 +1129,7 @@ File: ./figs/conflict-resolution-all.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-all.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-all.pdf used on input line 
-269.
+268.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 <./figs/conflict-resolution-octree.pdf, id=233, 104.86066pt x 105.45108pt>
@@ -1133,10 +1137,10 @@ File: ./figs/conflict-resolution-octree.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-resolution-octree.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-octree.pdf used on input li
-ne 272.
+ne 271.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
-Overfull \hbox (5.55084pt too wide) in paragraph at lines 263--272
+Overfull \hbox (5.55084pt too wide) in paragraph at lines 262--271
  [][][][][][][][] 
  []
 
@@ -1146,7 +1150,7 @@ t>
 File: ./figs/conflict-resolution-adjacent-even.pdf Graphic file (type pdf)
  <use ./figs/conflict-resolution-adjacent-even.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-adjacent-even.pdf used on i
-nput line 275.
+nput line 274.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 <./figs/conflict-resolution-adjacent-all.pdf, id=235, 104.86066pt x 105.45108pt
@@ -1154,25 +1158,25 @@ nput line 275.
 File: ./figs/conflict-resolution-adjacent-all.pdf Graphic file (type pdf)
  <use ./figs/conflict-resolution-adjacent-all.pdf>
 Package pdftex.def Info: ./figs/conflict-resolution-adjacent-all.pdf used on in
-put line 278.
+put line 277.
 (pdftex.def)             Requested size: 114.72456pt x 115.3706pt.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 303.
+(hyperref)                removing `math shift' on input line 302.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 303.
+(hyperref)                removing `math shift' on input line 302.
 
 [3]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 333.
+(hyperref)                removing `math shift' on input line 332.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 333.
+(hyperref)                removing `math shift' on input line 332.
 
 [4 <./figs/conflict-resolution-x.pdf> <./figs/conflict-resolution-even.pdf
 
@@ -1198,46 +1202,36 @@ all.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
 e
 >] [5]
 
-LaTeX Warning: Reference `fig:bunny' on page 6 undefined on input line 537.
+LaTeX Warning: Reference `fig:bunny' on page 6 undefined on input line 536.
 
 
-LaTeX Warning: Reference `fig:pipes' on page 6 undefined on input line 537.
+LaTeX Warning: Reference `fig:pipes' on page 6 undefined on input line 536.
 
 
-LaTeX Warning: Reference `fig:gears' on page 6 undefined on input line 569.
-
-
-LaTeX Warning: Reference `fig:knife' on page 6 undefined on input line 571.
-
-
-LaTeX Warning: Reference `fig:path' on page 6 undefined on input line 573.
-
-
-LaTeX Warning: Reference `fig:axons' on page 6 undefined on input line 575.
-
-
-LaTeX Warning: Reference `fig:mol-explode' on page 6 undefined on input line 57
-7.
+LaTeX Warning: Reference `fig:path' on page 6 undefined on input line 568.
 
 (./paper.bbl [6]) [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 604.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 604.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 595.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 595.
  (./paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 604.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 604.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 595.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 595.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 9E20BC8A75ED119B31D7103ACF701156;919.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 604.
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 595.
  ) 
 Here is how much of TeX's memory you used:
- 21530 strings out of 493089
- 383342 string characters out of 6134842
- 488870 words of memory out of 5000000
- 24423 multiletter control sequences out of 15000+600000
+ 21526 strings out of 493089
+ 383292 string characters out of 6134842
+ 488882 words of memory out of 5000000
+ 24419 multiletter control sequences out of 15000+600000
  31114 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,24n,85p,1468b,959s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1273,7 +1267,7 @@ ic/cm-super/sfti0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
 m-super/sfti1000.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-
 super/sftt0800.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-su
 per/sftt0900.pfb>
-Output written on paper.pdf (7 pages, 608218 bytes).
+Output written on paper.pdf (7 pages, 607485 bytes).
 PDF statistics:
  553 PDF objects out of 1000 (max. 8388607)
  454 compressed objects within 5 object streams

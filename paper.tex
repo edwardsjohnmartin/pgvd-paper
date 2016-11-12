@@ -6,15 +6,14 @@
 % Put your submission number here.
 % This number will appear instead of authors and affiliations if the
 % class option "submission" is active.
-\SubNumber{142}
+\SubNumber{19}
 
 % Put the author names here.
 % Use the second argument as a reference to the list of affiliations.
 % No authors and affiliations will appear if the class option "submission"
 % is active.
-\author{John Edwards}{1}
 \author{Nathan Vollmer}{1}
-\author{Nicholas Harrison}{1}
+\author{John Edwards}{1}
 
 % Put the affiliations of the authors here.
 \affiliation{1}{Department of Informatics and Computer Science, Idaho State University, USA}
@@ -565,16 +564,8 @@ Our implementation\footnote{Source code is available at \url{http://cedmav.org/r
             &         & ($\times 10^3$) &          & ($\times 10^3$) & (Mb)   &
           & ($\times 10^3$) \\
     \midrule
-    % ./viewer3 -l 8 ~/data/gears/gear[1-3].obj
-    Fig. \ref{fig:gears} & 3 & 7 & 8 & 54 & 3 & 0.9 & 83\\
-    % ./viewer3 -l 12 ~/data/knife/knife-holder.obj ~/data/knife/knife[2-4].obj
-    Fig. \ref{fig:knife} & 4 & 15 & 12 & 146 & 9 & 3.9 & 232 \\
-    % ./viewer2 -l 24 ../data2/filled_ut/*.dat
+    % ./gvd-viewer2 -l 24 ../data2/maze/*.dat
     Fig. \ref{fig:path} & 470 & 5 & 24 & 158 & 8 & 2.0 & 151 \\
-    % ./viewer3 --uniform-colors -a 1 -l 8 ~/data/neuron/improved/a*.obj
-    Fig. \ref{fig:axons} & 448 & 4015 & 8 & 2716 & 151 & 195 & 8100 \\
-    % ./viewer3 -l 8 ~/data/rice-dwarf/decimated2/n1UF2a-*.obj
-    Fig. \ref{fig:mol-explode} & 35 & 1500 & 8 & 496 & 70 & 19 & 2700 \\
     \bottomrule
   \end{tabular}}
   \caption{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red{Columns are: \emph{objects} - the number of objects in the dataset; \emph{object $\Delta$s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph{quadtree depth} - required quadtree depth in order to resolve objects; \emph{quadtree cells} - total number of leaf quadtree cells; \emph{quadtree memory} - amount of memory used by the quadtree; \emph{GVD (sec)} - seconds to perform all steps of GVD computation; \emph{GVD $\Delta$s} - number of line segments (2D) or triangles (3D) in the GVD.}}
