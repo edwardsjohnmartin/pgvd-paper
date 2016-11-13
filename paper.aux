@@ -72,7 +72,6 @@
 \newlabel{eqn:r}{{2}{3}{Resolve conflict cells}{equation.3.2}{}}
 \newlabel{eqn:p}{{3}{3}{Resolve conflict cells}{equation.3.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Finding $a(s)$ -- \textit  {opposite} case}{3}{subsubsection.3.3.1}}
-\newlabel{eqn:t}{{4}{3}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.4}{}}
 \newlabel{fig:conflict-resolution-x}{{2a}{4}{Subfigure 2a}{subfigure.2.1}{}}
 \newlabel{sub@fig:conflict-resolution-x}{{(a)}{a}{Subfigure 2a\relax }{subfigure.2.1}{}}
 \newlabel{fig:conflict-resolution-even}{{2b}{4}{Subfigure 2b}{subfigure.2.2}{}}
@@ -87,6 +86,7 @@
 \newlabel{sub@fig:conflict-resolution-adjacent-all}{{(f)}{f}{Subfigure 2f\relax }{subfigure.2.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }}{4}{figure.caption.4}}
 \newlabel{fig:conflict-resolution}{{2}{4}{\protect \subref {fig:conflict-resolution-x} A conflict cell with two lines from different objects. \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots). \protect \subref {fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that an quadtree built from the samples using Karras' algorithm (panel \protect \subref {fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells. \relax }{figure.caption.4}{}}
+\newlabel{eqn:t}{{4}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.4}{}}
 \newlabel{eqn:ro}{{5}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.5}{}}
 \newlabel{eqn:f}{{6}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.6}{}}
 \newlabel{eqn:a1o}{{7}{4}{Finding $a(s)$ -- \textit {opposite} case}{equation.3.7}{}}
@@ -101,6 +101,7 @@
 \newlabel{eqn:sample}{{22}{5}{Sampling}{equation.3.22}{}}
 \newlabel{eqn:num-samples}{{28}{5}{Sampling}{equation.3.28}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Iterate}{5}{subsubsection.3.3.4}}
+\newlabel{sec:iterate}{{3.3.4}{5}{Iterate}{subsubsection.3.3.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Complexity analysis}{5}{subsection.3.4}}
 \bibstyle{abbrv}
 \bibdata{paper}
@@ -112,15 +113,33 @@
 \bibcite{crassin2009gigavoxels}{6}
 \bibcite{edwards2015approximating}{7}
 \bibcite{frisken2000adaptively}{8}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree computation statistics and timings on datasets that are unmanageable using other methods. Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object facets} - the number of line segments (2D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {time (ms)} - milliseconds to build the quadtree; \emph  {quad cells} - number of quadtree cells. Dataset ``\ref  {fig:glines} x2'' is a maze dataset increased in size by a factor of two in each dimension from \ref  {fig:glines}. \relax }}{6}{table.caption.6}}
+\newlabel{tab:timings}{{1}{6}{Table of quadtree computation statistics and timings on datasets that are unmanageable using other methods. Columns are: \emph {objects} - the number of objects in the dataset; \emph {object facets} - the number of line segments (2D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {time (ms)} - milliseconds to build the quadtree; \emph {quad cells} - number of quadtree cells. Dataset ``\ref {fig:glines} x2'' is a maze dataset increased in size by a factor of two in each dimension from \ref {fig:glines}. \relax }{table.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results and conclusions}{6}{section.4}}
+\newlabel{fig:simple-conflicts}{{3a}{7}{Subfigure 3a}{subfigure.3.1}{}}
+\newlabel{sub@fig:simple-conflicts}{{(a)}{a}{Subfigure 3a\relax }{subfigure.3.1}{}}
+\newlabel{fig:simple-samples}{{3b}{7}{Subfigure 3b}{subfigure.3.2}{}}
+\newlabel{sub@fig:simple-samples}{{(b)}{b}{Subfigure 3b\relax }{subfigure.3.2}{}}
+\newlabel{fig:glines}{{3c}{7}{Subfigure 3c}{subfigure.3.3}{}}
+\newlabel{sub@fig:glines}{{(c)}{c}{Subfigure 3c\relax }{subfigure.3.3}{}}
+\newlabel{fig:ut1-samples}{{3d}{7}{Subfigure 3d}{subfigure.3.4}{}}
+\newlabel{sub@fig:ut1-samples}{{(d)}{d}{Subfigure 3d\relax }{subfigure.3.4}{}}
+\newlabel{fig:ut1}{{3e}{7}{Subfigure 3e}{subfigure.3.5}{}}
+\newlabel{sub@fig:ut1}{{(e)}{e}{Subfigure 3e\relax }{subfigure.3.5}{}}
+\newlabel{fig:ut2}{{3f}{7}{Subfigure 3f}{subfigure.3.6}{}}
+\newlabel{sub@fig:ut2}{{(f)}{f}{Subfigure 3f\relax }{subfigure.3.6}{}}
+\newlabel{fig:ut3}{{3g}{7}{Subfigure 3g}{subfigure.3.7}{}}
+\newlabel{sub@fig:ut3}{{(g)}{g}{Subfigure 3g\relax }{subfigure.3.7}{}}
+\newlabel{fig:ut4}{{3h}{7}{Subfigure 3h}{subfigure.3.8}{}}
+\newlabel{sub@fig:ut4}{{(h)}{h}{Subfigure 3h\relax }{subfigure.3.8}{}}
+\newlabel{fig:ut5}{{3i}{7}{Subfigure 3i}{subfigure.3.9}{}}
+\newlabel{sub@fig:ut5}{{(i)}{i}{Subfigure 3i\relax }{subfigure.3.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:simple-conflicts} A toy dataset showing conflict cells after building the quadtree from object vertices. \subref {fig:simple-samples} The toy dataset showing how samples are collected. \subref {fig:glines} A maze test dataset. \subref {fig:ut1-samples} A complex dataset with 470 objects at vastly different scales in object size and spacing. \subref {fig:ut1}-\subref {fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree. \relax }}{7}{figure.caption.5}}
+\newlabel{fig:results}{{3}{7}{\protect \subref {fig:simple-conflicts} A toy dataset showing conflict cells after building the quadtree from object vertices. \protect \subref {fig:simple-samples} The toy dataset showing how samples are collected. \protect \subref {fig:glines} A maze test dataset. \protect \subref {fig:ut1-samples} A complex dataset with 470 objects at vastly different scales in object size and spacing. \protect \subref {fig:ut1}-\protect \subref {fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree. \relax }{figure.caption.5}{}}
 \bibcite{karras2012maximizing}{9}
 \bibcite{kim2014exact}{10}
 \bibcite{laine2011efficient}{11}
 \bibcite{lavender1992voronoi}{12}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \leavevmode {\color  {bostonuniversityred}Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {quadtree cells} - total number of leaf quadtree cells; \emph  {quadtree memory} - amount of memory used by the quadtree; \emph  {GVD (sec)} - seconds to perform all steps of GVD computation; \emph  {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }}{6}{table.caption.5}}
-\newlabel{tab:timings}{{1}{6}{Table of quadtree/GVD computation statistics and timings on datasets that are unmanageable using other methods. \red {Columns are: \emph {objects} - the number of objects in the dataset; \emph {object $\Delta $s} - the number of line segments (2D) or triangles (3D) of all objects in the dataset; \emph {quadtree depth} - required quadtree depth in order to resolve objects; \emph {quadtree cells} - total number of leaf quadtree cells; \emph {quadtree memory} - amount of memory used by the quadtree; \emph {GVD (sec)} - seconds to perform all steps of GVD computation; \emph {GVD $\Delta $s} - number of line segments (2D) or triangles (3D) in the GVD.}\relax }{table.caption.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results and applications}{6}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Comparison to other methods}{6}{subsection.4.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{6}{section.5}}
 \bibcite{lefebvre2007compressed}{13}
 \bibcite{park2010cuda}{14}
 \bibcite{strain1999fast}{15}
