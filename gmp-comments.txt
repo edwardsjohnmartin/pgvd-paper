@@ -1,0 +1,84 @@
+----------------------- REVIEW 1 ---------------------
+PAPER: 19
+TITLE: Parallel Quadtree Construction on Collections of Objects
+AUTHORS: Nathan Morrical and John Edwards
+
+Overall evaluation: 1
+
+----------- Overall evaluation -----------
+This paper presented a quadtree construction method which 1) is parallelizable in GPU, 2) targeted for objects (polylines data) instead of points data, and 3) ensure that no cell of the quad-tree intersects more than one object. According to the related work, their method is the first parallel method in quad-tree construction for objects. Their methods is based-on the work of Karras' algorithm, which is a parallel octree construction method for point that can ensure the no cells contains two points or more. In order to apply this point-based method for polylines, the author presented a closed-form subdivide method to resolve "conflict cells." (Further subdivide the cell if it is intersected by two or more objects)
+
+The presented method is interesting and sound. The closed-form subdivide method has a solid technical contribution. I would like to accept this paper. But before that, some problems need to be considered.
+
+
+1) For the requirement that "ensure that no cell of the quad-tree intersects more than one object." This is reasonable for points data as it can accelerate the retrieval time. However, it sounds strange for polylines. Unlike points data, polylines can intersect with each others. If two lines are intersected, it will be problematic for the quad-tree construction. It also seems that the author assumes there must be no intersection for the polylines, which may be a limitation for this method.
+
+
+2) Actually, I wonder the importance of the quadtree for polylines. Polylines representation is quite rare in current computer in 2D world. The author may need to mention more about the motivation of handling polylines instead of point data using quadtree.
+
+
+3) I think the author should mention that their method only support 2D polylines (not curve, spline, pixels) earlier. The first time that I saw this word is in the conclusions, which is too late.
+
+
+4) The author use "quadtree" and sometime "octree" in the paper. Although the use of term is mentioned in first paragraph of Section 3, it is still confusing.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 19
+TITLE: Parallel Quadtree Construction on Collections of Objects
+AUTHORS: Nathan Morrical and John Edwards
+
+Overall evaluation: -1
+
+----------- Overall evaluation -----------
+This paper proposes a quadtree construction for collection of objects such that no cell intersects more than one object. The construction is made in parallel.
+
+The submission is not without merits, it focuses on one small contribution which is rather well analyzed.
+The definitions and notations of the paper are not well posed and some are even missing leaving the reader to guess what the authors wanted to describe.
+
+Here is a list of questions that should be addressed before the paper can be published:
+- Karras algorithm is a key ingredient of the presented method, it should be better explained so that the paper is self-contained.
+- section 3.2 DIM is not defined.
+- section 3.3 what is w^y?
+- 3.3.1: what is p^x(s), q^x(t)?
+The absence of these definitions make it impossible to check whether the submission is technically sound or not.
+
+Minor remark: "an quadtree" -> a quadtree (appears at several places in the text)
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 19
+TITLE: Parallel Quadtree Construction on Collections of Objects
+AUTHORS: Nathan Morrical and John Edwards
+
+Overall evaluation: -1
+
+----------- Overall evaluation -----------
+This paper describes a GPU algorithm to build octree partitioning polylines. The general idea consists in iteratively adding virtual samples (in a more or less clever way) until an existing sample-based quadree construction algorithm reaches the desired partition. This is an interesting trick, but I do have several concerns:
+
+1 - It seems to me that the proposed approach is very too conservative and the resulting octree is far to be optimal, especially if the input objects are highly tessellated. Perhaps, this could be partly solved by a bottom-up pruning pass after each call to Karras' algorithm? I also have the feeling that for the two-lines separation problem it should be doable to find an optimal set of samples, which is currently not the case. Finding a more optimal sampling will become even more crucial when moving to the 3D world.
+
+2 - The complexity analysis somehow assumes that there is more compute cores than faces or samples. This is obviously not the case, and thus all this analysis is wrong. About complexity, it would be interesting to build multi-resolution test-cases to evaluate the practical complexity. For instance, we could imagine a scene with N circles tessellated in M vertices/lines and evaluate the construction for various values of N and M.
+
+3 - The method should be compared to a reference CPU top-down recursive implementation keeping track of the list of facets and stopping the recursion as soon as all facets have the same color. This strategy is trivially parallelisable over 4 threads (or more) after one step (or more). This should give an optimal partitioning and with a careful implementation I don't expect it to be that slow.
+
+4 - I'm not sure it's relevant to evaluate the performance of a GPU algorithm on an integrated Iris 6100 board.
+
+The paper is well written, but the subsection of 3.3 would deserve some more pedagogical explanations: it's a bit painful to extract the goal through equations. It is also unclear to me how the Karras' algorithm is restarted: is it restarted from scratch every time? I guess not, but this need to be clarified.
+
+In conclusion, this paper presents a promising work-in-progress, but it could be too premature for GMP.
+
+
+----------------------- REVIEW 4 ---------------------
+PAPER: 19
+TITLE: Parallel Quadtree Construction on Collections of Objects
+AUTHORS: Nathan Morrical and John Edwards
+
+Overall evaluation: 1
+
+----------- Overall evaluation -----------
+The paper proposes a parallel quadtree algorithm requires that no cell intersect more than one labelled object MODULO the maximum depth allowed in the tree.  When the algorithm reaches that depth, the conflicts are determined to be unresolvable.
+The algorithm seems interesting and the paper has a suitable complexity analysis.
+The examples provided indicate that the algorithm can handle substantial scale complexity.  I find it difficult to see the quads that bound and object in both Figure 3(c) and all the enlargements of figure (d).  It might make more sense to darken/saturate the lines representing the bounding quads. However, as I examine the examples, there do not seem to be any with concavities and bottlenecks, and significantly different feature size within a single object.
+
+The 3D problem and its solution seem related to that of adaptively voxelizing a complex collection of objects, guaranteeing that only one object is in a voxel, and at most one feature is in a voxel (feature separation).

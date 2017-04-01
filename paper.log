@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  28 MAR 2017 12:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  1 APR 2017 09:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1280,138 +1280,85 @@ File: ot1txss.fd 2000/12/15 v3.1
 LaTeX Font Info:    Font shape `OT1/txss/m/n' will be
 (Font)              scaled to size 4.74998pt on input line 158.
 
-Underfull \hbox (badness 1194) in paragraph at lines 160--161
-\OT1/txr/m/n/10 ap-pli-ca-tions. Quadtrees built on ob-jects most of-
+Underfull \hbox (badness 1558) in paragraph at lines 164--165
+[]\OT1/txr/m/n/10 Modeling inter-object spac-ing is com-pu-ta-tion-ally
  []
 
 [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-<./figs/conflict-find-1.pdf, id=14, 257.76305pt x 257.76299pt>
-File: ./figs/conflict-find-1.pdf Graphic file (type pdf)
+<./figs/pruned-vs-unpruned/4.PNG, id=14, 754.31813pt x 776.9025pt>
+File: ./figs/pruned-vs-unpruned/4.PNG Graphic file (type png)
 
-<use ./figs/conflict-find-1.pdf>
-Package pdftex.def Info: ./figs/conflict-find-1.pdf used on input line 218.
-(pdftex.def)             Requested size: 48.84027pt x 48.83781pt.
+<use ./figs/pruned-vs-unpruned/4.PNG>
+Package pdftex.def Info: ./figs/pruned-vs-unpruned/4.PNG used on input line 216
+.
+(pdftex.def)             Requested size: 77.70135pt x 80.01828pt.
 
-<./figs/conflict-find-2.pdf, id=15, 257.76305pt x 257.76299pt>
+<./figs/pruned-vs-unpruned/5.PNG, id=16, 754.31813pt x 776.9025pt>
+File: ./figs/pruned-vs-unpruned/5.PNG Graphic file (type png)
+
+<use ./figs/pruned-vs-unpruned/5.PNG>
+Package pdftex.def Info: ./figs/pruned-vs-unpruned/5.PNG used on input line 219
+.
+(pdftex.def)             Requested size: 77.70135pt x 80.01828pt.
+ [2]
+<./figs/conflict-find-2.pdf, id=20, 257.76305pt x 257.76299pt>
 File: ./figs/conflict-find-2.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-2.pdf>
-Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 221.
-(pdftex.def)             Requested size: 48.84027pt x 48.83781pt.
+Package pdftex.def Info: ./figs/conflict-find-2.pdf used on input line 246.
+(pdftex.def)             Requested size: 97.68054pt x 97.67957pt.
 
-<./figs/conflict-find-4.pdf, id=16, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-4.pdf, id=21, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-4.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-4.pdf>
-Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 224.
-(pdftex.def)             Requested size: 48.84027pt x 48.97125pt.
+Package pdftex.def Info: ./figs/conflict-find-4.pdf used on input line 249.
+(pdftex.def)             Requested size: 97.68054pt x 97.94252pt.
 
-<./figs/conflict-find-5.pdf, id=17, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-5.pdf, id=22, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-5.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-5.pdf>
-Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 227.
-(pdftex.def)             Requested size: 48.84027pt x 48.97125pt.
+Package pdftex.def Info: ./figs/conflict-find-5.pdf used on input line 267.
+(pdftex.def)             Requested size: 97.68054pt x 97.94252pt.
 
-Overfull \hbox (114.14244pt too wide) in paragraph at lines 247--247
- [][] 
- []
-
-<./figs/conflict-find-6.pdf, id=18, 164.54135pt x 164.98169pt>
+<./figs/conflict-find-6.pdf, id=23, 164.54135pt x 164.98169pt>
 File: ./figs/conflict-find-6.pdf Graphic file (type pdf)
 
 <use ./figs/conflict-find-6.pdf>
-Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 250.
-(pdftex.def)             Requested size: 48.84027pt x 48.97125pt.
+Package pdftex.def Info: ./figs/conflict-find-6.pdf used on input line 270.
+(pdftex.def)             Requested size: 97.68054pt x 97.94252pt.
 
-<./figs/data-structures-1.pdf, id=19, 198.8pt x 227.92291pt>
+<./figs/data-structures-1.pdf, id=24, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-1.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-1.pdf>
-Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 253.
-(pdftex.def)             Requested size: 48.84027pt x 55.99287pt.
+Package pdftex.def Info: ./figs/data-structures-1.pdf used on input line 340.
+(pdftex.def)             Requested size: 71.04163pt x 81.44704pt.
 
-<./figs/data-structures-3.pdf, id=20, 198.8pt x 227.92291pt>
+<./figs/data-structures-3.pdf, id=25, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-3.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-3.pdf>
-Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 256.
-(pdftex.def)             Requested size: 48.84027pt x 55.99287pt.
+Package pdftex.def Info: ./figs/data-structures-3.pdf used on input line 343.
+(pdftex.def)             Requested size: 71.04163pt x 81.44704pt.
 
-<./figs/data-structures-4.pdf, id=21, 198.8pt x 227.92291pt>
+<./figs/data-structures-4.pdf, id=26, 198.8pt x 227.92291pt>
 File: ./figs/data-structures-4.pdf Graphic file (type pdf)
 
 <use ./figs/data-structures-4.pdf>
-Package pdftex.def Info: ./figs/data-structures-4.pdf used on input line 259.
-(pdftex.def)             Requested size: 48.84027pt x 55.99287pt.
-LaTeX Font Info:    Try loading font information for OMS+txr on input line 305.
+Package pdftex.def Info: ./figs/data-structures-4.pdf used on input line 346.
+(pdftex.def)             Requested size: 71.04163pt x 81.44704pt.
 
-
-(/usr/local/texlive/2015/texmf-dist/tex/latex/txfonts/omstxr.fd
-File: omstxr.fd 2000/12/15 v3.1
-)
-LaTeX Font Info:    Font shape `OMS/txr/m/it' in size <10> not available
-(Font)              Font shape `OMS/txsy/m/n' tried instead on input line 305.
-
-<./figs/conflict-resolution-x.pdf, id=22, 104.86066pt x 105.45108pt>
-File: ./figs/conflict-resolution-x.pdf Graphic file (type pdf)
-
-<use ./figs/conflict-resolution-x.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-x.pdf used on input line 31
-8.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
-
-<./figs/conflict-resolution-even.pdf, id=23, 104.86066pt x 105.45108pt>
-File: ./figs/conflict-resolution-even.pdf Graphic file (type pdf)
-
-<use ./figs/conflict-resolution-even.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-even.pdf used on input line
- 321.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
-
-<./figs/conflict-resolution-all.pdf, id=24, 104.86066pt x 105.45108pt>
-File: ./figs/conflict-resolution-all.pdf Graphic file (type pdf)
-
-<use ./figs/conflict-resolution-all.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-all.pdf used on input line 
-324.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
-
-<./figs/conflict-resolution-octree.pdf, id=25, 104.86066pt x 105.45108pt>
-File: ./figs/conflict-resolution-octree.pdf Graphic file (type pdf)
-
-<use ./figs/conflict-resolution-octree.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-octree.pdf used on input li
-ne 327.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
-
-Overfull \hbox (11.12488pt too wide) in paragraph at lines 318--327
- [][][][][] 
+Overfull \hbox (6.12488pt too wide) in paragraph at lines 340--351
+ [][][][] 
  []
 
-
-<./figs/conflict-resolution-adjacent-even.pdf, id=26, 104.86066pt x 105.45108pt
->
-File: ./figs/conflict-resolution-adjacent-even.pdf Graphic file (type pdf)
- <use ./figs/conflict-resolution-adjacent-even.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-adjacent-even.pdf used on i
-nput line 330.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
-
-<./figs/conflict-resolution-adjacent-all.pdf, id=27, 104.86066pt x 105.45108pt>
-File: ./figs/conflict-resolution-adjacent-all.pdf Graphic file (type pdf)
-<use ./figs/conflict-resolution-adjacent-all.pdf>
-Package pdftex.def Info: ./figs/conflict-resolution-adjacent-all.pdf used on in
-put line 333.
-(pdftex.def)             Requested size: 53.28122pt x 53.5814pt.
- [2] [3 <./figs/conflict-find-1.pdf> <./figs/conflict-find-2.pdf
-
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/conflict-find-2.pdf):
- PDF inclusion: multiple pdfs with page group included in a single page
-> <./figs/conflict-find-4.pdf
+[3 <./figs/pruned-vs-unpruned/4.PNG> <./figs/pruned-vs-unpruned/5.PNG> <./figs/
+conflict-find-2.pdf> <./figs/conflict-find-4.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/conflict-find-4.pdf):
  PDF inclusion: multiple pdfs with page group included in a single page
@@ -1435,11 +1382,62 @@ pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/data-structures-3.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/data-structures-4.pdf
 ): PDF inclusion: multiple pdfs with page group included in a single page
-> <./figs/conflict-resolution-x.pdf
+>]
+LaTeX Font Info:    Try loading font information for OMS+txr on input line 383.
 
-pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/conflict-resolution-x
-.pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <./figs/conflict-resolution-even.pdf
+ (/usr/local/texlive/2015/texmf-dist/tex/latex/txfonts/omstxr.fd
+File: omstxr.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Font shape `OMS/txr/m/it' in size <10> not available
+(Font)              Font shape `OMS/txsy/m/n' tried instead on input line 383.
+
+<./figs/conflict-resolution-x.pdf, id=73, 104.86066pt x 105.45108pt>
+File: ./figs/conflict-resolution-x.pdf Graphic file (type pdf)
+
+<use ./figs/conflict-resolution-x.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-x.pdf used on input line 39
+6.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+
+<./figs/conflict-resolution-even.pdf, id=74, 104.86066pt x 105.45108pt>
+File: ./figs/conflict-resolution-even.pdf Graphic file (type pdf)
+
+<use ./figs/conflict-resolution-even.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-even.pdf used on input line
+ 399.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+
+<./figs/conflict-resolution-all.pdf, id=75, 104.86066pt x 105.45108pt>
+File: ./figs/conflict-resolution-all.pdf Graphic file (type pdf)
+
+<use ./figs/conflict-resolution-all.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-all.pdf used on input line 
+402.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+
+<./figs/conflict-resolution-octree.pdf, id=76, 104.86066pt x 105.45108pt>
+File: ./figs/conflict-resolution-octree.pdf Graphic file (type pdf)
+
+<use ./figs/conflict-resolution-octree.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-octree.pdf used on input li
+ne 405.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+
+<./figs/conflict-resolution-adjacent-even.pdf, id=77, 104.86066pt x 105.45108pt
+>
+File: ./figs/conflict-resolution-adjacent-even.pdf Graphic file (type pdf)
+ <use ./figs/conflict-resolution-adjacent-even.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-adjacent-even.pdf used on i
+nput line 408.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+
+<./figs/conflict-resolution-adjacent-all.pdf, id=78, 104.86066pt x 105.45108pt>
+File: ./figs/conflict-resolution-adjacent-all.pdf Graphic file (type pdf)
+<use ./figs/conflict-resolution-adjacent-all.pdf>
+Package pdftex.def Info: ./figs/conflict-resolution-adjacent-all.pdf used on in
+put line 411.
+(pdftex.def)             Requested size: 77.70135pt x 78.13876pt.
+ [4 <./figs/conflict-resolution-x.pdf> <./figs/conflict-resolution-even.pdf
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/conflict-resolution-e
 ven.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
@@ -1464,80 +1462,161 @@ ingle page
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./figs/conflict-resolution-a
 djacent-all.pdf): PDF inclusion: multiple pdfs with page group included in a si
 ngle page
->] [4] [5] <./figs/simple-conflict.png, id=140, 832.10875pt x 830.10126pt>
+>] [5]
+
+LaTeX Warning: Reference `fig:results' on page 6 undefined on input line 678.
+
+
+LaTeX Warning: Reference `fig:glines' on page 6 undefined on input line 678.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+<./figs/simple-conflict.png, id=140, 832.10875pt x 830.10126pt>
 File: ./figs/simple-conflict.png Graphic file (type png)
 
 <use ./figs/simple-conflict.png>
-Package pdftex.def Info: ./figs/simple-conflict.png used on input line 606.
-(pdftex.def)             Requested size: 53.28122pt x 53.14783pt.
+Package pdftex.def Info: ./figs/simple-conflict.png used on input line 684.
+(pdftex.def)             Requested size: 68.81946pt x 68.65138pt.
 
-<./figs/simple-samples.png, id=142, 829.0975pt x 829.0975pt>
+<./figs/simple-samples.png, id=141, 829.0975pt x 829.0975pt>
 File: ./figs/simple-samples.png Graphic file (type png)
 
 <use ./figs/simple-samples.png>
-Package pdftex.def Info: ./figs/simple-samples.png used on input line 609.
-(pdftex.def)             Requested size: 53.28122pt x 53.27333pt.
+Package pdftex.def Info: ./figs/simple-samples.png used on input line 687.
+(pdftex.def)             Requested size: 68.81946pt x 68.80875pt.
 
-<./figs/glines.png, id=143, 752.8125pt x 752.8125pt>
-File: ./figs/glines.png Graphic file (type png)
- <use ./figs/glines.png>
-Package pdftex.def Info: ./figs/glines.png used on input line 615.
-(pdftex.def)             Requested size: 53.28122pt x 53.2766pt.
+<./figs/Nathan/vascular-bundles/04-Pruned.PNG, id=142, 754.31813pt x 776.9025pt
+>
+File: ./figs/Nathan/vascular-bundles/04-Pruned.PNG Graphic file (type png)
+ <use ./figs/Nathan/vascular-bundles/04-Pruned.PNG>
+Package pdftex.def Info: ./figs/Nathan/vascular-bundles/04-Pruned.PNG used on i
+nput line 700.
+(pdftex.def)             Requested size: 68.81946pt x 70.87842pt.
 
-<./figs/ut1-samples.png, id=144, 1025.8325pt x 1025.8325pt>
+<./figs/Nathan/vascular-bundles/06-Initial-Conflicts.PNG, id=143, 754.31813pt x
+ 776.9025pt>
+File: ./figs/Nathan/vascular-bundles/06-Initial-Conflicts.PNG Graphic file (typ
+e png)
+ <use ./figs/Nathan/vascular-bundles/06-Initial-Conflicts.PNG>
+Package pdftex.def Info: ./figs/Nathan/vascular-bundles/06-Initial-Conflicts.PN
+G used on input line 703.
+(pdftex.def)             Requested size: 68.81946pt x 70.87842pt.
+
+<./figs/Nathan/vascular-bundles/13-Resolved-Quadtree.PNG, id=144, 754.31813pt x
+ 776.9025pt>
+File: ./figs/Nathan/vascular-bundles/13-Resolved-Quadtree.PNG Graphic file (typ
+e png)
+ <use ./figs/Nathan/vascular-bundles/13-Resolved-Quadtree.PNG>
+Package pdftex.def Info: ./figs/Nathan/vascular-bundles/13-Resolved-Quadtree.PN
+G used on input line 707.
+(pdftex.def)             Requested size: 68.81946pt x 70.87842pt.
+
+<./figs/Nathan/gears/2.PNG, id=145, 743.77875pt x 737.75626pt>
+File: ./figs/Nathan/gears/2.PNG Graphic file (type png)
+
+<use ./figs/Nathan/gears/2.PNG>
+Package pdftex.def Info: ./figs/Nathan/gears/2.PNG used on input line 720.
+(pdftex.def)             Requested size: 68.81946pt x 68.25264pt.
+
+<./figs/Nathan/gears/3.PNG, id=146, 745.28438pt x 737.75626pt>
+File: ./figs/Nathan/gears/3.PNG Graphic file (type png)
+
+<use ./figs/Nathan/gears/3.PNG>
+Package pdftex.def Info: ./figs/Nathan/gears/3.PNG used on input line 723.
+(pdftex.def)             Requested size: 68.81946pt x 68.11755pt.
+
+<./figs/Nathan/gears/5.PNG, id=147, 739.26187pt x 738.50906pt>
+File: ./figs/Nathan/gears/5.PNG Graphic file (type png)
+
+<use ./figs/Nathan/gears/5.PNG>
+Package pdftex.def Info: ./figs/Nathan/gears/5.PNG used on input line 726.
+(pdftex.def)             Requested size: 68.81946pt x 68.73923pt.
+
+<./figs/ut1-samples.png, id=148, 1025.8325pt x 1025.8325pt>
 File: ./figs/ut1-samples.png Graphic file (type png)
 
 <use ./figs/ut1-samples.png>
-Package pdftex.def Info: ./figs/ut1-samples.png used on input line 619.
-(pdftex.def)             Requested size: 53.28122pt x 53.26689pt.
+Package pdftex.def Info: ./figs/ut1-samples.png used on input line 739.
+(pdftex.def)             Requested size: 68.81946pt x 68.81024pt.
 
-<./figs/ut1.png, id=145, 1021.8175pt x 1026.83624pt>
+<./figs/ut1.png, id=149, 1021.8175pt x 1026.83624pt>
 File: ./figs/ut1.png Graphic file (type png)
  <use ./figs/ut1.png>
-Package pdftex.def Info: ./figs/ut1.png used on input line 622.
-(pdftex.def)             Requested size: 53.28122pt x 53.53836pt.
+Package pdftex.def Info: ./figs/ut1.png used on input line 742.
+(pdftex.def)             Requested size: 68.81946pt x 69.14394pt.
 
-<./figs/ut2.png, id=146, 1021.8175pt x 1026.83624pt>
+<./figs/ut2.png, id=150, 1021.8175pt x 1026.83624pt>
 File: ./figs/ut2.png Graphic file (type png)
  <use ./figs/ut2.png>
-Package pdftex.def Info: ./figs/ut2.png used on input line 625.
-(pdftex.def)             Requested size: 53.28122pt x 53.53836pt.
+Package pdftex.def Info: ./figs/ut2.png used on input line 745.
+(pdftex.def)             Requested size: 68.81946pt x 69.14394pt.
 
-<./figs/ut3.png, id=147, 1020.81375pt x 1021.8175pt>
+<./figs/ut3.png, id=151, 1020.81375pt x 1021.8175pt>
 File: ./figs/ut3.png Graphic file (type png)
  <use ./figs/ut3.png>
-Package pdftex.def Info: ./figs/ut3.png used on input line 629.
-(pdftex.def)             Requested size: 53.28122pt x 53.32347pt.
+Package pdftex.def Info: ./figs/ut3.png used on input line 748.
+(pdftex.def)             Requested size: 68.81946pt x 68.88394pt.
 
-<./figs/ut4.png, id=148, 1021.8175pt x 1026.83624pt>
+<./figs/ut4.png, id=152, 1021.8175pt x 1026.83624pt>
 File: ./figs/ut4.png Graphic file (type png)
  <use ./figs/ut4.png>
-Package pdftex.def Info: ./figs/ut4.png used on input line 632.
-(pdftex.def)             Requested size: 53.28122pt x 53.53836pt.
+Package pdftex.def Info: ./figs/ut4.png used on input line 751.
+(pdftex.def)             Requested size: 68.81946pt x 69.14394pt.
 
-<./figs/ut5.png, id=149, 1023.825pt x 1024.82875pt>
+<./figs/ut5.png, id=153, 1023.825pt x 1024.82875pt>
 File: ./figs/ut5.png Graphic file (type png)
  <use ./figs/ut5.png>
-Package pdftex.def Info: ./figs/ut5.png used on input line 635.
-(pdftex.def)             Requested size: 53.28122pt x 53.32423pt.
+Package pdftex.def Info: ./figs/ut5.png used on input line 754.
+(pdftex.def)             Requested size: 68.81946pt x 68.88365pt.
 
-(./paper.bbl [6 <./figs/simple-conflict.png> <./figs/simple-samples.png> <./fig
-s/glines.png> <./figs/ut1-samples.png> <./figs/ut1.png> <./figs/ut2.png> <./fig
-s/ut3.png> <./figs/ut4.png> <./figs/ut5.png>]) [7
 
-] (./paper.aux)
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 807.
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 811.
+
+
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 815.
+
+
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 815.
+
+
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 815.
+
+
+LaTeX Warning: Reference `fig:glines' on page 7 undefined on input line 815.
+
+[7 <./figs/simple-conflict.png> <./figs/simple-samples.png> <./figs/Nathan/vasc
+ular-bundles/04-Pruned.PNG> <./figs/Nathan/vascular-bundles/06-Initial-Conflict
+s.PNG> <./figs/Nathan/vascular-bundles/13-Resolved-Quadtree.PNG> <./figs/Nathan
+/gears/2.PNG> <./figs/Nathan/gears/3.PNG> <./figs/Nathan/gears/5.PNG> <./figs/u
+t1-samples.png> <./figs/ut1.png> <./figs/ut2.png> <./figs/ut3.png> <./figs/ut4.
+png> <./figs/ut5.png>] (./paper.bbl
+Underfull \hbox (badness 1152) in paragraph at lines 136--142
+[]\OT1/txr/m/n/8 Laine S, Kar-ras T.  Ef-fi-cient sparse voxel oc-trees.  Vi-
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 136--142
+\OT1/txr/m/n/8 su-al-iza-tion and Com-puter Graph-ics, IEEE Trans-ac-tions on
+ []
+
+) [8] (./paper.aux)
+
+LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 18694 strings out of 493089
- 339111 string characters out of 6134842
- 423348 words of memory out of 5000000
- 21687 multiletter control sequences out of 15000+600000
- 40874 words of font info for 106 fonts, out of 8000000 for 9000
+ 18769 strings out of 493089
+ 340851 string characters out of 6134842
+ 418186 words of memory out of 5000000
+ 21745 multiletter control sequences out of 15000+600000
+ 42813 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,24n,85p,1372b,901s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 57i,24n,85p,1440b,909s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texl
@@ -1550,10 +1629,10 @@ blic/txfonts/txsyc.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/helv
 etic/uhvr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmb8
 a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></us
 r/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (7 pages, 546636 bytes).
+Output written on paper.pdf (8 pages, 2301989 bytes).
 PDF statistics:
- 207 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
+ 216 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 128 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
 

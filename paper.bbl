@@ -1,120 +1,183 @@
-\begin{thebibliography}{10}
-
-\bibitem{baert2013out}
-J.~Baert, A.~Lagae, and P.~Dutr{\'e}.
-\newblock Out-of-core construction of sparse voxel octrees.
-\newblock In {\em Proceedings of the 5th High-Performance Graphics Conference},
-  pages 27--32. ACM, 2013.
-
-\bibitem{bastos2008gpu}
-T.~Bastos and W.~Celes.
-\newblock Gpu-accelerated adaptively sampled distance fields.
-\newblock In {\em Shape Modeling and Applications, 2008. SMI 2008. IEEE
-  International Conference on}, pages 171--178. IEEE, 2008.
-
-\bibitem{bedorf2012sparse}
-J.~B{\'e}dorf, E.~Gaburov, and S.~Portegies~Zwart.
-\newblock A sparse octree gravitational< i> n</i>-body code that runs entirely
-  on the gpu processor.
-\newblock {\em Journal of Computational Physics}, 231(7):2825--2839, 2012.
-
-\bibitem{boada2008approximations}
-I.~Boada, N.~Coll, N.~Madern, and J.~Antoni~Sellares.
-\newblock Approximations of 2d and 3d generalized voronoi diagrams.
-\newblock {\em International Journal of Computer Mathematics},
-  85(7):1003--1022, 2008.
-
-\bibitem{boada2002voronoi}
-I.~Boada, N.~Coll, and J.~Sellares.
-\newblock The voronoi-quadtree: construction and visualization.
-\newblock {\em Eurographics 2002 Short Presentation}, pages 349--355, 2002.
-
-\bibitem{crassin2009gigavoxels}
-C.~Crassin, F.~Neyret, S.~Lefebvre, and E.~Eisemann.
-\newblock Gigavoxels: Ray-guided streaming for efficient and detailed voxel
-  rendering.
-\newblock In {\em Proceedings of the 2009 symposium on Interactive 3D graphics
-  and games}, pages 15--22. ACM, 2009.
-
-\bibitem{edwards2015approximating}
-J.~Edwards, E.~Daniel, V.~Pascucci, and C.~Bajaj.
-\newblock Approximating the generalized voronoi diagram of closely spaced
-  objects.
-\newblock {\em Computer Graphics Forum}, 34(2):299--309, 2015.
-
-\bibitem{frisken2000adaptively}
-S.~F. Frisken, R.~N. Perry, A.~P. Rockwood, and T.~R. Jones.
-\newblock Adaptively sampled distance fields: a general representation of shape
-  for computer graphics.
-\newblock In {\em Proceedings of the 27th annual conference on Computer
-  graphics and interactive techniques}, pages 249--254. ACM
-  Press/Addison-Wesley Publishing Co., 2000.
-
-\bibitem{karras2012maximizing}
-T.~Karras.
-\newblock Maximizing parallelism in the construction of bvhs, octrees, and k-d
-  trees.
-\newblock In {\em Proceedings of the Fourth ACM SIGGRAPH/Eurographics
-  conference on High-Performance Graphics}, pages 33--37. Eurographics
-  Association, 2012.
-
-\bibitem{kim2014exact}
-Y.~J. Kim and F.~Liu.
-\newblock Exact and adaptive signed distance fieldscomputation for rigid and
-  deformablemodels on gpus.
-\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
-  20(5):714--725, 2014.
-
-\bibitem{laine2011efficient}
-S.~Laine and T.~Karras.
-\newblock Efficient sparse voxel octrees.
-\newblock {\em Visualization and Computer Graphics, IEEE Transactions on},
-  17(8):1048--1059, 2011.
-
-\bibitem{lavender1992voronoi}
-D.~Lavender, A.~Bowyer, J.~Davenport, A.~Wallis, and J.~Woodwark.
-\newblock Voronoi diagrams of set-theoretic solid models.
-\newblock {\em Computer Graphics and Applications, IEEE}, 12(5):69--77, 1992.
-
-\bibitem{lefebvre2007compressed}
-S.~Lefebvre and H.~Hoppe.
-\newblock Compressed random-access trees for spatially coherent data.
-\newblock In {\em Proceedings of the 18th Eurographics conference on Rendering
-  Techniques}, pages 339--349. Eurographics Association, 2007.
-
-\bibitem{park2010cuda}
-T.~Park, S.-H. Lee, J.-H. Kim, and C.-H. Kim.
-\newblock Cuda-based signed distance field calculation for adaptive grids.
-\newblock In {\em Computer and Information Technology (CIT), 2010 IEEE 10th
-  International Conference on}, pages 1202--1206. IEEE, 2010.
-
-\bibitem{strain1999fast}
-J.~Strain.
-\newblock Fast tree-based redistancing for level set computations.
-\newblock {\em Journal of Computational Physics}, 152(2):664--686, 1999.
-
-\bibitem{teichmann1997polygonal}
-M.~Teichmann and S.~Teller.
-\newblock Polygonal approximation of voronoi diagrams of a set of triangles in
-  three dimensions.
-\newblock In {\em Tech Rep 766, Lab of Comp. Sci., MIT}, 1997.
-
-\bibitem{vleugels1998approximating}
-J.~Vleugels and M.~Overmars.
-\newblock Approximating voronoi diagrams of convex sites in any dimension.
-\newblock {\em International Journal of Computational Geometry \&
-  Applications}, 8(02):201--221, 1998.
-
-\bibitem{yin2011fast}
-K.~Yin, Y.~Liu, and E.~Wu.
-\newblock Fast computing adaptively sampled distance field on gpu.
-\newblock In {\em Pacific Graphics Short Papers}, pages 25--30. The
-  Eurographics Association, 2011.
-
-\bibitem{zhou2011data}
-K.~Zhou, M.~Gong, X.~Huang, and B.~Guo.
-\newblock Data-parallel octrees for surface reconstruction.
-\newblock {\em Visualization and Computer Graphics, IEEE Transactions on},
-  17(5):669--681, 2011.
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+\providecommand{\BIBand}{and}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\undefined \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Edwards et~al.(2015)Edwards, Daniel, Pascucci and
+  Bajaj}]{edwards2015approximating}
+\bibinfo{author}{Edwards\xfnm[ J.]}, \bibinfo{author}{Daniel\xfnm[ E.]},
+  \bibinfo{author}{Pascucci\xfnm[ V.]}, \bibinfo{author}{Bajaj\xfnm[ C.]}.
+\newblock \bibinfo{title}{Approximating the generalized voronoi diagram of
+  closely spaced objects}.
+\newblock \bibinfo{journal}{Computer Graphics Forum}
+  \bibinfo{year}{2015};\bibinfo{volume}{34}(\bibinfo{number}{2}):\bibinfo{pages}{299--309}.
+%Type = Inproceedings
+\bibitem[{Karras(2012)}]{karras2012maximizing}
+\bibinfo{author}{Karras\xfnm[ T.]}.
+\newblock \bibinfo{title}{Maximizing parallelism in the construction of bvhs,
+  octrees, and k-d trees}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the Fourth ACM
+  SIGGRAPH/Eurographics conference on High-Performance Graphics}.
+  \bibinfo{organization}{Eurographics Association}; \bibinfo{year}{2012}, p.
+  \bibinfo{pages}{33--37}.
+%Type = Article
+\bibitem[{Lavender et~al.(1992)Lavender, Bowyer, Davenport, Wallis and
+  Woodwark}]{lavender1992voronoi}
+\bibinfo{author}{Lavender\xfnm[ D.]}, \bibinfo{author}{Bowyer\xfnm[ A.]},
+  \bibinfo{author}{Davenport\xfnm[ J.]}, \bibinfo{author}{Wallis\xfnm[ A.]},
+  \bibinfo{author}{Woodwark\xfnm[ J.]}.
+\newblock \bibinfo{title}{Voronoi diagrams of set-theoretic solid models}.
+\newblock \bibinfo{journal}{Computer Graphics and Applications, IEEE}
+  \bibinfo{year}{1992};\bibinfo{volume}{12}(\bibinfo{number}{5}):\bibinfo{pages}{69--77}.
+%Type = Article
+\bibitem[{Strain(1999)}]{strain1999fast}
+\bibinfo{author}{Strain\xfnm[ J.]}.
+\newblock \bibinfo{title}{Fast tree-based redistancing for level set
+  computations}.
+\newblock \bibinfo{journal}{Journal of Computational Physics}
+  \bibinfo{year}{1999};\bibinfo{volume}{152}(\bibinfo{number}{2}):\bibinfo{pages}{664--686}.
+%Type = Inproceedings
+\bibitem[{Frisken et~al.(2000)Frisken, Perry, Rockwood and
+  Jones}]{frisken2000adaptively}
+\bibinfo{author}{Frisken\xfnm[ S.F.]}, \bibinfo{author}{Perry\xfnm[ R.N.]},
+  \bibinfo{author}{Rockwood\xfnm[ A.P.]}, \bibinfo{author}{Jones\xfnm[ T.R.]}.
+\newblock \bibinfo{title}{Adaptively sampled distance fields: a general
+  representation of shape for computer graphics}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the 27th annual conference on
+  Computer graphics and interactive techniques}. \bibinfo{organization}{ACM
+  Press/Addison-Wesley Publishing Co.}; \bibinfo{year}{2000}, p.
+  \bibinfo{pages}{249--254}.
+%Type = Article
+\bibitem[{Boada et~al.(2002)Boada, Coll and Sellares}]{boada2002voronoi}
+\bibinfo{author}{Boada\xfnm[ I.]}, \bibinfo{author}{Coll\xfnm[ N.]},
+  \bibinfo{author}{Sellares\xfnm[ J.]}.
+\newblock \bibinfo{title}{The voronoi-quadtree: construction and
+  visualization}.
+\newblock \bibinfo{journal}{Eurographics 2002 Short Presentation}
+  \bibinfo{year}{2002};:\bibinfo{pages}{349--355}.
+%Type = Article
+\bibitem[{Boada et~al.(2008)Boada, Coll, Madern and
+  Antoni~Sellares}]{boada2008approximations}
+\bibinfo{author}{Boada\xfnm[ I.]}, \bibinfo{author}{Coll\xfnm[ N.]},
+  \bibinfo{author}{Madern\xfnm[ N.]}, \bibinfo{author}{Antoni~Sellares\xfnm[
+  J.]}.
+\newblock \bibinfo{title}{Approximations of 2d and 3d generalized voronoi
+  diagrams}.
+\newblock \bibinfo{journal}{International Journal of Computer Mathematics}
+  \bibinfo{year}{2008};\bibinfo{volume}{85}(\bibinfo{number}{7}):\bibinfo{pages}{1003--1022}.
+%Type = Inproceedings
+\bibitem[{Teichmann and Teller(1997)}]{teichmann1997polygonal}
+\bibinfo{author}{Teichmann\xfnm[ M.]}, \bibinfo{author}{Teller\xfnm[ S.]}.
+\newblock \bibinfo{title}{Polygonal approximation of voronoi diagrams of a set
+  of triangles in three dimensions}.
+\newblock In: \bibinfo{booktitle}{Tech Rep 766, Lab of Comp. Sci., MIT}.
+  \bibinfo{year}{1997},.
+%Type = Article
+\bibitem[{Vleugels and Overmars(1998)}]{vleugels1998approximating}
+\bibinfo{author}{Vleugels\xfnm[ J.]}, \bibinfo{author}{Overmars\xfnm[ M.]}.
+\newblock \bibinfo{title}{Approximating voronoi diagrams of convex sites in any
+  dimension}.
+\newblock \bibinfo{journal}{International Journal of Computational Geometry \&
+  Applications}
+  \bibinfo{year}{1998};\bibinfo{volume}{8}(\bibinfo{number}{02}):\bibinfo{pages}{201--221}.
+%Type = Article
+\bibitem[{B{\'e}dorf et~al.(2012)B{\'e}dorf, Gaburov and
+  Portegies~Zwart}]{bedorf2012sparse}
+\bibinfo{author}{B{\'e}dorf\xfnm[ J.]}, \bibinfo{author}{Gaburov\xfnm[ E.]},
+  \bibinfo{author}{Portegies~Zwart\xfnm[ S.]}.
+\newblock \bibinfo{title}{A sparse octree gravitational< i> n</i>-body code
+  that runs entirely on the gpu processor}.
+\newblock \bibinfo{journal}{Journal of Computational Physics}
+  \bibinfo{year}{2012};\bibinfo{volume}{231}(\bibinfo{number}{7}):\bibinfo{pages}{2825--2839}.
+%Type = Article
+\bibitem[{Zhou et~al.(2011)Zhou, Gong, Huang and Guo}]{zhou2011data}
+\bibinfo{author}{Zhou\xfnm[ K.]}, \bibinfo{author}{Gong\xfnm[ M.]},
+  \bibinfo{author}{Huang\xfnm[ X.]}, \bibinfo{author}{Guo\xfnm[ B.]}.
+\newblock \bibinfo{title}{Data-parallel octrees for surface reconstruction}.
+\newblock \bibinfo{journal}{Visualization and Computer Graphics, IEEE
+  Transactions on}
+  \bibinfo{year}{2011};\bibinfo{volume}{17}(\bibinfo{number}{5}):\bibinfo{pages}{669--681}.
+%Type = Article
+\bibitem[{Kim and Liu(2014)}]{kim2014exact}
+\bibinfo{author}{Kim\xfnm[ Y.J.]}, \bibinfo{author}{Liu\xfnm[ F.]}.
+\newblock \bibinfo{title}{Exact and adaptive signed distance fieldscomputation
+  for rigid and deformablemodels on gpus}.
+\newblock \bibinfo{journal}{IEEE Transactions on Visualization and Computer
+  Graphics}
+  \bibinfo{year}{2014};\bibinfo{volume}{20}(\bibinfo{number}{5}):\bibinfo{pages}{714--725}.
+%Type = Inproceedings
+\bibitem[{Baert et~al.(2013)Baert, Lagae and Dutr{\'e}}]{baert2013out}
+\bibinfo{author}{Baert\xfnm[ J.]}, \bibinfo{author}{Lagae\xfnm[ A.]},
+  \bibinfo{author}{Dutr{\'e}\xfnm[ P.]}.
+\newblock \bibinfo{title}{Out-of-core construction of sparse voxel octrees}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the 5th High-Performance
+  Graphics Conference}. \bibinfo{organization}{ACM}; \bibinfo{year}{2013}, p.
+  \bibinfo{pages}{27--32}.
+%Type = Inproceedings
+\bibitem[{Crassin et~al.(2009)Crassin, Neyret, Lefebvre and
+  Eisemann}]{crassin2009gigavoxels}
+\bibinfo{author}{Crassin\xfnm[ C.]}, \bibinfo{author}{Neyret\xfnm[ F.]},
+  \bibinfo{author}{Lefebvre\xfnm[ S.]}, \bibinfo{author}{Eisemann\xfnm[ E.]}.
+\newblock \bibinfo{title}{Gigavoxels: Ray-guided streaming for efficient and
+  detailed voxel rendering}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the 2009 symposium on
+  Interactive 3D graphics and games}. \bibinfo{organization}{ACM};
+  \bibinfo{year}{2009}, p. \bibinfo{pages}{15--22}.
+%Type = Article
+\bibitem[{Laine and Karras(2011)}]{laine2011efficient}
+\bibinfo{author}{Laine\xfnm[ S.]}, \bibinfo{author}{Karras\xfnm[ T.]}.
+\newblock \bibinfo{title}{Efficient sparse voxel octrees}.
+\newblock \bibinfo{journal}{Visualization and Computer Graphics, IEEE
+  Transactions on}
+  \bibinfo{year}{2011};\bibinfo{volume}{17}(\bibinfo{number}{8}):\bibinfo{pages}{1048--1059}.
+%Type = Inproceedings
+\bibitem[{Lefebvre and Hoppe(2007)}]{lefebvre2007compressed}
+\bibinfo{author}{Lefebvre\xfnm[ S.]}, \bibinfo{author}{Hoppe\xfnm[ H.]}.
+\newblock \bibinfo{title}{Compressed random-access trees for spatially coherent
+  data}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the 18th Eurographics
+  conference on Rendering Techniques}. \bibinfo{organization}{Eurographics
+  Association}; \bibinfo{year}{2007}, p. \bibinfo{pages}{339--349}.
+%Type = Inproceedings
+\bibitem[{Bastos and Celes(2008)}]{bastos2008gpu}
+\bibinfo{author}{Bastos\xfnm[ T.]}, \bibinfo{author}{Celes\xfnm[ W.]}.
+\newblock \bibinfo{title}{Gpu-accelerated adaptively sampled distance fields}.
+\newblock In: \bibinfo{booktitle}{Shape Modeling and Applications, 2008. SMI
+  2008. IEEE International Conference on}. \bibinfo{organization}{IEEE};
+  \bibinfo{year}{2008}, p. \bibinfo{pages}{171--178}.
+%Type = Inproceedings
+\bibitem[{Park et~al.(2010)Park, Lee, Kim and Kim}]{park2010cuda}
+\bibinfo{author}{Park\xfnm[ T.]}, \bibinfo{author}{Lee\xfnm[ S.H.]},
+  \bibinfo{author}{Kim\xfnm[ J.H.]}, \bibinfo{author}{Kim\xfnm[ C.H.]}.
+\newblock \bibinfo{title}{Cuda-based signed distance field calculation for
+  adaptive grids}.
+\newblock In: \bibinfo{booktitle}{Computer and Information Technology (CIT),
+  2010 IEEE 10th International Conference on}. \bibinfo{organization}{IEEE};
+  \bibinfo{year}{2010}, p. \bibinfo{pages}{1202--1206}.
+%Type = Inproceedings
+\bibitem[{Yin et~al.(2011)Yin, Liu and Wu}]{yin2011fast}
+\bibinfo{author}{Yin\xfnm[ K.]}, \bibinfo{author}{Liu\xfnm[ Y.]},
+  \bibinfo{author}{Wu\xfnm[ E.]}.
+\newblock \bibinfo{title}{Fast computing adaptively sampled distance field on
+  gpu}.
+\newblock In: \bibinfo{booktitle}{Pacific Graphics Short Papers}.
+  \bibinfo{organization}{The Eurographics Association}; \bibinfo{year}{2011},
+  p. \bibinfo{pages}{25--30}.
+%Type = Inproceedings
+\bibitem[{Ha et~al.(2009)Ha, Kr{\"u}ger and Silva}]{ha2009fast}
+\bibinfo{author}{Ha\xfnm[ L.]}, \bibinfo{author}{Kr{\"u}ger\xfnm[ J.]},
+  \bibinfo{author}{Silva\xfnm[ C.T.]}.
+\newblock \bibinfo{title}{Fast four-way parallel radix sorting on gpus}.
+\newblock In: \bibinfo{booktitle}{Computer Graphics Forum};
+  vol.~\bibinfo{volume}{28}. \bibinfo{organization}{Wiley Online Library};
+  \bibinfo{year}{2009}, p. \bibinfo{pages}{2368--2378}.
 
 \end{thebibliography}
