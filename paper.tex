@@ -107,7 +107,7 @@
 %\maketitle
 
 \begin{abstract}
-We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, discretizing finely only where needed, \red{Hierarchical kernel envokation isn't necessarily bad. We might move to that to remove some of the Q linear complexity overhead.} either separate points only, or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
+We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, discretizing finely only where needed, either separate points only, or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
 
 %   Leave one blank line after the abstract, 
 %   then add the subject categories according to the ACM Classification Index 
@@ -192,19 +192,14 @@ Each step of our algorithm, with the exception of resolving conflict cells, is i
 
 \subsection{Build initial quadtree}
 \label{sec:build-initial-quadtree}
-Our first step is to build a quadtree on the given set of vertices. We use the Karras algorithm \cite{karras2012maximizing} which starts by sorting the Morton codes of the given vertices. Our implementation uses an efficient parallel radix sorter described by Ha \etal \shortcite{ha2009fast}. Once the vertices are sorted, a binary radix tree, and then an initial quadtree can be constructed in parallel. The strength of this approach lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
+Our first step is to build a quadtree on the given set of vertices. We use the Karras algorithm \cite{karras2012maximizing} which begins by placing the given vertices on a Z-Order curve by computing each vertex's cooresponding Morton code in parallel. Next, Karras sorts the converted points by using a parallel radix sorter, which has a linear execution time. Our implementation uses the efficient four-way parallel radix sorter described by Ha \etal \shortcite{ha2009fast}. Once the morton codes are sorted, the Z-Order curve can be exploited to construct a binary radix tree in a parallel bottom up manner by identifying longest common Morton code prefixes between neighboring points. This resultant binary radix tree can be analyzed in parallel to identify the size and structure of the required vertex quadtree. The strength of this approach lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
 
 %Our first step is to build a quadtree on the vertices. This step gives us our first approximation to our final quadtree. We use Karras' algorithm \cite{karras2012maximizing} which sorts the Morton codes of the vertices in parallel, then constructs the binary radix tree in parallel. With the binary radix tree, the quadtree can be constructed with a single parallel call. The strength of this algorithm lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
 
 \subsection{Pruning the quadtree}
 \label{sec:pruning}
-During initial quadtree construction, we can prune the quadtree to simplify conflict detection and reduce our memory footprint. Assume we have a numeric vertex labeling such that each vertex is labeled to match the object it belongs to. The binary radix tree (BRT) provided by Karras serves as a bounding volume hierarchy and is used to generate the initial quadtree by seperating vertices regardless of their label. Since our objective is to resolve between objects of different labels, we can proactively prune the initial BRT, and subsequently the initial quadtree (see figure \ref{fig:pruning}) such that a leaf node can contain multiple vertices as long as they all have the same label.
+During Karras' initial binary radix tree (BRT) construction, we can prune the BRT to simplify the resultant quadtree. This in turn simplifies the work complexity of conflict cell detection and reduces our overall memory footprint. Assume we have a numeric vertex labeling such that each vertex is labeled to match the object it belongs to. The original BRT provided by Karras' algorithm is used to seperate vertices regardless of their label. Since our objective is to resolve between objects of different labels, we can proactively prune Karras' initial BRT, and subsequently the initial quadtree (see figure \ref{fig:pruning}) by allowing the generated quadtree leaves to contain multiple vertices as long as those vertices have the same label.
 
-%The initial quadtree resolves between vertices, regardless of whether they are labeled differently from each other or not, so each leaf node is guaranteed to contain no more than one vertex. Since our objective is to resolve between objects of different labels, we can proactively prune the initial vertex quadtree (see figure \ref{fig:pruning}) such that a leaf node can contain multiple vertices as long as they all have the same label. By pruning the initial quadtree we simplify conflict detection and reduce our memory footprint.
-
-%\red{Clarify this passage: We remove internal binary radix tree nodes seperating identically labeled vertices. For each binary radix tree leaf in parallel, we first look at the label of the leaf's corresponding vertices. If the colors match, we apply that color to the leaf. Otherwise, we mark that leaf as "required".} This initial coloring can be done immediately after the Karras binary radix tree construction without the need to invoke an additional kernel. Before generating the binary radix tree's corresponding quadtree, we propagate the binary radix leaf colors up the tree in parallel, marking internal nodes as "required" when the colors of two children nodes mismatch. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes. By pruning the initial quadtree, we simplify conflict detection and reduce our memory footprint.
-
-\red{Talk to Nate}
 To prune the initial BRT efficiently, we label each BRT node $C$ using the following criterion: if $C$ is a leaf node that separates two vertices with identical labels, label $C$ to match the label of the vertices being separated. If $C$ is a leaf node that separates two vertices having mismatched colors, label $C$ as ``required''. Lastly, if $C$ is an internal node, i.e., it has children, mark it as ``unknown''. This initial step can be done immediately after the Karras BRT construction without the need to invoke an additional kernel.
 
 We then propagate the BRT labels up the tree in parallel, marking ``unknown'' nodes as ``required'' when the labels of the current node's two child nodes don't match. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes.
@@ -337,7 +332,6 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
 %        \includegraphics[width=0.38\columnwidth]{data-structures-4.pdf} }
   \caption{
 %    \protect\subref{fig:conflict-find-1} We have three objects, blue, red, and green with facets labeled A-I.
-    \red{Is the pruning correct?}
     We have three objects, blue, red, and green with facets labeled A-I.
     \protect\subref{fig:conflict-find-2} Initial pruned vertex quadtree.
     \protect\subref{fig:conflict-find-4} Zoomed-in to the region outlined by red in \protect\subref{fig:conflict-find-2} and showing the boundary cell (BCell) computation for each facet. %These pairs are given in figure \protect\subref{fig:data-structures-1}.
@@ -657,8 +651,7 @@ i < \log_{\alpha}\frac{s_{exit}-k_1}{k_2} \label{eqn:num-samples}
 Because conflict cell resolution only considers two facets at a time, we may have to iterate multiple times if more than two facets intersect a given cell. If new sample points were found then we add them to the current set $S$ of sample points and return to building the quadtree from points (section \ref{sec:build-initial-quadtree}). We finish when the only conflicts identified are at the maximum depth.
 
 \subsection{Optimality}
-\red{Check this}
-Define an optimal quadtree to be one in which only conflict nodes have children, and let an optimal quadtree's size be $n$ total nodes. Our iterative sampling algorithm results in a quadtree that has a size within a constant factor of $n$ in the worst case (see figure \ref{fig:optimality}). We omit the proof as well as an average case analysis because optimality can be achieved by simply performing one final pruning step (see section \ref{sec:pruning}).
+Define an optimal final quadtree to be one in which only conflict nodes have children, and let an optimal final quadtree's size be $n$ total nodes. Our iterative sampling algorithm results in a quadtree that has a size within a constant factor of $n$ in the worst case (see figure \ref{fig:optimality}). We omit the proof as well as an average case analysis because optimality can be achieved by simply removing the uneccessary nodes in one final parallel pruning step.
 
 \begin{figure}
   \centering
@@ -690,12 +683,12 @@ Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the obj
 
 %\begin{tightenumerate}
 \begin{enumerate}
-\item Build quadtree using Karras' algorithm \cite{karras2012maximizing}, including pruning - $O(D)$. \red{How about this?}
+\item Build quadtree using Karras' algorithm \cite{karras2012maximizing}, including pruning - $O(D)$.
 \item Detect conflict cells
 %  \begin{tightenumerate}
   \begin{enumerate}
   \item Build BCells array - $O(D)$. Building of the array runs in parallel for each facet $f$. The facet looks at each vertex (we assume simplices with a constant number of dimensions), computes Morton codes and finds the longest common prefix among vertices. This requires looking at each bit, of which there are $O(D)$.
-  \item Sort BCells array - \red{Shouldn't the Big O here be $O(D)$?} $O(\log{M})$. The array has $M$ elements, and we use a parallel radix sort with $\log$ complexity.
+  \item Sort BCells array -  \red{$O(D)$}. We use a parallel radix sort with linear complexity dependent on the max quadtree depth.
   \item Index BCells with quadtree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the quadtree for a given cell ID, taking at most $D$ steps.
   \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the quadtree due to visiting each ancestor of the leaf cell.
 %  \end{tightenumerate}
@@ -803,7 +796,7 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
     \label{fig:vascular-3}
 %    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/08-Resolved-Quadtree.PNG} }
     \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/14-Resolved-Quadtree.PNG} }
-  \caption{Dataset derived from plant vasculature image.
+  \caption{A large set of uniquely labeled polygons constructed from connected component analysis on a photograph of vascular cambium, a type of plant tissue.
     \protect\subref{fig:vascular-1} Initial vertex quadtree after pruning.
     \protect\subref{fig:vascular-2} All conflict cells of the initial quadtree.
     \protect\subref{fig:vascular-3} After conflict cell resolution. No quadtree cell intersects more than one object. Our method works even though objects in this dataset are often non-manifold and have self-intersections.
@@ -828,43 +821,37 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
 \begin{table*}
   \centering
   \footnotesize{
-%  \begin{tabular}{lcc|cc|cc|cc|cc}
-  \begin{tabular}{lcc|cc|cc|cc}
+  \begin{tabular}{lcc|c|cc|cc}
     \toprule
-    dataset & objects & object          & \multicolumn{2}{c|}{quadtree}
+    dataset & objects & object          & quadtree
     & \multicolumn{2}{c|}{time} &  \multicolumn{2}{c}{quad cells} 
     \\
-%    & \multicolumn{2}{c}{quad memory}\\
-            &         & facets          & \multicolumn{2}{c|}{depth}
-    & \multicolumn{2}{c|}{(millisec)} & \multicolumn{2}{c}{($\times 10^3$)}
+            &         & facets          & depth
+    & \multicolumn{2}{c|}{(millisec)} & 
     \\
-%    & \multicolumn{2}{c}{(Mb)}    \\
-%            &         & ($\times 10^3$) & Ours & Prev
-            &         &  & Ours & Prev
-%    & Ours & Prev & Ours & Prev & Ours & Prev \\
+           &         &  & 
     & Ours & Prev & Ours & Prev \\
-    %\midrule
     \hline
 
     % ./gvd-viewer2 -l 9 ../data2/test1*.dat
     % ./QUADTREE --disable-conflict-color -d 1 -m 4 -l 10 data/test1*.dat
-    Fig. \ref{fig:simple-conflicts} & 5 & 24 & 10 & 9 & 54 & 3 & 177 & 1168  \\
-
-    % ./gvd-viewer2 -l 24 ../data2/maze/*.dat
-    % ./QUADTREE --disable-conflict-color -d 1 -m 3 -l 24 data/maze/poly*.dat
-    Fig. \ref{fig:ut1-samples} & 470 & 4943 & 24 & 24 & 128 & 465 & 38 & 157  \\
-
-    % ./gvd-viewer2 -l 8 ../data2/glines/100x100/*.dat
-    % ./QUADTREE --disable-conflict-color -d 1 -m 4 -l 9 data/glines/100x100/*
-    Fig. \ref{fig:glines} & 2 & 27,998 & 9 & 8 & 148 & 429 & 43 & 66  \\
+    Fig. \ref{fig:simple-conflicts} & 5 & 24 & 9 & 9 & 3 & 138 & 1213  \\
 
     % ./gvd-viewer2 -l 9 ../data2/glines/200x200/*.dat
     % ./QUADTREE --disable-conflict-color -d 1 -m 4 -l 10 data/glines/200x200/*
-    Fig. \ref{fig:glines} x2 & 2 & 113,084 & 10 & 9 & 414 & 1778 & 125 & 262  \\
+    Fig. \ref{fig:gears} & 12 & 288 & 10 & 23 & 24 & 408 & 3370  \\
+
+    % ./gvd-viewer2 -l 24 ../data2/maze/*.dat
+    % ./QUADTREE --disable-conflict-color -d 1 -m 3 -l 24 data/maze/poly*.dat
+    Fig. \ref{fig:ut1-samples} & 470 & 4943 & 24 & 87 & 277 & 22355 & 156649  \\
+
+    % ./gvd-viewer2 -l 8 ../data2/glines/100x100/*.dat
+    % ./QUADTREE --disable-conflict-color -d 1 -m 4 -l 9 data/glines/100x100/*
+    Fig. \ref{fig:vascular} & 2162 & 39,338 & 12 & 84 & 376 & 14338 & 157006  \\
 
     \bottomrule
   \end{tabular}}
-  \caption{\red{Nate, please send me an updated table in whatever format (I can throw it into Latex). We should have timings on simple, maze, vascular and gears comparing GVD to PGVD with and without pruning. Not sure if we'll end up including the non-pruning results. We should also include the \# objects, \# facets and \# quadtree cells, as are included in this table.} Table of quadtree computation statistics and timings on datasets that are unmanageable using other methods. Columns are: \emph{objects} - the number of objects in the dataset; \emph{object facets} - the number of line segments (2D) of all objects in the dataset; \emph{quadtree depth} - required quadtree depth in order to resolve objects; \emph{time (ms)} - milliseconds to build the quadtree; \emph{quad cells} - number of quadtree cells. Dataset ``\ref{fig:glines} x2'' is a maze dataset increased in size by a factor of two in each dimension from \ref{fig:glines}. }
+  \caption{Table of quadtree computation statistics and timings on datasets that are unmanageable using other methods. Columns are: \emph{objects} - the number of objects in the dataset; \emph{object facets} - the number of line segments (2D) of all objects in the dataset; \emph{quadtree depth} - required quadtree depth in order to resolve objects; \emph{time (ms)} - milliseconds to build the quadtree; \emph{quad cells} - number of quadtree cells.  }
   \label{tab:timings}
 \end{table*}
 
