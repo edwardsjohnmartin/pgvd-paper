@@ -1,17 +1,18 @@
 \relax 
 \citation{edwards2015approximating}
 \citation{edwards2015approximating}
+\citation{edwards2015approximating}
 \citation{karras2012maximizing}
-\citation{lavender1992voronoi}
-\citation{strain1999fast}
-\citation{frisken2000adaptively}
-\citation{boada2002voronoi,boada2008approximations}
-\citation{teichmann1997polygonal,vleugels1998approximating}
 \@LN@col{1}
 \providecommand \oddpage@label [2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \newlabel{sec:intro}{{1}{1}}
 \@LN@col{2}
+\citation{lavender1992voronoi}
+\citation{strain1999fast}
+\citation{frisken2000adaptively}
+\citation{boada2002voronoi,boada2008approximations}
+\citation{teichmann1997polygonal,vleugels1998approximating}
 \citation{bedorf2012sparse,karras2012maximizing,zhou2011data}
 \citation{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}
 \citation{bastos2008gpu,park2010cuda}
@@ -37,6 +38,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  \subref {fig:pruning-1} The initial quadtree built on the object vertices, in which no quadtree cell contains more than one vertex, can be far more complex than needed to resolve between objects. \subref {fig:pruning-2} After pruning the quadtree. Quadtree cells can contain multiple vertices as long as they all have the same label. \relax }}{3}}
 \newlabel{fig:pruning}{{1}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Detect conflict cells}{3}}
+\@LN@col{2}
 \newlabel{fig:conflict-find-2}{{2a}{3}}
 \newlabel{sub@fig:conflict-find-2}{{(a)}{a}}
 \newlabel{fig:conflict-find-4}{{2b}{3}}
@@ -47,15 +49,16 @@
 \newlabel{sub@fig:conflict-find-6}{{(d)}{d}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \leavevmode {\color  {bostonuniversityred}Is the pruning correct?} We have three objects, blue, red, and green with facets labeled A-I. \subref {fig:conflict-find-2} Initial pruned vertex quadtree. \subref {fig:conflict-find-4} Zoomed-in to the region outlined by red in \subref {fig:conflict-find-2} and showing the boundary cell (BCell) computation for each facet. \subref {fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted. \subref {fig:conflict-find-6} The new quadtree after conflict resolution. \relax }}{3}}
 \newlabel{fig:conflict-find}{{2}{3}}
-\newlabel{fig:data-structures-1}{{3a}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Resolve conflict cells}{3}}
+\newlabel{sec:resolve}{{3.4}{3}}
+\newlabel{fig:data-structures-1}{{3a}{4}}
 \newlabel{sub@fig:data-structures-1}{{(a)}{a}}
-\newlabel{fig:data-structures-2}{{3b}{3}}
+\newlabel{fig:data-structures-2}{{3b}{4}}
 \newlabel{sub@fig:data-structures-2}{{(b)}{b}}
-\newlabel{fig:data-structures-3}{{3c}{3}}
+\newlabel{fig:data-structures-3}{{3c}{4}}
 \newlabel{sub@fig:data-structures-3}{{(c)}{c}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure). \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given quadtree cell in \texttt  {FFacet} and \texttt  {LFacet}, respectively. \subref {fig:data-structures-3} For a given quadtree cell, we can find all contained facets for use in algorithm 1\hbox {}. \relax }}{3}}
-\newlabel{fig:data-structures}{{3}{3}}
-\@LN@col{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  \subref {fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure). \subref {fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given quadtree cell in \texttt  {FFacet} and \texttt  {LFacet}, respectively. \subref {fig:data-structures-3} For a given quadtree cell, we can find all contained facets for use in algorithm 1\hbox {}. \relax }}{4}}
+\newlabel{fig:data-structures}{{3}{4}}
 \newlabel{alg:L}{{1}{4}}
 \newlabel{alg:A}{{3}{4}}
 \newlabel{alg:i}{{4}{4}}
@@ -64,8 +67,6 @@
 \newlabel{alg:16}{{15}{4}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces FIND\_CONFLICT\_CELLS\relax }}{4}}
 \newlabel{alg:find-conflict-cells}{{1}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Resolve conflict cells}{4}}
-\newlabel{sec:resolve}{{3.4}{4}}
 \newlabel{fig:conflict-resolution-x}{{4a}{4}}
 \newlabel{sub@fig:conflict-resolution-x}{{(a)}{a}}
 \newlabel{fig:conflict-resolution-even}{{4b}{4}}
@@ -85,25 +86,22 @@
 \newlabel{eqn:r}{{2}{5}}
 \newlabel{eqn:p}{{3}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Finding $a(s)$ -- \textit  {opposite} case}{5}}
+\@LN@col{2}
 \newlabel{eqn:t}{{4}{5}}
 \newlabel{eqn:ro}{{5}{5}}
 \newlabel{eqn:f}{{6}{5}}
 \newlabel{eqn:a1o}{{7}{5}}
-\@LN@col{2}
 \newlabel{eqn:ao}{{8}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Finding $a(s)$ -- \textit  {adjacent} case}{5}}
 \newlabel{eqn:ra}{{11}{5}}
 \newlabel{eqn:a1a}{{12}{5}}
 \newlabel{eqn:aa}{{13}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Sampling}{5}}
-\newlabel{eqn:recurrence}{{18}{5}}
 \citation{karras2012maximizing}
 \@LN@col{1}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Sampling}{6}}
+\newlabel{eqn:recurrence}{{18}{6}}
 \newlabel{eqn:sample}{{22}{6}}
 \newlabel{eqn:num-samples}{{28}{6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Iteration}{6}}
-\newlabel{sec:iterate}{{3.4.4}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Optimality}{6}}
 \@LN@col{2}
 \newlabel{fig:optimality-good}{{5a}{6}}
 \newlabel{sub@fig:optimality-good}{{(a)}{a}}
@@ -113,11 +111,13 @@
 \newlabel{sub@fig:optimality-bad-all}{{(c)}{c}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  Best and worst cases given two lines. The same number of conflict resolution samples are generated regardless of where the lines are located. \subref {fig:optimality-good} Base case: two lines can be resolved by a single quadtree subdivision. \subref {fig:optimality-bad} Worst case: the same two lines translated slightly in $y$ now require five subdivisions to be resolved. \subref {fig:optimality-bad-all} The number of cells generated from the shown resolution samples is within a constant factor of the worst case. \relax }}{6}}
 \newlabel{fig:optimality}{{5}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Iteration}{6}}
+\newlabel{sec:iterate}{{3.4.4}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Optimality}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Complexity analysis}{6}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.1}Time complexity}{6}}
 \@LN@col{1}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.2}Space complexity}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results and conclusions}{7}}
 \@LN@col{2}
 \newlabel{fig:simple-conflicts}{{6a}{7}}
 \newlabel{sub@fig:simple-conflicts}{{(a)}{a}}
@@ -125,20 +125,7 @@
 \newlabel{sub@fig:simple-samples}{{(b)}{b}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces  \subref {fig:simple-conflicts} \leavevmode {\color  {bostonuniversityred}Incorrect conflict cells.} A toy dataset showing conflict cells after building the quadtree from object vertices. \subref {fig:simple-samples} The toy dataset showing how samples are collected. \relax }}{7}}
 \newlabel{fig:results-toy}{{6}{7}}
-\newlabel{fig:ut1-samples}{{7a}{7}}
-\newlabel{sub@fig:ut1-samples}{{(a)}{a}}
-\newlabel{fig:ut1}{{7b}{7}}
-\newlabel{sub@fig:ut1}{{(b)}{b}}
-\newlabel{fig:ut2}{{7c}{7}}
-\newlabel{sub@fig:ut2}{{(c)}{c}}
-\newlabel{fig:ut3}{{7d}{7}}
-\newlabel{sub@fig:ut3}{{(d)}{d}}
-\newlabel{fig:ut4}{{7e}{7}}
-\newlabel{sub@fig:ut4}{{(e)}{e}}
-\newlabel{fig:ut5}{{7f}{7}}
-\newlabel{sub@fig:ut5}{{(f)}{f}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \subref {fig:ut1-samples} A complex dataset with 470 objects at vastly different scales in object size and spacing. \subref {fig:ut1}-\subref {fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree. A uniform grid would require $2^{48}$ cells to resolve between objects. The quadtree shown here has $22429$ cells. \relax }}{7}}
-\newlabel{fig:results-maze}{{7}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results and conclusions}{7}}
 \bibstyle{model3-num-names}
 \bibdata{paper}
 \bibcite{edwards2015approximating}{{1}{2015}{{Edwards et~al.}}{{Edwards, Daniel, Pascucci and Bajaj}}}
@@ -149,13 +136,22 @@
 \bibcite{boada2002voronoi}{{6}{2002}{{Boada et~al.}}{{Boada, Coll and Sellares}}}
 \bibcite{boada2008approximations}{{7}{2008}{{Boada et~al.}}{{Boada, Coll, Madern and Antoni~Sellares}}}
 \bibcite{teichmann1997polygonal}{{8}{1997}{{Teichmann and Teller}}{{}}}
-\bibcite{vleugels1998approximating}{{9}{1998}{{Vleugels and Overmars}}{{}}}
-\bibcite{bedorf2012sparse}{{10}{2012}{{B{\'e}dorf et~al.}}{{B{\'e}dorf, Gaburov and Portegies~Zwart}}}
-\bibcite{zhou2011data}{{11}{2011}{{Zhou et~al.}}{{Zhou, Gong, Huang and Guo}}}
-\bibcite{kim2014exact}{{12}{2014}{{Kim and Liu}}{{}}}
-\bibcite{baert2013out}{{13}{2013}{{Baert et~al.}}{{Baert, Lagae and Dutr{\'e}}}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces \leavevmode {\color  {bostonuniversityred}Nate, please send me an updated table in whatever format (I can throw it into Latex). We should have timings on simple, maze, vascular and gears comparing GVD to PGVD with and without pruning. Not sure if we'll end up including the non-pruning results. We should also include the \# objects, \# facets and \# quadtree cells, as are included in this table.} Table of quadtree computation statistics and timings on datasets that are unmanageable using other methods. Columns are: \emph  {objects} - the number of objects in the dataset; \emph  {object facets} - the number of line segments (2D) of all objects in the dataset; \emph  {quadtree depth} - required quadtree depth in order to resolve objects; \emph  {time (ms)} - milliseconds to build the quadtree; \emph  {quad cells} - number of quadtree cells. Dataset ``\G@refundefinedtrue \@text  {\normalfont  \bfseries  ??}\GenericWarning  {               }{LaTeX Warning: Reference `fig:glines' on page 8 undefined} x2'' is a maze dataset increased in size by a factor of two in each dimension from \G@refundefinedtrue \@text  {\normalfont  \bfseries  ??}\GenericWarning  {               }{LaTeX Warning: Reference `fig:glines' on page 8 undefined}. \relax }}{8}}
 \newlabel{tab:timings}{{1}{8}}
+\newlabel{fig:ut1-samples}{{7a}{8}}
+\newlabel{sub@fig:ut1-samples}{{(a)}{a}}
+\newlabel{fig:ut1}{{7b}{8}}
+\newlabel{sub@fig:ut1}{{(b)}{b}}
+\newlabel{fig:ut2}{{7c}{8}}
+\newlabel{sub@fig:ut2}{{(c)}{c}}
+\newlabel{fig:ut3}{{7d}{8}}
+\newlabel{sub@fig:ut3}{{(d)}{d}}
+\newlabel{fig:ut4}{{7e}{8}}
+\newlabel{sub@fig:ut4}{{(e)}{e}}
+\newlabel{fig:ut5}{{7f}{8}}
+\newlabel{sub@fig:ut5}{{(f)}{f}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \subref {fig:ut1-samples} A complex dataset with 470 objects at vastly different scales in object size and spacing. \subref {fig:ut1}-\subref {fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree. A uniform grid would require $2^{48}$ cells to resolve between objects. The quadtree shown here has $22429$ cells. \relax }}{8}}
+\newlabel{fig:results-maze}{{7}{8}}
 \newlabel{fig:gears-1}{{8a}{8}}
 \newlabel{sub@fig:gears-1}{{(a)}{a}}
 \newlabel{fig:gears-2}{{8b}{8}}
@@ -164,6 +160,7 @@
 \newlabel{sub@fig:gears-3}{{(c)}{c}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  \subref {fig:gears-1} A dataset of gears with close tolerance. The resolved quadtree with sampled points is shown. \subref {fig:gears-2} Showing just the quadtree and sample points. \subref {fig:gears-3} A zoomed-in image showing the close object spacing compared to the large domain. \relax }}{8}}
 \newlabel{fig:gears}{{8}{8}}
+\@LN@col{2}
 \newlabel{fig:vascular-1}{{9a}{8}}
 \newlabel{sub@fig:vascular-1}{{(a)}{a}}
 \newlabel{fig:vascular-2}{{9b}{8}}
@@ -172,7 +169,11 @@
 \newlabel{sub@fig:vascular-3}{{(c)}{c}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces \leavevmode {\color  {bostonuniversityred}Can you give some details on this dataset -- what it is etc} \subref {fig:vascular-1} Initial vertex quadtree after pruning. \subref {fig:vascular-2} All conflict cells of the initial quadtree. \subref {fig:vascular-3} After conflict cell resolution. No quadtree cell intersects more than one object. Our method works even though objects in this dataset are often non-manifold and have self-intersections. \relax }}{8}}
 \newlabel{fig:vascular}{{9}{8}}
-\@LN@col{2}
+\bibcite{vleugels1998approximating}{{9}{1998}{{Vleugels and Overmars}}{{}}}
+\bibcite{bedorf2012sparse}{{10}{2012}{{B{\'e}dorf et~al.}}{{B{\'e}dorf, Gaburov and Portegies~Zwart}}}
+\bibcite{zhou2011data}{{11}{2011}{{Zhou et~al.}}{{Zhou, Gong, Huang and Guo}}}
+\bibcite{kim2014exact}{{12}{2014}{{Kim and Liu}}{{}}}
+\bibcite{baert2013out}{{13}{2013}{{Baert et~al.}}{{Baert, Lagae and Dutr{\'e}}}}
 \bibcite{crassin2009gigavoxels}{{14}{2009}{{Crassin et~al.}}{{Crassin, Neyret, Lefebvre and Eisemann}}}
 \bibcite{laine2011efficient}{{15}{2011}{{Laine and Karras}}{{}}}
 \bibcite{lefebvre2007compressed}{{16}{2007}{{Lefebvre and Hoppe}}{{}}}

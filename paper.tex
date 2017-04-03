@@ -1,22 +1,4 @@
 \documentclass[final,3p,times,twocolumn]{elsarticle}
-%\documentclass[submission]{gmp2017}
-%\documentclass{gmp2017}
-
-
-% Put your submission number here.
-% This number will appear instead of authors and affiliations if the
-% class option "submission" is active.
-%\SubNumber{19}
-
-% Put the author names here.
-% Use the second argument as a reference to the list of affiliations.
-% No authors and affiliations will appear if the class option "submission"
-% is active.
-%\author{Nathan Vollmer}{1}
-%\author{John Edwards}{1}
-
-% Put the affiliations of the authors here.
-%\affiliation{1}{Department of Informatics and Computer Science, Idaho State University, USA}
 
 %% The numcompress package shorten the last page in references.
 %% `nodots' option removes dots from firstnames in references.
@@ -31,8 +13,6 @@
 \setlength\linenumbersep{3pt}
 
 \input{common}
-
-%\usepackage[inline]{showlabels}
 
 %-------------------------------------------------------------------------
 \begin{document}
@@ -63,14 +43,15 @@
 %\title{Parallel Quadtree Construction on Collections of Objects}
 \title{Fast Construction of Inter-Object Space Representations}
 
+%\author{Nathan Morrical}
+%\author{John Edwards}
+%\address{Department of Informatics and Computer Science, Idaho State University, USA}
+
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{<author name>}
 %% \address[label1]{<address>}
 %% \address[label2]{<address>}
 
-\author{}
-
-\address{}
 
 %\teaser{
 %  \subfloat[][]{
@@ -126,8 +107,7 @@
 %\maketitle
 
 \begin{abstract}
-%We present a parallel quadtree algorithm that resolves between geometric objects. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori, because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, or that discretize finely in only where needed, either spawn kernels hierarchically, separate points only, or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
-We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, discretizing finely only where needed, either spawn kernels hierarchically, separate points only, or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
+We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, discretizing finely only where needed, \red{Hierarchical kernel envokation isn't necessarily bad. We might move to that to remove some of the Q linear complexity overhead.} either separate points only, or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
 
 %   Leave one blank line after the abstract, 
 %   then add the subject categories according to the ACM Classification Index 
@@ -167,7 +147,9 @@ Difficulties arise when objects are close together relative to the size of the d
 
 To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory, but it does so in serial, with expected performance liabilities. A naive approach to parallelizing quadtree computation would be to assign all available compute units according to a course grid, then run the serial algorithm on each compute unit. While simple, there is potential for serious load imbalancing if the close object spacings are not uniformly distributed.
 
-This work extends the work done by Edwards \etal \cite{edwards2015approximating} by computing the quadtree in parallel with an algorithm that is adaptive and independent of object distribution. Our algorithm, which is targeted for the GPU, performs an order of magnitude faster than the previous work and will be an important base for later distance transform and generalized Voronoi diagram computation.
+To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory, but it does so in serial, with expected performance liabilities. A naive approach to parallelizing quadtree computation would be to assign all available compute units according to a course grid, then run the serial algorithm on each compute unit. While simple, there is potential for serious load imbalancing if the close object spacings are not uniformly distributed.
+
+This paper extends the work done by Edwards \etal \cite{edwards2015approximating} by computing the quadtree in parallel with an algorithm that is adaptive and independent of object distribution. Our algorithm, which is targeted for the GPU, performs an order of magnitude faster than the previous work and will be an important base for later distance transform and generalized Voronoi diagram computation.
 
 Our algorithm has three main components:
 
@@ -756,7 +738,7 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
     \includegraphics[width=0.31\columnwidth]{simple-samples.png} }
 
   \caption{
-    \protect\subref{fig:simple-conflicts} \red{Incorrect conflict cells.} A toy dataset showing conflict cells after building the quadtree from object vertices.
+    \protect\subref{fig:simple-conflicts} A toy dataset showing conflict cells after building the quadtree from object vertices.
     \protect\subref{fig:simple-samples} The toy dataset showing how samples are collected.
   }
   \label{fig:results-toy}
@@ -820,7 +802,7 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
   \subfloat[][]{
     \label{fig:vascular-3}
 %    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/08-Resolved-Quadtree.PNG} }
-    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/13-Resolved-Quadtree.PNG} }
+    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/14-Resolved-Quadtree.PNG} }
   \caption{\red{Can you give some details on this dataset -- what it is etc}
     \protect\subref{fig:vascular-1} Initial vertex quadtree after pruning.
     \protect\subref{fig:vascular-2} All conflict cells of the initial quadtree.
