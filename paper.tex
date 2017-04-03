@@ -61,7 +61,7 @@
 %% \fntext[label3]{}
 
 %\title{Parallel Quadtree Construction on Collections of Objects}
-\title{Fast Construction of Inter-Object Spacing Representations}
+\title{Fast Construction of Inter-Object Space Representations}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{<author name>}
@@ -157,13 +157,15 @@ We present a parallel quadtree algorithm that resolves between geometric objects
 %-------------------------------------------------------------------------------
 \section{Introduction}
 \label{sec:intro}
-Constructing quadtrees on objects is an important task with applications in collision detection, distance fields, robot navigation, shape modeling, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. However, our work centers on using quadtrees to separate, or resolve, collections of closely spaced objects, i.e., to construct a discretization such that no cell intersects more than one object. Using a quadtree, we can model the space between objects. Our quadtree representation is not purposed for fast retrieval as is often the case in hierarchical subdivisions of point data. Rather, the quadtrees are used for constructing distance fields, detecting collisions and computing the GVD \cite{edwards2015approximating}.
+Constructing quadtrees on objects is an important task with applications in collision detection, distance fields, robot navigation, shape modeling, object description, and other applications. Quadtrees built on objects most often model the objects themselves, providing a space-efficient representation of arbitrarily complex objects. However, our work centers on using quadtrees to separate, or resolve, collections of closely spaced objects, i.e., to construct a discretization such that no cell intersects more than one object. Such quadtrees can be thought of as modeling the space between objects.
+% Our quadtree representation is not purposed for fast retrieval as is often the case in hierarchical subdivisions of point data.
+% Rather, the quadtrees are used for constructing distance fields, detecting collisions and computing the GVD \cite{edwards2015approximating}.
 
-\red{I just added this paragraph. What do you think?} Object separation, such as is treated here, is of some use in 2D (e.g. path planning), but becomes a very important problem in 3D. Hierarchically subdividing non-point data in a principled parallel way is surprisingly complex, and this paper lays the groundwork for our continuing work in 3D.
+Modeling inter-object spacing is computationally straightforward when the spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation that often uses graphics processors.
 
-Modeling inter-object spacing is computationally straightforward when inter-object spacing is large compared to the world bounding box. Approaches typically involve a uniform grid of the space, which leads to efficient computation that often uses graphics processors.
+Difficulties arise when objects are close together relative to the size of the domain. An approach using a uniform grid would have excessive memory requirements in order to resolve between objects because the uniformly sized grid cell must be small enough to fit between objects at every location in the domain. Thus, an adaptive approach must be used for datasets of closely spaced objects.
 
-Difficulties arise when objects are close together relative to the size of the domain. An approach using a uniform grid would have excessive memory requirements in order to resolve between objects because the uniformly sized grid cell must be small enough to fit between objects at every location in the domain. Thus, an adaptive approach must be used for datasets of closely spaced objects. To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory, but it does so in serial, with expected performance liabilities. A naive approach to parallelizing quadtree computation would be to assign all available compute units according to a course grid, then run the serial algorithm on each compute unit. While simple, there is potential for serious load imbalancing if the close object spacings are not uniformly distributed.
+To our knowledge, only one algorithm \cite{edwards2015approximating} computes an adaptive data structure that fully resolves between objects without using unreasonable amounts of memory, but it does so in serial, with expected performance liabilities. A naive approach to parallelizing quadtree computation would be to assign all available compute units according to a course grid, then run the serial algorithm on each compute unit. While simple, there is potential for serious load imbalancing if the close object spacings are not uniformly distributed.
 
 This work extends the work done by Edwards \etal \cite{edwards2015approximating} by computing the quadtree in parallel with an algorithm that is adaptive and independent of object distribution. Our algorithm, which is targeted for the GPU, performs an order of magnitude faster than the previous work and will be an important base for later distance transform and generalized Voronoi diagram computation.
 
@@ -177,6 +179,8 @@ Our algorithm has three main components:
 
 Each step is done in parallel either on object vertices, object facets, or quadtree cells.
 
+Modeling object separation is of some use in 2D (e.g. path planning), but it is a very important problem in many 3D applications. Hierarchically subdividing space between faceted objects in a principled parallel way is complex, and this paper lays the groundwork for our continuing efforts in 3D.
+
 %-------------------------------------------------------------------------------
 % Related work
 %-------------------------------------------------------------------------------
@@ -187,7 +191,11 @@ Each step is done in parallel either on object vertices, object facets, or quadt
 % of the surface from the quadtree at rendering time.
 Two seminal works build octrees on objects in order to compute the Adaptive Distance Field (ADF) on octree vertices.  Strain \shortcite{strain1999fast} fully resolves the quadtree everywhere on the object surface, and Frisken \etal \shortcite{frisken2000adaptively} resolve the quadtree fully only in areas of small local feature size.  Both approaches are designed to retain features of a single object rather than resolving between multiple objects, as is required for GVD computation. Boada \etal \shortcite{boada2002voronoi,boada2008approximations} use an adaptive approach to GVD computation, but their algorithm is restricted to GVDs with connected regions and is inefficient for polyhedral objects with many facets.  Two other works are adaptive \cite{teichmann1997polygonal,vleugels1998approximating} but are computationally expensive and are restricted to convex sites.
 
-\paragraph{Parallel} Many recent works on fast quadtree construction using the GPU are limited to point sites \cite{bedorf2012sparse,karras2012maximizing,zhou2011data}. Kim and Liu's work~\shortcite{kim2014exact} is similar, computing the quadtree on the barycenters of triangles, giving an approximation of an object-resolving quadtree. Most quadtree approaches that support surfaces \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed} are designed for efficient rendering, and actual construction of the quadtree is implemented on the CPU. Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields in parallel on quadtrees but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} compute the octree entirely on the GPU using a bottom-up approach by initially subdividing into a complete quadtree, resulting in memory usage that is no better than using a uniform grid. We have found no GPU quadtree construction method that is fully adaptive and can resolve between objects.
+\paragraph{Parallel} Many recent works on fast quadtree construction using the GPU are limited to point sites \cite{bedorf2012sparse,karras2012maximizing,zhou2011data}.
+%Kim and Liu's work~\shortcite{kim2014exact} is similar, computing the quadtree on the barycenters of triangles, giving an approximation of an object-resolving quadtree.
+ Most quadtree approaches that support surfaces \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed} are designed for efficient rendering, and actual construction of the quadtree is implemented on the CPU. Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields in parallel on quadtrees but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} compute the octree entirely on the GPU using a bottom-up approach by initially subdividing into a complete quadtree, resulting in memory usage that is no better than using a uniform grid.
+The most similar work to what we do here is Kim and Liu's method~\shortcite{kim2014exact}, which computes the quadtree on the barycenters of triangles, giving an approximation of our quadtree, but without fully resolving between objects.
+We have found no GPU quadtree construction method that is fully adaptive and can resolve between objects.
 
 %-----------------------------------------------------------
 % Build quadtree
@@ -200,14 +208,24 @@ We refer to quadtree leaf cells that intersect two or more objects as ``conflict
 %Most of our algorithm is independent of dimension, and so we will use terms ``facet'' and ``octree'' (which lacks a dimension-independent term). The process of finding sample points to resolve conflict cells is limited to 2D in this paper, so for that section we will use ``line'' and ``quadtree''.
 Each step of our algorithm, with the exception of resolving conflict cells, is independent of dimension and can be used for 3D octree applications. But since point sampling for conflict cell resolution is 2D we will use the term quadtree throught the algorithm description for consistency. Our algorithm assumes the objects are faceted where the facets are simplices.
 
-\subsection{Build initial octree}
-\label{sec:build-initial-octree}
-Our first step is to build an octree on the given set of vertices. We use the Karras algorithm \cite{karras2012maximizing} which starts by sorting the Morton codes of the given vertices. Our implementation uses an efficient parallel radix sorter described by Ha \etal \shortcite{ha2009fast}. Once the vertices are sorted, a binary radix tree, and then an initial octree can be constructed in parallel. The strength of this approach lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
+\subsection{Build initial quadtree}
+\label{sec:build-initial-quadtree}
+Our first step is to build a quadtree on the given set of vertices. We use the Karras algorithm \cite{karras2012maximizing} which starts by sorting the Morton codes of the given vertices. Our implementation uses an efficient parallel radix sorter described by Ha \etal \shortcite{ha2009fast}. Once the vertices are sorted, a binary radix tree, and then an initial quadtree can be constructed in parallel. The strength of this approach lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
 
-%Our first step is to build an octree on the vertices. This step gives us our first approximation to our final octree. We use Karras' algorithm \cite{karras2012maximizing} which sorts the Morton codes of the vertices in parallel, then constructs the binary radix tree in parallel. With the binary radix tree, the quadtree can be constructed with a single parallel call. The strength of this algorithm lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
+%Our first step is to build a quadtree on the vertices. This step gives us our first approximation to our final quadtree. We use Karras' algorithm \cite{karras2012maximizing} which sorts the Morton codes of the vertices in parallel, then constructs the binary radix tree in parallel. With the binary radix tree, the quadtree can be constructed with a single parallel call. The strength of this algorithm lies in the fact that overall performance scales linearly with the number of cores, regardless of the distribution of points. That is, even if a large number of vertices are clustered in a small area, requiring deep quadtree subdivision, only a constant number of parallel calls need be made.
 
-\subsection{Pruning the octree}
-Assume we have a vertex labeling, such that each vertex is labeled with the object it belongs to. The initial octree resolves between vertices, regardless of whether they are labeled differently from each other or not, so each leaf node is guaranteed to contain no more than one vertex. Since our objective is to resolve between objects of different labels, we can proactively prune the initial vertex octree (see figure \ref{fig:pruning}) such that a leaf node can contain multiple vertices as long as they all have the same label. \red{Clarify this passage: We remove internal binary radix tree nodes seperating identically labeled vertices. For each binary radix tree leaf in parallel, we first look at the label of the leaf's corresponding vertices. If the colors match, we apply that color to the leaf. Otherwise, we mark that leaf as "required".} This initial coloring can be done immediately after the Karras binary radix tree construction without the need to invoke an additional kernel. Before generating the binary radix tree's corresponding quadtree, we propagate the binary radix leaf colors up the tree in parallel, marking internal nodes as "required" when the colors of two children nodes mismatch. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes. By pruning the initial octree, we simplify conflict detection and reduce our memory footprint.
+\subsection{Pruning the quadtree}
+\label{sec:pruning}
+During initial quadtree construction, we can prune the quadtree to simplify conflict detection and reduce our memory footprint. Assume we have a numeric vertex labeling such that each vertex is labeled to match the object it belongs to. The binary radix tree (BRT) provided by Karras serves as a bounding volume hierarchy and is used to generate the initial quadtree by seperating vertices regardless of their label. Since our objective is to resolve between objects of different labels, we can proactively prune the initial BRT, and subsequently the initial quadtree (see figure \ref{fig:pruning}) such that a leaf node can contain multiple vertices as long as they all have the same label.
+
+%The initial quadtree resolves between vertices, regardless of whether they are labeled differently from each other or not, so each leaf node is guaranteed to contain no more than one vertex. Since our objective is to resolve between objects of different labels, we can proactively prune the initial vertex quadtree (see figure \ref{fig:pruning}) such that a leaf node can contain multiple vertices as long as they all have the same label. By pruning the initial quadtree we simplify conflict detection and reduce our memory footprint.
+
+%\red{Clarify this passage: We remove internal binary radix tree nodes seperating identically labeled vertices. For each binary radix tree leaf in parallel, we first look at the label of the leaf's corresponding vertices. If the colors match, we apply that color to the leaf. Otherwise, we mark that leaf as "required".} This initial coloring can be done immediately after the Karras binary radix tree construction without the need to invoke an additional kernel. Before generating the binary radix tree's corresponding quadtree, we propagate the binary radix leaf colors up the tree in parallel, marking internal nodes as "required" when the colors of two children nodes mismatch. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes. By pruning the initial quadtree, we simplify conflict detection and reduce our memory footprint.
+
+\red{Talk to Nate}
+To prune the initial BRT efficiently, we label each BRT node $C$ using the following criterion: if $C$ is a leaf node that separates two vertices with identical labels, label $C$ to match the label of the vertices being separated. If $C$ is a leaf node that separates two vertices having mismatched colors, label $C$ as ``required''. Lastly, if $C$ is an internal node, i.e., it has children, mark it as ``unknown''. This initial step can be done immediately after the Karras BRT construction without the need to invoke an additional kernel.
+
+We then propagate the BRT labels up the tree in parallel, marking ``unknown'' nodes as ``required'' when the labels of the current node's two child nodes don't match. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes.
 
 \begin{figure}
   \centering
@@ -228,11 +246,11 @@ Assume we have a vertex labeling, such that each vertex is labeled with the obje
 
 Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from Root to $C$, where the local address is a 2-bit (3-bit in 3D) Morton code. The address of the root cell is defined as the empty string. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
 
-We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. Figure \ref{fig:data-structures-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
+We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. If a given LCP is more specific than any quadtree node, i.e., if the LCP lies within a quadtree leaf, we simply take the quadtree address of the leaf that the LCP lies within. This is often the case with pruned quadtrees where entire facets may lie within a quadtree leaf. \red{Please check to make sure I got the changes right.} Figure \ref{fig:data-structures-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
 
 We begin by constructing an array \texttt{BCells} and sibling array \texttt{FacetMap} (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$]}.
 
-Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCell} values using a parallel radix lexicographical sort (figure \ref{fig:data-structures-2}).% \texttt{BCells} array construction and sorting is done in parallel with the initial Karras octree construction.
+Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCell} values using a parallel radix lexicographical sort (figure \ref{fig:data-structures-2}).% \texttt{BCells} array construction and sorting is done in parallel with the initial Karras quadtree construction.
 
 \begin{figure}
   \centering
@@ -255,20 +273,20 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
 %        \includegraphics[width=0.44\columnwidth]{conflict-find-6.pdf} }
     };
 
-    \node[anchor=south west,inner sep=0,outer sep=0] at (0,-4) {
+%    \node[anchor=south west,inner sep=0,outer sep=0] at (0,-4) {
+%%      \subfloat[][]{
+%%        \label{fig:conflict-find-2}
+%%        \includegraphics[width=0.44\columnwidth]{conflict-find-2.pdf} } \hfill
+%%      \subfloat[][]{
+%%        \label{fig:conflict-find-4}
+%%        \includegraphics[width=0.44\columnwidth]{conflict-find-4.pdf} } \hfill
 %      \subfloat[][]{
-%        \label{fig:conflict-find-2}
-%        \includegraphics[width=0.44\columnwidth]{conflict-find-2.pdf} } \hfill
+%        \label{fig:conflict-find-5}
+%        \includegraphics[width=0.44\columnwidth]{conflict-find-5.pdf} }
 %      \subfloat[][]{
-%        \label{fig:conflict-find-4}
-%        \includegraphics[width=0.44\columnwidth]{conflict-find-4.pdf} } \hfill
-      \subfloat[][]{
-        \label{fig:conflict-find-5}
-        \includegraphics[width=0.44\columnwidth]{conflict-find-5.pdf} }
-      \subfloat[][]{
-        \label{fig:conflict-find-6}
-        \includegraphics[width=0.44\columnwidth]{conflict-find-6.pdf} }
-    };
+%        \label{fig:conflict-find-6}
+%        \includegraphics[width=0.44\columnwidth]{conflict-find-6.pdf} }
+%    };
 
     %% single column
     %% small rectangle
@@ -310,6 +328,22 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
 %    % large rectangle
 %    \draw[red,thick] (3.9,0.4) rectangle (5.8,2.25);
   \end{tikzpicture}
+
+
+
+%      \subfloat[][]{
+%        \label{fig:conflict-find-2}
+%        \includegraphics[width=0.44\columnwidth]{conflict-find-2.pdf} } \hfill
+%      \subfloat[][]{
+%        \label{fig:conflict-find-4}
+%        \includegraphics[width=0.44\columnwidth]{conflict-find-4.pdf} } \hfill
+      \subfloat[][]{
+        \label{fig:conflict-find-5}
+        \includegraphics[width=0.44\columnwidth]{conflict-find-5.pdf} }
+      \subfloat[][]{
+        \label{fig:conflict-find-6}
+        \includegraphics[width=0.44\columnwidth]{conflict-find-6.pdf} }
+
 %      \subfloat[][]{
 %        \label{fig:data-structures-1}
 %        \includegraphics[width=0.38\columnwidth]{data-structures-1.pdf} } \hfill
@@ -321,14 +355,15 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
 %        \includegraphics[width=0.38\columnwidth]{data-structures-4.pdf} }
   \caption{
 %    \protect\subref{fig:conflict-find-1} We have three objects, blue, red, and green with facets labeled A-I.
+    \red{Is the pruning correct?}
     We have three objects, blue, red, and green with facets labeled A-I.
-    \protect\subref{fig:conflict-find-2} Initial vertex quadtree.
-    \protect\subref{fig:conflict-find-4} Zoomed-in to the region outlined by red in \protect\subref{fig:conflict-find-2} showing the boundary cell (BCell) computation for each facet. %These pairs are given in figure \protect\subref{fig:data-structures-1}.
+    \protect\subref{fig:conflict-find-2} Initial pruned vertex quadtree.
+    \protect\subref{fig:conflict-find-4} Zoomed-in to the region outlined by red in \protect\subref{fig:conflict-find-2} and showing the boundary cell (BCell) computation for each facet. %These pairs are given in figure \protect\subref{fig:data-structures-1}.
     \protect\subref{fig:conflict-find-5} Conflict cells, which intersect more than one object, are highlighted.
     \protect\subref{fig:conflict-find-6} The new quadtree after conflict resolution.
 %    \protect\subref{fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure).
-%    \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given octree cell in \texttt{FFacet} and \texttt{LFacet}, respectively.
-%\protect\subref{fig:data-structures-3} For a given octree cell, we can find all contained facets for use in algorithm \ref{alg:find-conflict-cells}.
+%    \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given quadtree cell in \texttt{FFacet} and \texttt{LFacet}, respectively.
+%\protect\subref{fig:data-structures-3} For a given quadtree cell, we can find all contained facets for use in algorithm \ref{alg:find-conflict-cells}.
   }
   \label{fig:conflict-find}
 \end{figure}
@@ -346,13 +381,13 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
         \includegraphics[width=0.32\columnwidth]{data-structures-4.pdf} }
   \caption{
     \protect\subref{fig:data-structures-1} The bounding cells (BCells) are stored in an array initially sorted on facet index (letters are used here for clarity). The quadtree array elements are structures which store child and parent pointers (``C/P'' in the figure).
-    \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given octree cell in \texttt{FFacet} and \texttt{LFacet}, respectively.
-\protect\subref{fig:data-structures-3} For a given octree cell, we can find all contained facets for use in algorithm \ref{alg:find-conflict-cells}.
+    \protect\subref{fig:data-structures-2} We sort the BCells array using a parallel radix sort on BCell address for fast indexed access. We then, in parallel on each element of the BCells array, store the BCells/FacetMap indices of the first and last facets in a given quadtree cell in \texttt{FFacet} and \texttt{LFacet}, respectively.
+\protect\subref{fig:data-structures-3} For a given quadtree cell, we can find all contained facets for use in algorithm \ref{alg:find-conflict-cells}.
   }
   \label{fig:data-structures}
 \end{figure}
 
-Then we use the \texttt{BCells} array and octree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel (line \ref{alg:L}). First, we set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$ (line \ref{alg:A}) by using the \texttt{Parent} field in the octree data structure. Using the \texttt{FFacet} and \texttt{LFacet} fields, we find, respectively, the first and (inclusive) last of possibly multiple facets bounded by $A$ (line \ref{alg:i}). The \texttt{FacetMap} array is used to find all facets bounded by bounding cell $A$ (line \ref{alg:f}). Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and store the first two facets of differing color (lines \ref{alg:7}-\ref{alg:16}). If at the conclusion of execution $L$.color is equal to $-2$ then $L$ is a conflict cell and must be resolved.
+Then we use the \texttt{BCells} array and quadtree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel (line \ref{alg:L}). First, we set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$ (line \ref{alg:A}) by using the \texttt{Parent} field in the quadtree data structure. Using the \texttt{FFacet} and \texttt{LFacet} fields, we find, respectively, the first and (inclusive) last of possibly multiple facets bounded by $A$ (line \ref{alg:i}). The \texttt{FacetMap} array is used to find all facets bounded by bounding cell $A$ (line \ref{alg:f}). Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and store the first two facets of differing color (lines \ref{alg:7}-\ref{alg:16}). If at the conclusion of execution $L$.color is equal to $-2$ then $L$ is a conflict cell and must be resolved.
 
 \algorithmspace
 \begin{algorithm}
@@ -401,7 +436,7 @@ Then we use the \texttt{BCells} array and octree data structure to find the conf
     \label{fig:conflict-resolution-all}
     \includegraphics[width=0.35\columnwidth]{conflict-resolution-all.pdf} }
   \subfloat[][]{
-    \label{fig:conflict-resolution-octree}
+    \label{fig:conflict-resolution-quadtree}
     \includegraphics[width=0.35\columnwidth]{conflict-resolution-octree.pdf} }\\
   \subfloat[][]{
     \label{fig:conflict-resolution-adjacent-even}
@@ -412,7 +447,7 @@ Then we use the \texttt{BCells} array and octree data structure to find the conf
   \caption{
     \protect\subref{fig:conflict-resolution-x} A conflict cell with two lines from different objects.
     \protect\subref{fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least one sample (red dots).
-    \protect\subref{fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that a quadtree built from the samples using Karras' algorithm (panel \protect\subref{fig:conflict-resolution-octree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells.
+    \protect\subref{fig:conflict-resolution-even} Fitting boxes such that any box intersecting both lines contains at least two samples. This ensures that a quadtree built from the samples using Karras' algorithm (panel \protect\subref{fig:conflict-resolution-quadtree}) will have no leaf cells that intersect both lines, ensuring that the new quadtree is locally free of conflict cells.
   }
   \label{fig:conflict-resolution}
 \end{figure}
@@ -429,13 +464,15 @@ along with a line
 \begin{align}
 p(s) &= p = p_0 + su \label{eqn:p}
 \end{align}
-that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(s)$ (figure \ref{fig:conflict-resolution-octree}) such that a quadtree built on $S \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent cell of $c$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell. We will find a series of boxes such that each box's left-most intersection with $p(s)$ is a sample point meeting the above criterion. In the following discussion, $p^x$ and $p^y$ refer to the $x$ and $y$ coordinates of point $p$, respectively.
+that bisects $q$ and $r$. Our strategy will be to sample points $P$ on $p(s)$ (figure \ref{fig:conflict-resolution-quadtree}) such that a quadtree built on $S \cup P$ will completely ``separate'' $q$ and $r$, i.e., no descendent leaf of $C$ will intersect both $q$ and $r$. We do this by ensuring that $P$ is sampled such that every box that intersects both $q$ and $r$ also intersects at least two points in $P$. Because Karras' algorithm guarantees that every leaf cell intersects at most one point, we know that no leaf cell will intersect $q$ and $r$ and thus no leaf cell will be a conflict cell. We will find a series of boxes such that each box's left-most intersection with $p(s)$ is a sample point meeting the above criterion. In the following discussion, $p^x$ and $p^y$ refer to the $x$ and $y$ coordinates of point $p$, respectively.
 
 We consider only cases where the slope of $p$ is in the range $0 \le m \le 1$. All other instances can be transformed to this case using rotation and reflection. We begin by fitting the smallest box centered on a point $p$ that intersects both $q$ and $r$. We break the problem into two cases:
-\begin{tightenumerate}
+%\begin{tightenumerate}
+\begin{enumerate}
  \item The \textit{opposite} case (see figure \ref{fig:conflict-resolution-even}) is where $w^y > 0$, so each box intersects $q$ and $r$ at its top-left and bottom-right corners, respectively.
  \item In the \textit{adjacent} case (see figure \ref{fig:conflict-resolution-adjacent-even}), $w^y < 0$, so the line intersections are adjacent at the top-left and bottom-left corners of the box.
-\end{tightenumerate}
+%\end{tightenumerate}
+\end{enumerate}
 
 \subsubsection{Finding $a(s)$ -- \textit{opposite} case}
 
@@ -635,38 +672,70 @@ i < \log_{\alpha}\frac{s_{exit}-k_1}{k_2} \label{eqn:num-samples}
 \subsubsection{Iteration}
 \label{sec:iterate}
 
-Because conflict cell resolution only considers two facets at a time, we may have to iterate multiple times if more than two facets intersect a given cell. If new sample points were found then we add them to the current set $S$ of sample points and return to building the octree from points (section \ref{sec:build-initial-octree}). We finish when the only conflicts identified are at the maximum depth.
+Because conflict cell resolution only considers two facets at a time, we may have to iterate multiple times if more than two facets intersect a given cell. If new sample points were found then we add them to the current set $S$ of sample points and return to building the quadtree from points (section \ref{sec:build-initial-quadtree}). We finish when the only conflicts identified are at the maximum depth.
+
+\subsection{Optimality}
+\red{Check this}
+Define an optimal quadtree to be one in which only conflict nodes have children, and let an optimal quadtree's size be $n$ total nodes. Our iterative sampling algorithm results in a quadtree that has a size within a constant factor of $n$ in the worst case (see figure \ref{fig:optimality}). We omit the proof as well as an average case analysis because optimality can be achieved by simply performing one final pruning step (see section \ref{sec:pruning}).
+
+\begin{figure}
+  \centering
+  \subfloat[][]{
+    \label{fig:optimality-good}
+    \includegraphics[width=0.25\columnwidth]{optimality-good.pdf} }
+  \subfloat[][]{
+    \label{fig:optimality-bad}
+    \includegraphics[width=0.25\columnwidth]{optimality-bad.pdf} }
+  \subfloat[][]{
+    \label{fig:optimality-bad-all}
+    \includegraphics[width=0.25\columnwidth]{optimality-bad-all.pdf} }
+  \caption{
+    Best and worst cases given two lines. The same number of conflict resolution samples are generated regardless of where the lines are located.
+    \protect\subref{fig:optimality-good} Base case: two lines can be resolved by a single quadtree subdivision.
+    \protect\subref{fig:optimality-bad} Worst case: the same two lines translated slightly in $y$ now require five subdivisions to be resolved.
+    \protect\subref{fig:optimality-bad-all} The number of cells generated from the shown resolution samples is within a constant factor of the worst case.
+  }
+  \label{fig:optimality}
+\end{figure}
 
 \subsection{Complexity analysis}
 
-Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the object vertices. Let $D$ be the depth of the octree. In this analysis we assume sufficient parallel units to maximize parallelization.
+Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the object vertices. Let $D$ be the depth of the quadtree. In this analysis we assume sufficient parallel units to maximize parallelization.
 
-\vspace{2mm}
-\paragraph{Time complexity}
+%\vspace{2mm}
+%\paragraph{Time complexity}
+\subsubsection{Time complexity}
 
-\begin{tightenumerate}
-\item Build octree using Karras' algorithm \cite{karras2012maximizing} - $O(D)$.
+%\begin{tightenumerate}
+\begin{enumerate}
+\item Build quadtree using Karras' algorithm \cite{karras2012maximizing}, including pruning - $O(D)$. \red{How about this?}
 \item Detect conflict cells
-  \begin{tightenumerate}
+%  \begin{tightenumerate}
+  \begin{enumerate}
   \item Build BCells array - $O(D)$. Building of the array runs in parallel for each facet $f$. The facet looks at each vertex (we assume simplices with a constant number of dimensions), computes Morton codes and finds the longest common prefix among vertices. This requires looking at each bit, of which there are $O(D)$.
-  \item Sort BCells array - $O(\log{M})$. The array has $M$ elements, and we use a parallel radix sort with $\log$ complexity.
-  \item Index BCells with octree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the octree for a given cell ID, taking at most $D$ steps.
-  \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the octree due to visiting each ancestor of the leaf cell.
-  \end{tightenumerate}
+  \item Sort BCells array - \red{Shouldn't the Big O here be $O(D)$?} $O(\log{M})$. The array has $M$ elements, and we use a parallel radix sort with $\log$ complexity.
+  \item Index BCells with quadtree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the quadtree for a given cell ID, taking at most $D$ steps.
+  \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the quadtree due to visiting each ancestor of the leaf cell.
+%  \end{tightenumerate}
+  \end{enumerate}
 \item Resolve conflict cells
-  \begin{tightenumerate}
+%  \begin{tightenumerate}
+  \begin{enumerate}
   \item Compute new sample points - $O(1)$. The first step computes, in parallel over conflict cells, the number of samples required to resolve the cell using equation \eqref{eqn:num-samples}. The second step is to compute the samples themselves, which is done in parallel over all new samples to be computed, using equation \eqref{eqn:sample}.
   \item $S \leftarrow S \cup S'$ - $O(1)$.
-  \end{tightenumerate}
+%  \end{tightenumerate}
+  \end{enumerate}
 \item Iterate - $O(Q)$ iterations. In the worst case, all facets intersect a single cell, requiring potentially $Q=O(M^2)$ iterations. In our testing, $Q$ has not exceeded 4.
-\end{tightenumerate}
+%\end{tightenumerate}
+\end{enumerate}
 
-The final complexity of each iteration is $O(M+D)$ worst case and $O(\log{M}+D)$ average case. In practice we must fix the depth of the octree to a constant value in order to use a predetermined integer size for the Morton codes, which brings the average case complexity to $O(\log{M})$. Taking iteration into account, the final complexity is $(Q\log{M})$ average case.
+The final complexity of each iteration is $O(M+D)$ worst case and $O(\log{M}+D)$ average case. In practice we must fix the depth of the quadtree to a constant value in order to use a predetermined integer size for the Morton codes, which brings the average case complexity to $O(\log{M})$. Taking iteration into account, the final complexity is $(Q\log{M})$ average case.
 
-\vspace{2mm}
-\paragraph{Space complexity}
+%\vspace{2mm}
+%\paragraph{Space complexity}
+\subsubsection{Space complexity}
 
-The primary data structures are shown in figure \ref{fig:data-structures-1}. The quadtree data structure is size $O(|S|)$ and the remaining arrays are of size $M$. As $|S| \ge M$, our final space complexity is $O(|S|)$. The number of samples in $S$ depends on the dataset. In 2D, in the worst case, the facets can form an arrangement of maximum number of intersections, which is $M(M-1)/2 = O(M^2)$. If this is the case then we subdivide to the maximum octree depth at each intersection, causing an octree of size $O(DM^2)$. %In our testing, our octrees have never exceeded a size of \red{fill this in with experimental results}.
+The primary data structures are shown in figure \ref{fig:data-structures-1}. The quadtree data structure is size $O(|S|)$ and the remaining arrays are of size $M$. As $|S| \ge M$, our final space complexity is $O(|S|)$. The number of samples in $S$ depends on the dataset. In 2D, in the worst case, the facets can form an arrangement of maximum number of intersections, which is $M(M-1)/2 = O(M^2)$. If this is the case then we subdivide to the maximum quadtree depth at each intersection, causing a quadtree of size $O(DM^2)$. %In our testing, our quadtrees have never exceeded a size of \red{fill this in with experimental results}.
 
 %-------------------------------------------------------------------------------
 % Results
@@ -675,7 +744,7 @@ The primary data structures are shown in figure \ref{fig:data-structures-1}. The
 Our implementation\footnote{
 Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
 }
-of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on a \red{need specs of your computer here. something like ``MacBook Pro laptop with a dual-core 2.9 GHz processor, 16 GB memory, and Intel Iris Graphics 6100 graphics card''.} Figure \ref{fig:results} shows results on four datasets: a simple toy dataset showing conflict cell detection and resolution (\ref{fig:simple-conflicts}-\ref{fig:simple-samples}); a more complex maze dataset (\ref{fig:glines}), and a complex dataset with many objects at very different scales (\ref{fig:ut1-samples}-\ref{fig:ut5}). Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells.
+of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on a \red{Razer Blade Stealth with an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card.} Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from medical image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells.
 
 \begin{figure}
   \centering
@@ -687,49 +756,10 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
     \includegraphics[width=0.31\columnwidth]{simple-samples.png} }
 
   \caption{
-    \protect\subref{fig:simple-conflicts} A toy dataset showing conflict cells after building the quadtree from object vertices.
+    \protect\subref{fig:simple-conflicts} \red{Incorrect conflict cells.} A toy dataset showing conflict cells after building the quadtree from object vertices.
     \protect\subref{fig:simple-samples} The toy dataset showing how samples are collected.
   }
   \label{fig:results-toy}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \subfloat[][]{
-    \label{fig:vascular-1}
-    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/04-Pruned.PNG} }
-  \subfloat[][]{
-    \label{fig:vascular-2}
-    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/06-Initial-Conflicts.PNG} }
-  \subfloat[][]{
-    \label{fig:vascular-3}
-%    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/08-Resolved-Quadtree.PNG} }
-    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/13-Resolved-Quadtree.PNG} }
-  \caption{\red{Can you give some details on this dataset -- what it is etc}
-    \protect\subref{fig:vascular-1} Initial vertex quadtree after pruning.
-    \protect\subref{fig:vascular-2} All conflict cells of the initial quadtree.
-    \protect\subref{fig:vascular-3} After conflict cell resolution. No quadtree cell intersects more than one object. \red{Can you get a similar figure to this that has closed polygons and is maybe zoomed in a little more two a few nice-looking polygons?}
-  }
-  \label{fig:vascular}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \subfloat[][]{
-    \label{fig:gears-1}
-    \includegraphics[width=0.31\columnwidth]{Nathan/gears/2.PNG} }
-  \subfloat[][]{
-    \label{fig:gears-2}
-    \includegraphics[width=0.31\columnwidth]{Nathan/gears/3.PNG} }
-  \subfloat[][]{
-    \label{fig:gears-3}
-    \includegraphics[width=0.31\columnwidth]{Nathan/gears/5.PNG} }
-  \caption{
-    \protect\subref{fig:gears-1} A dataset of gears with close tolerance. The resolved quadtree with sampled points is shown.
-    \protect\subref{fig:gears-2} Showing just the quadtree and sample points.
-    \protect\subref{fig:gears-3} A zoomed-in image showing the close object spacing compared to the large domain.
-  }
-  \label{fig:gears}
 \end{figure}
 
 \begin{figure}
@@ -754,9 +784,49 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
     \includegraphics[width=0.31\columnwidth]{ut5.png} }
   \caption{
     \protect\subref{fig:ut1-samples} A complex dataset with 470 objects at vastly different scales in object size and spacing.
-    \protect\subref{fig:ut1}-\protect\subref{fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree.
+    \protect\subref{fig:ut1}-\protect\subref{fig:ut5} Complex dataset at different zoom levels up to 60K magnification. This shows the importance of an adaptive method such as a quadtree. A uniform grid would require $2^{48}$ cells to resolve between objects. The quadtree shown here has $22429$ cells.
   }
   \label{fig:results-maze}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+  \subfloat[][]{
+    \label{fig:gears-1}
+    \includegraphics[width=0.31\columnwidth]{Nathan/gears/2.PNG} }
+  \subfloat[][]{
+    \label{fig:gears-2}
+    \includegraphics[width=0.31\columnwidth]{Nathan/gears/3.PNG} }
+  \subfloat[][]{
+    \label{fig:gears-3}
+    \includegraphics[width=0.31\columnwidth]{Nathan/gears/5.PNG} }
+  \caption{
+    \protect\subref{fig:gears-1} A dataset of gears with close tolerance. The resolved quadtree with sampled points is shown.
+    \protect\subref{fig:gears-2} Showing just the quadtree and sample points.
+    \protect\subref{fig:gears-3} A zoomed-in image showing the close object spacing compared to the large domain.
+  }
+  \label{fig:gears}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \subfloat[][]{
+    \label{fig:vascular-1}
+    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/04-Pruned.PNG} }
+  \subfloat[][]{
+    \label{fig:vascular-2}
+    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/06-Initial-Conflicts.PNG} }
+  \subfloat[][]{
+    \label{fig:vascular-3}
+%    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/08-Resolved-Quadtree.PNG} }
+    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/13-Resolved-Quadtree.PNG} }
+  \caption{\red{Can you give some details on this dataset -- what it is etc}
+    \protect\subref{fig:vascular-1} Initial vertex quadtree after pruning.
+    \protect\subref{fig:vascular-2} All conflict cells of the initial quadtree.
+    \protect\subref{fig:vascular-3} After conflict cell resolution. No quadtree cell intersects more than one object. Our method works even though objects in this dataset are often non-manifold and have self-intersections.
+  }
+  \label{fig:vascular}
 \end{figure}
 
 % # quadtree vertices
