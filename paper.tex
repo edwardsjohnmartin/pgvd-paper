@@ -726,7 +726,7 @@ The primary data structures are shown in figure \ref{fig:data-structures-1}. The
 Our implementation\footnote{
 Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
 }
-of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on a Razer Blade Stealth with an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card. Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from medical image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells.
+of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on a Razer Blade Stealth with an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card. Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from biological image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells.
 
 \begin{figure}
   \centering
@@ -803,7 +803,7 @@ of the algorithm supports polygons and polylines which needn't be manifold or co
     \label{fig:vascular-3}
 %    \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/08-Resolved-Quadtree.PNG} }
     \includegraphics[width=0.31\columnwidth]{Nathan/vascular-bundles/14-Resolved-Quadtree.PNG} }
-  \caption{\red{Can you give some details on this dataset -- what it is etc}
+  \caption{Dataset derived from plant vasculature image.
     \protect\subref{fig:vascular-1} Initial vertex quadtree after pruning.
     \protect\subref{fig:vascular-2} All conflict cells of the initial quadtree.
     \protect\subref{fig:vascular-3} After conflict cell resolution. No quadtree cell intersects more than one object. Our method works even though objects in this dataset are often non-manifold and have self-intersections.
