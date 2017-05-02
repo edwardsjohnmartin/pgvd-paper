@@ -108,7 +108,7 @@
 %\maketitle
 
 \begin{abstract}
-We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, i.e., discretizing finely only where needed, either separate points only or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, derive the time complexity, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
+We present a parallel quadtree algorithm that resolves between geometric objects, modeling space between objects rather than the objects themselves. Our quadtree has the property that no cell intersects more than one labeled object. A popular technique for discretizing space is to impose a uniform grid -- an approach that is easily parallelizable but often fails because object separation isn't known a priori or because the number of cells required to resolve closely spaced objects exceeds available memory. Previous parallel algorithms that are spatially adaptive, i.e., discretizing finely only where needed, either separate points only or make no guarantees of object separation. Our 2D algorithm is the first to construct an object-resolving discretization that is hierarchical (saving memory) yet with a fully parallel approach (saving time). We describe our algorithm, demonstrate experimental results, and discuss extension to 3D. Our results show significant improvement over the current state of the art.
 
 %   Leave one blank line after the abstract, 
 %   then add the subject categories according to the ACM Classification Index 
@@ -672,45 +672,6 @@ Define an optimal final quadtree to be one in which only conflict nodes have chi
   \label{fig:optimality}
 \end{figure}
 
-\subsection{Complexity analysis}
-
-Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the object vertices. Let $D$ be the depth of the quadtree, and $D_{max}$ be the maximum depth of the quadtree. In this analysis we assume sufficient parallel units to maximize parallelization.
-
-%\vspace{2mm}
-%\paragraph{Time complexity}
-\subsubsection{Time complexity}
-
-%\begin{tightenumerate}
-\begin{enumerate}
-\item Build quadtree using Karras' algorithm \cite{karras2012maximizing}, including pruning - $O(D_{max})$.
-\item Detect conflict cells
-%  \begin{tightenumerate}
-  \begin{enumerate}
-  \item Build BCells array - $O(D)$. Building of the array runs in parallel for each facet $f$. The facet looks at each vertex (we assume simplices with a constant number of dimensions), computes Morton codes and finds the longest common prefix among vertices. This requires looking at each bit, of which there are $O(D)$.
-  \item Sort BCells array - $O(D_{max})$. We use a parallel radix sort with linear complexity dependent on the max quadtree depth.
-  \item Index BCells with quadtree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the quadtree for a given cell ID, taking at most $D$ steps.
-  \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the quadtree due to visiting each ancestor of the leaf cell.
-%  \end{tightenumerate}
-  \end{enumerate}
-\item Resolve conflict cells
-%  \begin{tightenumerate}
-  \begin{enumerate}
-  \item Compute new sample points - $O(1)$. The first step computes, in parallel over conflict cells, the number of samples required to resolve the cell using equation \eqref{eqn:num-samples}. The second step is to compute the samples themselves, which is done in parallel over all new samples to be computed, using equation \eqref{eqn:sample}.
-  \item $S \leftarrow S \cup S'$ - $O(1)$.
-%  \end{tightenumerate}
-  \end{enumerate}
-\item Iterate - $O(Q)$ iterations. In the worst case, all facets intersect a single cell, requiring potentially $Q=O(M^2)$ iterations. In our testing, $Q$ has not exceeded 4.
-%\end{tightenumerate}
-\end{enumerate}
-
-The final complexity of each iteration is $O(M+D_{max})$ worst case and $O(\log{M}+D_{max})$ average case. In practice we must fix the depth of the quadtree to a constant value in order to use a predetermined integer size for the Morton codes, which brings the average case complexity to $O(\log{M})$. Taking iteration into account, the final complexity is $(Q\log{M})$ average case.
-
-%\vspace{2mm}
-%\paragraph{Space complexity}
-\subsubsection{Space complexity}
-
-The primary data structures are shown in figure \ref{fig:data-structures-1}. The quadtree data structure is size $O(|S|)$ and the remaining arrays are of size $M$. As $|S| \ge M$, our final space complexity is $O(|S|)$. The number of samples in $S$ depends on the dataset. In 2D, in the worst case, the facets can form an arrangement of maximum number of intersections, which is $M(M-1)/2 = O(M^2)$. If this is the case then we subdivide to the maximum quadtree depth at each intersection, causing a quadtree of size $O(DM^2)$. %In our testing, our quadtrees have never exceeded a size of \red{fill this in with experimental results}.
-
 %-------------------------------------------------------------------------------
 % Results
 %-------------------------------------------------------------------------------
@@ -720,7 +681,7 @@ Source code will be made available at our website. %is available at \url{http://
 }
 of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on
 % a Razer Blade Stealth with
- an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card. Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from biological image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells.
+ an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card. Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from biological image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells. \blue{See \ref{sec:complexity} for a runtime complexity analysis.}
 
 \begin{figure}
   \centering
@@ -888,5 +849,49 @@ Every step in our method has a straightforward extension to 3D with the exceptio
 %\bibliographystyle{abbrv}
 \bibliography{paper}
 \balance
+
+\appendix
+
+\blue{
+\section{Complexity analysis}
+\label{sec:complexity}
+}
+
+Let $M = |F|$ and $N = |V|$, where $F$ are the object facets and $V$ are the object vertices. Let $D$ be the depth of the quadtree, and $D_{max}$ be the maximum depth of the quadtree. In this analysis we assume sufficient parallel units to maximize parallelization.
+
+%\vspace{2mm}
+%\paragraph{Time complexity}
+\subsection*{Time complexity}
+
+%\begin{tightenumerate}
+\begin{enumerate}
+\item Build quadtree using Karras' algorithm \cite{karras2012maximizing}, including pruning - $O(D_{max})$.
+\item Detect conflict cells
+%  \begin{tightenumerate}
+  \begin{enumerate}
+  \item Build BCells array - $O(D)$. Building of the array runs in parallel for each facet $f$. The facet looks at each vertex (we assume simplices with a constant number of dimensions), computes Morton codes and finds the longest common prefix among vertices. This requires looking at each bit, of which there are $O(D)$.
+  \item Sort BCells array - $O(D_{max})$. We use a parallel radix sort with linear complexity dependent on the max quadtree depth.
+  \item Index BCells with quadtree data structure - $O(D)$. This runs in parallel on leaf cell IDs and each kernel requires a search of the quadtree for a given cell ID, taking at most $D$ steps.
+  \item Find facets that intersect each leaf cell - Worst case $O(M+D)$, average case $O(D)$. In unusual datasets, a single leaf cell will be intersected by $O(M)$ facets. On average, however, leaf cells intersect a small number of facets, and thus this step is dominated by the depth $D$ of the quadtree due to visiting each ancestor of the leaf cell.
+%  \end{tightenumerate}
+  \end{enumerate}
+\item Resolve conflict cells
+%  \begin{tightenumerate}
+  \begin{enumerate}
+  \item Compute new sample points - $O(1)$. The first step computes, in parallel over conflict cells, the number of samples required to resolve the cell using equation \eqref{eqn:num-samples}. The second step is to compute the samples themselves, which is done in parallel over all new samples to be computed, using equation \eqref{eqn:sample}.
+  \item $S \leftarrow S \cup S'$ - $O(1)$.
+%  \end{tightenumerate}
+  \end{enumerate}
+\item Iterate - $O(Q)$ iterations. In the worst case, all facets intersect a single cell, requiring potentially $Q=O(M^2)$ iterations. In our testing, $Q$ has not exceeded 4.
+%\end{tightenumerate}
+\end{enumerate}
+
+The final complexity of each iteration is $O(M+D_{max})$ worst case and $O(\log{M}+D_{max})$ average case. In practice we must fix the depth of the quadtree to a constant value in order to use a predetermined integer size for the Morton codes, which brings the average case complexity to $O(\log{M})$. Taking iteration into account, the final complexity is $(Q\log{M})$ average case.
+
+%\vspace{2mm}
+%\paragraph{Space complexity}
+\subsection*{Space complexity}
+
+The primary data structures are shown in figure \ref{fig:data-structures-1}. The quadtree data structure is size $O(|S|)$ and the remaining arrays are of size $M$. As $|S| \ge M$, our final space complexity is $O(|S|)$. The number of samples in $S$ depends on the dataset. In 2D, in the worst case, the facets can form an arrangement of maximum number of intersections, which is $M(M-1)/2 = O(M^2)$. If this is the case then we subdivide to the maximum quadtree depth at each intersection, causing a quadtree of size $O(DM^2)$. %In our testing, our quadtrees have never exceeded a size of \red{fill this in with experimental results}.
 
 \end{document}
