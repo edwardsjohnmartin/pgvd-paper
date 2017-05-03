@@ -218,15 +218,29 @@ We then propagate the BRT labels up the tree in parallel, marking ``unknown'' no
   \label{fig:pruning}
 \end{figure}
 
-\subsection{Detect conflict cells}
+\subsection{Identifying conflict cells}
+After the pruning in \ref{sec:pruning}, the Karras quadtree separates all differently labeled vertices in the dataset. Our goal is to separate differently labeled facets. We first need to identify what quadtree cells require further subdivision. We call these cells ``conflict cells'' (see figure \ref{fig:conflict-find-5}). To efficiently identify conflict cells, we take advantage of the space filling Morton curve and the existing quadtree hierarchy to reduce the combinatoric complexity of intersection detection between facets and quadtree cells. We use the following approach:
 
-Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from the root quadtree cell to cell $C$, where the local address is a 2-bit (3-bit in 3D) Morton code. The address of the root cell is defined as the empty string. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
+\subsubsection{Initializing conflict cell detection}
+\label{sec:initconflict}
+Before we detect conflict cells we create a mapping from each quadtree cell $c$ to all facets bounded by $c$. We first find the “bounding cell” $c_f$ for a facet $f$, where the bounding cell is the smallest quadtree cell that completely contains $f$. For each facet $f$ in parallel we determine $lcp_f$, which is the longest common prefix of the Morton codes of the vertices of $f$. Then, to find the bounding cell $c_f$, we iterate in parallel over each facet $f$ and use $lcp_f$ to direct a search through the quadtree. Let $F$ be the number of facets. We allocate two parallel arrays of size $F$, BCells and FacetMap. As each $c_f$ is found, the index of $c_f$ is stored in the BCells array at index equal to the thread id. At the same time, we store the index of each facet in the FacetMap. Initially, FacetMap[i] = i. (see Figure \ref{fig:data-structures-1}). 
 
-We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. If a given LCP is more specific than any quadtree node, i.e., if the LCP lies within a quadtree leaf, we simply take the quadtree address of the leaf that the LCP lies within. This is often the case with pruned quadtrees where entire facets may lie within a quadtree leaf. Figure \ref{fig:data-structures-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
+Next, we perform a parallel radix sort on the parallel arrays (BCells and FacetMap) using the bounding cell addresses as the sort key (figure \ref{fig:data-structures-2}). Finally, since each quadtree cell may bound multiple facets, we compute a range for each quadtree cell by comparing neighboring quadtree indices in the mapping in parallel (the (F/L)Facet array in figure 3b). We now have a mapping from a quadtree cell $c$ to facets bounded by $c$ (figure \ref{fig:data-structures-3}).
 
-We begin by constructing an array \texttt{BCells} and sibling array \texttt{FacetMap} (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$]}.
+\subsubsection{Conflict Cell Detection}
+\label{sec:detectconflict}
+To identify conflicts, we begin by processing each leaf cell $L$ in parallel using Algorithm 1. First, we set $L$'s color to -1, meaning it is unknown whether $L$ is a conflict cell or not. Then, we traverse each direct ancestor $A$ of $L$ using a $Parent$ field stored in the quadtree data structure (line \ref{alg:A}). For each ancestor traversed, we iterate over the facets bounded by $A$ by using the quadtree cell to facet mapping found in \ref{sec:initconflict}. (line \ref{alg:i})
 
-Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCell} values using a parallel radix lexicographical sort (figure \ref{fig:data-structures-2}).% \texttt{BCells} array construction and sorting is done in parallel with the initial Karras quadtree construction.
+For each facet $f$ discovered this way, we test for intersection between $f$ and $L$. If $f$ intersects $L$ and $L$'s color is -1, we copy $f$'s color to $L$. Otherwise if $f$ intersects $L$ and $L$'s color does not match $f$'s color, we set $L$'s color to -2, indicating that $L$ is a conflict cell that must be resolved.
+
+
+%Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from the root quadtree cell to cell $C$, where the local address is a 2-bit (3-bit in 3D) Morton code. The address of the root cell is defined as the empty string. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
+
+%We define a bounding cell (BCell) to be the smallest internal quadtree node which entirely contains a given facet. Given a facet defined by $n$ endpoints $P=\{p_1, p_2, \dots, p_n\}$, the quadtree address of the BCell is the longest common prefix of the Morton codes of the points in $P$. If a given LCP is more specific than any quadtree node, i.e., if the LCP lies within a quadtree leaf, we simply take the quadtree address of the leaf that the LCP lies within. This is often the case with pruned quadtrees where entire facets may lie within a quadtree leaf. Figure \ref{fig:data-structures-1} gives the addresses of the BCells of the facets in figure \ref{fig:conflict-find-4}.
+
+%We begin by constructing an array \texttt{BCells} and sibling array \texttt{FacetMap} (see figure \ref{fig:data-structures-1}), which is done in parallel over all facets. Each facet $f$ computes the longest common prefix of its vertices and stores the result in \texttt{BCells[$f$]}.
+
+%Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCell} values using a parallel radix lexicographical sort (figure \ref{fig:data-structures-2}).% \texttt{BCells} array construction and sorting is done in parallel with the initial Karras quadtree construction.
 
 \begin{figure}
   \centering
@@ -362,7 +376,7 @@ Next we sort the \texttt{BCells} and \texttt{FacetMap} arrays on the \texttt{BCe
   \label{fig:data-structures}
 \end{figure}
 
-Then we use the \texttt{BCells} array and quadtree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel (line \ref{alg:L}). First, we set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$ (line \ref{alg:A}) by using the \texttt{Parent} field in the quadtree data structure. Using the \texttt{FFacet} and \texttt{LFacet} fields, we find, respectively, the first and (inclusive) last of possibly multiple facets bounded by $A$ (line \ref{alg:i}). The \texttt{FacetMap} array is used to find all facets bounded by bounding cell $A$ (line \ref{alg:f}). Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and store the first two facets of differing color (lines \ref{alg:7}-\ref{alg:16}). If at the conclusion of execution $L$.color is equal to $-2$ then $L$ is a conflict cell and must be resolved.
+%Then we use the \texttt{BCells} array and quadtree data structure to find the conflict cells using algorithm \ref{alg:find-conflict-cells}. We process each leaf cell $L$ in parallel (line \ref{alg:L}). First, we set $L$'s color to $-1$ (uninitialized). We then investigate each ancestor $A$ of $L$ (line \ref{alg:A}) by using the \texttt{Parent} field in the quadtree data structure. Using the \texttt{FFacet} and \texttt{LFacet} fields, we find, respectively, the first and (inclusive) last of possibly multiple facets bounded by $A$ (line \ref{alg:i}). The \texttt{FacetMap} array is used to find all facets bounded by bounding cell $A$ (line \ref{alg:f}). Any facet $f$ for which $A$ is the bounding cell could potentially intersect the leaf cell $L$. We test for intersection between $f$ and $L$ and store the first two facets of differing color (lines \ref{alg:7}-\ref{alg:16}). If at the conclusion of execution $L$.color is equal to $-2$ then $L$ is a conflict cell and must be resolved.
 
 \algorithmspace
 \begin{algorithm}
