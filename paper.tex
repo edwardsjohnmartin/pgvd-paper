@@ -231,7 +231,7 @@ Next, we perform a parallel radix sort on the parallel arrays (BCells and FacetM
 \label{sec:detectconflict}
 To identify conflicts, we begin by processing each leaf cell $L$ in parallel using Algorithm 1. First, we set $L$'s color to -1, meaning it is unknown whether $L$ is a conflict cell or not. Then, we traverse each direct ancestor $A$ of $L$ using a $Parent$ field stored in the quadtree data structure (line \ref{alg:A}). For each ancestor traversed, we iterate over the facets bounded by $A$ by using the quadtree cell to facet mapping found in \ref{sec:initconflict}. (line \ref{alg:i})
 
-For each facet $f$ discovered this way, we test for intersection between $f$ and $L$. If $f$ intersects $L$ and $L$'s color is -1, we copy $f$'s color to $L$. Otherwise if $f$ intersects $L$ and $L$'s color does not match $f$'s color, we set $L$'s color to -2, indicating that $L$ is a conflict cell that must be resolved.
+For each facet $f$ discovered this way, we test for intersection between $f$ and $L$. If $f$ intersects $L$ and $L$'s color is -1, we copy $f$'s color to $L$. Otherwise if $f$ intersects $L$ and $L$'s color does not match $f$'s color, we set $L$'s color to -2, indicating that $L$ is a conflict cell that must be resolved. Note that in Algorithm 1, no atomic operations are required.
 
 
 %Let the ``quadtree address'' refer to the unique ID of a quadtree cell $C$ found by concatenating the local addresses of its ancestors from the root quadtree cell to cell $C$, where the local address is a 2-bit (3-bit in 3D) Morton code. The address of the root cell is defined as the empty string. Figure \ref{fig:conflict-find-4} shows the address of each leaf cell in a quadtree.
