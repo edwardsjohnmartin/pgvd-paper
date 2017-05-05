@@ -1,0 +1,93 @@
+This paper proposes an efficient parallelized construction algorithm that creates a special kind of quadtree to organize a set of polygonal shapes. Virtually all quadtrees organize the shapes themselves, e.g. to accelerate collision or ray intersection queries. In this case, the quadtree guarantees that no cell touches two different objects, and the data structure is thus geared towards distance field calculations and related applications.
+
+The approach builds on work by Karras et al. who use Morton codes and fast sorting to accelerate Octree/BVH/.. construction. This is combined with a criterion that detects conflicting cells, and which inserts further points that cause the algorithm to generate a locally deeper tree that is guaranteed to separate objects. This latter part is also related to a prior non-parallel algorithm by Edwards et al.
+
+The overall approach is sound, though somewhat limited because it only works in 2D. Novelty limited due to the relation to Karras' and Edwards' work (the main contribution is the parallelizable criterion for inserting extra points).
+
+A few minor comments regarding the paper contents:
+
+In Algorithm 1, it would be good to explicitly mark atomic operations, or say that they are not needed given  certain memory ordering model.
+
+The title of 3.4.1 is confusing because it is not yet clear what a(s) is.
+
+Figure placement on page 4 is sub-optimal, it would be better to co-locate the figures with the portions of the text that reference them.
+
+Figure 4: panels e,f not discussed in caption
+
+The prose in Section 3.3 is a bit too much tied to the code and reads awkwardly ("BCells", "FacetMap", ..).
+
+
+
+
+Reviewer #2: This paper describes a parallel algorithm for building quadtrees where no cell intersects more than one labeled object. Previous parallel algorithms do not have guarantees of object separation. The algorithm is an order of magnitude faster than prior state of the art.
+
+I think the paper has some value in introducing a new parallel quadtree algorithm. However, as there are many parallel algorithms in literature for building similar tree structures such as kd-trees, octrees and BVHs, i am not sure how significant the contribution of this paper is. It feels a bit incremental though.
+
+
+
+Reviewer #3: Originality
+The basic idea behind this paper is to leverage the Morton code tree builder strategy from Karras as an initial step to rapidly build a quad tree.  This type of strategy is not very popular for their speed and efficiency as it relies heavily on linear time radix sorting.  These concepts have been built into publicly available systems for building acceleration datastructures for ray-tracing (Intel Embree).
+The primary contribution is to detect and refine cells that are in conflict after this initial process.
+Clarity
+
+Another pass through the paper is needed to clean up many errors.  Here a just a few.
+36-38 almost repeated sentence or idea from prev paragraph
+101 We are unaware of any GPU quad-tree construction methods that are fully adaptive and able to resolve the separation between objects.
+132 Morton codes
+152 separate
+177 root to C
+
+References
+It should be mentioned there has been lots of work in parallel construction of kd-trees, and other adaptive bounding volume hierarchies.  In particular, the ray-tracing and rendering communities have put a lot research into developing algorithms that are tuned for GPUs.
+http://rsim.cs.illinois.edu/denovo/Pubs/10-hpg-parkd.pdf
+More recent work than Karras that uses Morton Codes.
+http://dl.acm.org/citation.cfm?id=2566638
+Results
+It is great that your source will be made available.  It would be nice to have a little more detail on the mapping to CUDA.   For example, line 168 mentions a CUDA kernel, but you don't precisely layout your kernel stages anyway in the paper.
+Lines 330 to 336 hit on a big issue:  determining the depth a-priori to set the right number of integer bits for the Morton codes.   Details can be show how this choice impacts performs.  Choosing too many bits will result in wasted effort in pruning.  Too few bits will cause more effort in refinements.   Somewhere you should mention how you choose the number of bits.
+
+Relevance to SMI topics (see the SMI'17 web site)
+Algorithms like this can be incredibly valuable in practice.
+Technical Quality
+The approach appears sound to me, but the paper could use more analysis and detail.   For example, how does the number of bits used in the Morton codes impact the performance and result?
+Overall Judgement
+I am leaning positive as algorithms like this can have strong practical use.   I feel that the analysis in terms of scalability and performance was a bit weak.   I'd love to see graphs as content complexity increases.    Scalability plots with respect to the other methods would be interesting and go a long way to validating that this approach is good.   How does perform on GPUs with fewer cores?  As the number of cores increases do you lose efficiency, or do you get linear scaling?
+Some details in the implementation could be made more explicit with respect to the GPU kernels.  Since the authors plan on making their source available I am a little less worried.
+
+
+
+
+Reviewer #4: This paper presents a new GPU-based approach for building quadtree from object's polylines. The proposed algorithm has the specific characteristics of generating a quadtree subdivision which ensure an "object-resolving" discretization, ie subdivision is controlled to ensure fully separating polylines from different objects in the leaves of the tree.
+The efficient construction of such data structure in parallel an important problem in general, with lots of applications, and to my knowledge the problem of creating fully separating quadtree is relatively unexplored.
+
+The paper's main original contribution is an interesting way of constructing object-separating quadtree by generating additional sample points between conflicting objects edges, in order to trigger quadtree subdivision and resolve conflict cells. To my knowledge this approach is novel and interesting since it allows applying previous high performance GPU approaches dedicated to point-sample-based quadtree construction to this specific case.
+
+Even though I have some feedbacks on the exposition (see later), overall the paper is well and carefully written and the exposition is clear, the terms used are well defined, the proposed algorithm is described with details and rigorously formalized.
+
+The previous works are also correctly discussed, I would suggest those two additional references: [VoxelPipe, Pantaleoni] and ["Octree-Based Sparse Voxelization Using The GPU Hardware Rasterizer", Crassin, Green] which are fully adaptive.
+
+However, while this technique focus especially on the efficient implementation on a GPU parallel architecture, the description generally stays at an algorithmic level, and giving more indeep technical and implementation details would be useful.
+Technical elements such as memory organization of the data structures, scheduling and synchronization, atomicity of memory operations, or occupancy information, would improve the description as well as the reproducibility of the paper.
+
+Also, I don't believe that the time and memory complexity analysis presented in the paper provide any useful information to the reader in order to evaluate the technique or to compare it to other parallel implementation. Instead, I believe it would be more interesting and useful to describe more precisely the data structures that are used, as well as their access patterns since, especially on a GPU, memory organization and access patterns have a very important impact on performance.
+In addition, the time complexity analysis seems to assume that expressing the problem in a data parallel fashion with concurrency necessarily induce full parallel execution, which is never the case in practice since it totally depends on the architecture, which I believe make this analysis even less useful. Similarly for memory, it would be more useful and meaningful for the paper to provide actual memory usage information (for final and intermediate structures) for various examples...
+
+The result section also lacks some information about the API used, the toolkits abstracting some operations, etc.
+More generally about the results, it seems a bit difficult to really judge the efficiency improvements of the proposed technique over [Edwards et al] since the technique are very different, target very different architectures (GPU vs CPU) and were tested on arbitrary CPU and GPU without providing elements of comparison such as peak/avg flops and memory bandwidths.
+
+Back to the exposition, it seems sometimes very descriptive and probably lacks a bit of grounding to support and justify some technical choices, and explain why other options were rejected. For instance the choice of a point-sample based construction strategy could be better justified. I understand the motivation for using [Karas 2012] which is based on point samples, but does the complexity introduced by points for the polylines separation justify that ?
+
+
+Also, I don't think it make sense to introduce the approach talking about simplices and with a level of generality which suggest usability in 2D and 3D, while it currently only works in 2D because of the point-sampled subdivision step for objects separation.
+Finally, presenting a diagram of the various steps of the approach with their inputs/outputs could probably help to improve the clarity of the exposition.
+The case of intersection of polylines from different objects should be discussed also. Is the approach robust to such intersections ? Fig 9 seems to suggest this is supported...
+
+Overall, and despite those weaknesses, I believe the technique and contribution is sufficiently interesting and novel, and the paper sufficiently well written to recommend acceptance.
+
+
+
+--
+I noticed some typos:
+- The exact same paragraph appears repeated twice in the introduction section.
+- Sec 1: l42 + l32 "course grid" -> "coarse grid"
+- Fig 8: Quadtree (b) doesn't seem to be the same than (a)
