@@ -106,6 +106,16 @@
   Transactions on}
   \bibinfo{year}{2011};\bibinfo{volume}{17}(\bibinfo{number}{5}):\bibinfo{pages}{669--681}.
 %Type = Inproceedings
+\bibitem[{Li et~al.(2014)Li, Wang and Deng}]{li2014fully}
+\bibinfo{author}{Li\xfnm[ Z.]}, \bibinfo{author}{Wang\xfnm[ T.]},
+  \bibinfo{author}{Deng\xfnm[ Y.]}.
+\newblock \bibinfo{title}{Fully parallel kd-tree construction for real-time ray
+  tracing}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the 18th meeting of the ACM
+  SIGGRAPH Symposium on Interactive 3D Graphics and Games}.
+  \bibinfo{organization}{ACM}; \bibinfo{year}{2014}, p.
+  \bibinfo{pages}{159--159}.
+%Type = Inproceedings
 \bibitem[{Baert et~al.(2013)Baert, Lagae and Dutr{\'e}}]{baert2013out}
 \bibinfo{author}{Baert\xfnm[ J.]}, \bibinfo{author}{Lagae\xfnm[ A.]},
   \bibinfo{author}{Dutr{\'e}\xfnm[ P.]}.
@@ -138,6 +148,17 @@
 \newblock In: \bibinfo{booktitle}{Proceedings of the 18th Eurographics
   conference on Rendering Techniques}. \bibinfo{organization}{Eurographics
   Association}; \bibinfo{year}{2007}, p. \bibinfo{pages}{339--349}.
+%Type = Inproceedings
+\bibitem[{Choi et~al.(2010)Choi, Komuravelli, Lu, Sung, Bocchino, Adve
+  et~al.}]{choi2010parallel}
+\bibinfo{author}{Choi\xfnm[ B.]}, \bibinfo{author}{Komuravelli\xfnm[ R.]},
+  \bibinfo{author}{Lu\xfnm[ V.]}, \bibinfo{author}{Sung\xfnm[ H.]},
+  \bibinfo{author}{Bocchino\xfnm[ R.L.]}, \bibinfo{author}{Adve\xfnm[ S.V.]},
+  et~al.
+\newblock \bibinfo{title}{{Parallel SAH kD tree construction}}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the Conference on High
+  Performance Graphics}. \bibinfo{organization}{Eurographics Association};
+  \bibinfo{year}{2010}, p. \bibinfo{pages}{77--86}.
 %Type = Inproceedings
 \bibitem[{Bastos and Celes(2008)}]{bastos2008gpu}
 \bibinfo{author}{Bastos\xfnm[ T.]}, \bibinfo{author}{Celes\xfnm[ W.]}.
@@ -180,35 +201,6 @@
   Graphics}
   \bibinfo{year}{2014};\bibinfo{volume}{20}(\bibinfo{number}{5}):\bibinfo{pages}{714--725}.
 %Type = Inproceedings
-\bibitem[{Pantaleoni(2011)}]{pantaleoni2011voxelpipe}
-\bibinfo{author}{Pantaleoni\xfnm[ J.]}.
-\newblock \bibinfo{title}{{VoxelPipe}: a programmable pipeline for {3D}
-  voxelization}.
-\newblock In: \bibinfo{booktitle}{Proceedings of the ACM SIGGRAPH Symposium on
-  High Performance Graphics}. \bibinfo{organization}{ACM};
-  \bibinfo{year}{2011}, p. \bibinfo{pages}{99--106}.
-%Type = Inproceedings
-\bibitem[{Choi et~al.(2010)Choi, Komuravelli, Lu, Sung, Bocchino, Adve
-  et~al.}]{choi2010parallel}
-\bibinfo{author}{Choi\xfnm[ B.]}, \bibinfo{author}{Komuravelli\xfnm[ R.]},
-  \bibinfo{author}{Lu\xfnm[ V.]}, \bibinfo{author}{Sung\xfnm[ H.]},
-  \bibinfo{author}{Bocchino\xfnm[ R.L.]}, \bibinfo{author}{Adve\xfnm[ S.V.]},
-  et~al.
-\newblock \bibinfo{title}{{Parallel SAH kD tree construction}}.
-\newblock In: \bibinfo{booktitle}{Proceedings of the Conference on High
-  Performance Graphics}. \bibinfo{organization}{Eurographics Association};
-  \bibinfo{year}{2010}, p. \bibinfo{pages}{77--86}.
-%Type = Inproceedings
-\bibitem[{Li et~al.(2014)Li, Wang and Deng}]{li2014fully}
-\bibinfo{author}{Li\xfnm[ Z.]}, \bibinfo{author}{Wang\xfnm[ T.]},
-  \bibinfo{author}{Deng\xfnm[ Y.]}.
-\newblock \bibinfo{title}{Fully parallel kd-tree construction for real-time ray
-  tracing}.
-\newblock In: \bibinfo{booktitle}{Proceedings of the 18th meeting of the ACM
-  SIGGRAPH Symposium on Interactive 3D Graphics and Games}.
-  \bibinfo{organization}{ACM}; \bibinfo{year}{2014}, p.
-  \bibinfo{pages}{159--159}.
-%Type = Inproceedings
 \bibitem[{Ha et~al.(2009)Ha, Kr{\"u}ger and Silva}]{ha2009fast}
 \bibinfo{author}{Ha\xfnm[ L.]}, \bibinfo{author}{Kr{\"u}ger\xfnm[ J.]},
   \bibinfo{author}{Silva\xfnm[ C.T.]}.
@@ -216,5 +208,13 @@
 \newblock In: \bibinfo{booktitle}{Computer Graphics Forum};
   vol.~\bibinfo{volume}{28}. \bibinfo{organization}{Wiley Online Library};
   \bibinfo{year}{2009}, p. \bibinfo{pages}{2368--2378}.
+%Type = Inproceedings
+\bibitem[{Pantaleoni(2011)}]{pantaleoni2011voxelpipe}
+\bibinfo{author}{Pantaleoni\xfnm[ J.]}.
+\newblock \bibinfo{title}{{VoxelPipe}: a programmable pipeline for {3D}
+  voxelization}.
+\newblock In: \bibinfo{booktitle}{Proceedings of the ACM SIGGRAPH Symposium on
+  High Performance Graphics}. \bibinfo{organization}{ACM};
+  \bibinfo{year}{2011}, p. \bibinfo{pages}{99--106}.
 
 \end{thebibliography}
