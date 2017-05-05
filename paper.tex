@@ -695,7 +695,8 @@ Define an optimal final quadtree to be one in which only conflict nodes have chi
 \blue{We have implemented\footnote{
 Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
 }
-our algorithm using OpenCL. Figure \ref{fig:flow-chart} shows the stages of the major kernels. Every kernel call is parallel on vertices, facets, quadtree nodes or Morton code bits. Our implementation uses 64-bit Morton codes, which were sufficient for all of our datasets. There is no way of knowing \textit{a priori} what the object spacing is going to be, however, 64-bit codes were sufficient for the most demanding datasets while retaining reasonable radix-sort timings.}
+our algorithm using OpenCL. Figure \ref{fig:flow-chart} shows the stages of the major kernels. Every kernel call is parallel on vertices, facets, quadtree nodes or Morton code bits. Our implementation uses 64-bit Morton codes, which were sufficient for all of our datasets. There is no way of knowing \textit{a priori} what the object spacing is going to be, however, 64-bit codes were sufficient for the most demanding datasets while retaining reasonable radix-sort timings.
+Choosing a large number of bits for the Morton code results in little or no wasted effort in later refinement. Increasing the size of the Morton codes affects the amount of later pruning only if it results in extraneous resolution of vertices in the initial vertex quadtree computation. The number of bits also has no effect on the number of conflict cells unless the Morton codes are too small to resolve vertices.}
 
 \blue{Our implementation of the algorithm supports polygons and polylines which needn't be manifold or connected. Intersecting lines are not handled as a special case, i.e., the quadtree is simply resolved to its maximum depth.}
 
