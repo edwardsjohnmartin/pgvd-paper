@@ -689,13 +689,30 @@ Define an optimal final quadtree to be one in which only conflict nodes have chi
 \end{figure}
 
 %-------------------------------------------------------------------------------
+% Implementation
+%-------------------------------------------------------------------------------
+\section{Implementation}
+\blue{We have implemented\footnote{
+Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
+}
+our algorithm using OpenCL. Figure \ref{fig:flow-chart} shows the stages of the major kernels. Every kernel call is parallel on vertices, facets, quadtree nodes or Morton code bits. Our implementation uses 64-bit Morton codes, which were sufficient for all of our datasets. There is no way of knowing \textit{a priori} what the object spacing is going to be, however, 64-bit codes were sufficient for the most demanding datasets while retaining reasonable radix-sort timings.}
+
+\blue{Our implementation of the algorithm supports polygons and polylines which needn't be manifold or connected. Intersecting lines are not handled as a special case, i.e., the quadtree is simply resolved to its maximum depth.}
+
+\begin{figure}
+  \centering
+  % trim={<left> <lower> <right> <upper>}
+  \includegraphics[trim={0 50mm 0 0},clip,width=0.95\columnwidth]{kernel-stages.pdf}
+  \caption{Kernel calls, with some calls omitted for clarity. The name of the kernel is in larger font while the the elements on which the parallelism runs are given in smaller font. The majority of calls are facet- or vertex-parallel.
+  }
+  \label{fig:flow-chart}
+\end{figure}
+
+%-------------------------------------------------------------------------------
 % Results
 %-------------------------------------------------------------------------------
 \section{Results and conclusions}
-Our \blue{OpenCL} implementation\footnote{
-Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
-}
-of the algorithm supports polygons and polylines which needn't be manifold or connected. All tests were run on
+All tests were run on
 % a Razer Blade Stealth with
  an Intel i7 6500u 3.10 GHz dual core processor, 8 GB of memory and an Nvidia GTX 1070 graphics card. Figure \ref{fig:results-toy} shows results a simple toy dataset showing conflict cell detection and resolution. A very complex dataset with many objects at very different scales is shown in figure \ref{fig:results-maze}. It demonstrates that our method can handle datasets far beyond the memory limits of uniform grid approaches while still fully resolving between objects. The gears dataset (figure \ref{fig:gears}) again shows a large domain-to-object-spacing ratio, as well as non-convexities. The vascular dataset shown in figure \ref{fig:vascular} demonstrates our method on polylines derived from biological image data, which is often noisy with non-manifoldness and intersections. Table \ref{tab:timings} shows timings for our implementation compared to the previous state-of-the-art. Our implementation is significantly faster and also generates fewer quadtree cells. \blue{See \ref{sec:complexity} for a runtime complexity analysis.}
 
