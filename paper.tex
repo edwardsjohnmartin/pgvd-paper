@@ -184,7 +184,7 @@ We are unaware of any GPU quadtree construction methods that are fully adaptive 
 \section{Algorithm}
 \label{sec:algorithm}
 
-We refer to quadtree leaf cells that intersect two or more objects as ``conflict cells.'' A necessary and sufficient condition for a quadtree to resolve objects is to have no conflict cells. Our approach to computing such a quadtree is \blue{in two stages. We first build an initial quadtree, called the ``vertex quadtree,'' using a set $S$ of point samples. We initialize $S$ to be the object vertices. The second stage is to detect conflict cells in parallel, followed by augmenting $S$ with sample points such that a subsequent quadtree built on $S$ resolves conflict cells.} If $S$ changed, then we iterate (see section \ref{sec:iterate}) \blue{which is necessary only if a conflict cell has multiple intersecting objects and is minimized by starting from an initial vertex quadtree}. \blue{This two-stage approach enabled by our sample point computation is the first method that can resolve between objects fully in parallel regardless of object spacing, i.e., we do not iterate through levels of the quadtree, subdividing as we go.}
+We refer to quadtree leaf cells that intersect two or more objects as ``conflict cells.'' A necessary and sufficient condition for a quadtree to resolve objects is to have no conflict cells. Our approach to computing such a quadtree is \blue{in two stages. We first build an initial quadtree, called the ``vertex quadtree,'' using a set $S$ of point samples. We initialize $S$ to be the object vertices. The second stage is to detect conflict cells in parallel, followed by augmenting $S$ with sample points such that a subsequent quadtree built on $S$ resolves conflict cells.} If $S$ changed, then we iterate (see section \ref{sec:iterate}) \blue{which is necessary only if a conflict cell has multiple intersecting objects. The number of iterations is minimized by starting from an initial vertex quadtree}. \blue{This two-stage approach enables us to resolve between objects fully in parallel regardless of object spacing, i.e., we do not iterate through levels of the quadtree, subdividing as we go.}
 
 %Most of our algorithm is independent of dimension, and so we will use terms ``facet'' and ``octree'' (which lacks a dimension-independent term). The process of finding sample points to resolve conflict cells is limited to 2D in this paper, so for that section we will use ``line'' and ``quadtree''.
 Each step of our algorithm, with the exception of resolving conflict cells, is independent of dimension and can be used for 3D octree applications. But since point sampling for conflict cell resolution is 2D we will use the term quadtree throught the algorithm description for consistency. Our algorithm assumes the objects are faceted where the facets are simplices.
@@ -696,9 +696,9 @@ Define an optimal final quadtree to be one in which only conflict nodes have chi
 Source code will be made available at our website. %is available at \url{http://cedmav.org/research/project/33-gvds.html}.
 }
 our algorithm using OpenCL. Figure \ref{fig:flow-chart} shows the stages of the major kernels. Every kernel call is parallel on vertices, facets, quadtree nodes or Morton code bits. Our implementation uses 64-bit Morton codes, which were sufficient for all of our datasets. There is no way of knowing \textit{a priori} what the object spacing is going to be, however, 64-bit codes were sufficient for the most demanding datasets while retaining reasonable radix-sort timings.
-Choosing a large number of bits for the Morton code results in little or no wasted effort in later refinement. Increasing the size of the Morton codes affects the amount of later pruning only if it results in extraneous resolution of vertices in the initial vertex quadtree computation. The number of bits also has no effect on the number of conflict cells unless the Morton codes are too small to resolve vertices.}
+Choosing a large number of bits for the Morton code results in little or no wasted effort in later refinement, affecting the amount of later pruning only if intra-object vertex spacing is small compared to spacing between objects. The number of bits also has no effect on the number of conflict cells unless the Morton codes are too small to resolve vertices.}
 
-\blue{Our implementation of the algorithm supports polygons and polylines which needn't be manifold or connected. Intersecting lines are not handled as a special case, i.e., the quadtree is simply resolved to its maximum depth.}
+\blue{Our implementation of the algorithm supports polygons and polylines which needn't be manifold or connected. Intersecting lines are not handled as a special case, i.e., the quadtree is simply resolved to its maximum depth. Special handling can be implemented per application as needed, e.g., for collision detection applications.}
 
 \begin{figure}
   \centering
@@ -780,7 +780,7 @@ All tests were run on
   \label{fig:gears}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t]
   \centering
   \subfloat[][]{
     \label{fig:vascular-1}
@@ -899,6 +899,12 @@ All tests were run on
 
 As can be seen in table \ref{tab:timings}, there is overhead with our approach: running our algorithm on small datasets yields smaller gains. In fact, our approach actually performs worse on the toy dataset. The power of our algorithm becomes obvious on large, complex datasets, where our performance time gains are significant.
 
+Figure \ref{fig:timings} shows the results of a scaling study, where we increased the number of objects and facets by orders of magnitude. Our algorithm consistently shows timings an order of magnitude faster than the state of the art. The approach of Edwards \etal failed on datasets with $10^6$ facets or more.
+
+As noted in the introduction, our continuing work is in fast construction of octrees modeling inter-object space in 3D.
+%We are in the process of integrating our algorithm with animated systems, generating quadtrees in real-time for collision detection, distance transforms, and generalized Voronoi diagram computation. Our implementation continues to be refined and optimized, and we expect to shortly have a version with an order of magnitude improvement over the state of the art. Importantly, we are also working on an extension to 3D.
+Every step in our method has a straightforward extension to 3D with the exception of point sampling for conflict resolution (see section \ref{sec:resolve}), which is where we are focusing our efforts.
+
 \begin{figure}
   \centering
 %  \subfloat[][]{
@@ -919,17 +925,6 @@ As can be seen in table \ref{tab:timings}, there is overhead with our approach: 
   }
   \label{fig:timings}
 \end{figure}
-
-Figure \ref{fig:timings} shows the results of a scaling study, where we increased the number of objects and facets by orders of magnitude. Our algorithm consistently shows timings an order of magnitude faster than the state of the art. The approach of Edwards \etal failed on datasets with $10^6$ facets or more.
-
-As noted in the introduction, our continuing work is in fast construction of octrees modeling inter-object space in 3D.
-%We are in the process of integrating our algorithm with animated systems, generating quadtrees in real-time for collision detection, distance transforms, and generalized Voronoi diagram computation. Our implementation continues to be refined and optimized, and we expect to shortly have a version with an order of magnitude improvement over the state of the art. Importantly, we are also working on an extension to 3D.
-Every step in our method has a straightforward extension to 3D with the exception of point sampling for conflict resolution (see section \ref{sec:resolve}), which is where we are focusing our efforts.
-
-%-------------------------------------------------------------------------------
-% Conclusions
-%-------------------------------------------------------------------------------
-%\section{Conclusions}
 
 %-------------------------------------------------------------------------------
 % Acknowledgements
