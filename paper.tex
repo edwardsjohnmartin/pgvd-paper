@@ -201,7 +201,7 @@ During Karras' initial binary radix tree (BRT) construction, we can prune the BR
 
 To prune the initial BRT efficiently, we label each BRT node $C$ using the following criterion: if $C$ is a leaf node that separates two vertices with identical labels, label $C$ to match the label of the vertices being separated. If $C$ is a leaf node that separates two vertices having mismatched colors, label $C$ as ``required''. Lastly, if $C$ is an internal node, i.e., it has children, mark it as ``unknown''. This initial step can be done immediately after the Karras BRT construction without the need to invoke an additional kernel.
 
-We then propagate the BRT labels up the tree in parallel, marking ``unknown'' nodes as ``required'' when the labels of the current node's two child nodes don't match. Finally, we generate quadtree nodes from only the required internal binary radix tree nodes.
+We then propagate the BRT labels up the tree in parallel, marking ``unknown'' nodes as ``required'' when the labels of the current node's two child nodes don't match. \blue{Labels are applied using an atomic compare and swap, and threads terminate if the current ancestor's label was previously ``unknown''.} Finally, we generate quadtree nodes from only the required internal binary radix tree nodes.
 
 \begin{figure}
   \centering
