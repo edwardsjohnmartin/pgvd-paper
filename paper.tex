@@ -41,12 +41,23 @@
 %% \address{Address\fnref{label3}}
 %% \fntext[label3]{}
 
-\title{Parallel Quadtree Construction on Collections of Objects}
+\title{Parallel quadtree construction on collections of objects}
 %\title{Fast Construction of Inter-Object Space Representations}
 
-%\author{Nathan Morrical}
-%\author{John Edwards}
-%\address{Department of Informatics and Computer Science, Idaho State University, USA}
+\author{Nathan Morrical}
+\ead{bitinat2@isu.edu}
+\author{John Edwards\corref{cor1}}%\fnref{fn1}}
+\ead{edwajohn@isu.edu}
+\cortext[cor1]{Corresponding author}
+%\fntext[fn1]{Editor-in-Chief, Computers and Graphics Journal.}  
+
+%\address{Idaho State University, 921 S 8th Ave, Pocatello, ID, USA}
+\address{Idaho State University, Pocatello, ID, USA}
+
+
+%\author[label1]{Nathan Morrical}
+%\author[label1]{John Edwards\corref{Corresponding author}}
+%\address[label1]{Department of Informatics and Computer Science, Idaho State University, USA}
 
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{<author name>}
@@ -174,7 +185,7 @@ Two seminal works build octrees on objects in order to compute the Adaptive Dist
 
 \paragraph{Parallel} Many recent works on fast quadtree construction using the GPU are limited either to point sites \cite{bedorf2012sparse,karras2012maximizing,zhou2011data} \blue{or to sites that don't overlap octree cells \cite{li2014fully}.}
 %Kim and Liu's work~\shortcite{kim2014exact} is similar, computing the quadtree on the barycenters of triangles, giving an approximation of an object-resolving quadtree.
-\blue{Most quadtree approaches that support surfaces are designed for efficient rendering and not inter-object resolution. Most of these approaches construct the quadtree on the CPU \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}, although Choi \etal \cite{choi2010parallel} succeed in constructing k-D trees in parallel.} Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields in parallel on quadtrees but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} \blue{and Crassin and Green \cite{crassin2012octree}} compute the octree entirely on the GPU using a bottom-up approach by initially subdividing into a complete octree, resulting in memory usage that is no better than using a uniform grid.
+\blue{Most quadtree approaches that support surfaces are designed for efficient rendering and not inter-object resolution. Most of these approaches construct the quadtree on the CPU \cite{baert2013out,crassin2009gigavoxels,laine2011efficient,lefebvre2007compressed}, although Choi \etal \cite{choi2010parallel} succeed in constructing k-D trees in parallel.} Two works \cite{bastos2008gpu,park2010cuda} implement Adaptive Distance Fields in parallel on quadtrees but building the quadtree itself is done sequentially.  Yin \etal~\shortcite{yin2011fast} compute the octree entirely on the GPU using a bottom-up approach by initially subdividing into a complete octree, resulting in memory usage that is no better than using a uniform grid. Crassin and Green \cite{crassin2012octree} build the octree top-down by performing subdivisions at each level.
 The most similar work to what we do here is Kim and Liu's method~\shortcite{kim2014exact}, which computes the quadtree on the barycenters of triangles, giving an approximation of our quadtree, but without fully resolving between objects.
 We are unaware of any GPU quadtree construction methods that are fully adaptive and resolve between objects.
 
